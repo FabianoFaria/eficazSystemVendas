@@ -11,13 +11,13 @@
 |
 */
 
-Route::get('/', function()
-{
-	//return View::make('hello');
+// Route::get('/', function()
+// {
+// 	//return View::make('hello');
 
-	return View::make('layouts.main');
+// 	return View::make('layouts.main');
 	
 	
-});
+// });
 
 Route::controller('users', 'UsersEficazController');

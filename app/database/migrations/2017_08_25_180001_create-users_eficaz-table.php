@@ -14,12 +14,18 @@ class CreateUsersEficazTable extends Migration {
 	{
 		//Colunas da tabela UsersEficaz Table quando ela for gerada
 
-		$table->increments('id_usuario');
-		$table->string('nome_usuario',20);
-		$table->string('nome_usuario',20);
-		$table->string('email_usuario',100)->unique();
-		$table->string('status',2);
-		$table->timestamps();
+		Schema::create('usersEficazTable', function(Blueprint $table)
+	    {
+	    	$table->increments('id');
+			$table->string('nome_usuario',20);
+			$table->string('email_usuario',100)->unique();
+			$table->string('senha_usuario', 64);
+			$table->string('status',2);
+			// required for Laravel 4.1.26
+	        $table->string('remember_token', 100)->nullable();
+			$table->timestamps();
+	    });
+
 	}
 
 	/**

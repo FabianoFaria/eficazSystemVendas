@@ -11,13 +11,48 @@
 |
 */
 
-// Route::get('/', function()
-// {
-// 	//return View::make('hello');
+Route::get('/', function()
+{
+	//return View::make('hello');
 
-// 	return View::make('layouts.main');
+	//return View::make('layouts.main');
+	if(Auth::check()){
+
+		//Usuário logado
+		return Redirect::to('/admin');
+
+	}else{
+
+		return View::make('usersEficaz.login');
+	}
 	
 	
-// });
+});
 
-Route::controller('users', 'UsersEficazController');
+//Route::get('users', 'UsersEficazController@index');
+
+Route::get('login', 'SessionsController@create');
+
+Route::get('logout', 'SessionsController@destroy');
+
+Route::resource('users','UsersEficazController');
+
+Route::resource('sessions','SessionsController');
+
+
+//Rota para a sessão de Administrador
+
+Route::resource('admin','AdminController');
+
+// Route::get('admin', function(){
+
+// 	return 'Admin page...';
+
+// })->before('auth');
+
+
+// route to show the login form
+//Route::get('login', array('uses' => 'HomeController@showLogin'));
+
+// route to process the form
+//Route::post('login', array('uses' => 'HomeController@doLogin'));

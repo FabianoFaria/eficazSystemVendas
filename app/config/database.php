@@ -55,8 +55,8 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'eficazvendas.mysql.dbaas.com.br',
-			'database'  => 'eficazVendas',
-			'username'  => 'eficazVendas',
+			'database'  => 'eficazvendas',
+			'username'  => 'eficazvendas',
 			'password'  => 'eficaz!@#1968',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',

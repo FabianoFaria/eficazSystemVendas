@@ -48,6 +48,11 @@
 
 			}else{
 
+
+				//Configura algumas variaveis de sessão para guardar informações do usuário
+				Session::put('nome_atual', Auth::user()->nome_usuario);
+				Session::put('id_atual', Auth::user()->id);
+				Session::put('status', Auth::user()->status);
 				
 				//return Auth::user();
 				return Redirect::route('admin.index');
@@ -60,7 +65,8 @@
 
 			Auth::Logout();
 
-			return Redirect::route('sessions.create');
+			//return Redirect::route('sessions.create');
+			return Redirect::to('/');
 
 		}
 

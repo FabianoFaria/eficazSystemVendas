@@ -15,14 +15,15 @@ class AdminController extends \BaseController {
 		if(Auth::check()){
 
 
-			$usuario_atual 	= Auth::user()->nome_usuario;
-			$id_atual 		= Auth::user()->id;
-			$status 		= Auth::user()->status;
+			// $usuario_atual 	= Auth::user()->nome_usuario;
+			// $id_atual 		= Auth::user()->id;
+			// $status 		= Auth::user()->status;
 
 			//return View::make('greeting', array('name' => 'Taylor'));
 
 			//Usuário logado
-			return View::make('admin.index', array( 'nome_usuario' => $usuario_atual, 'id' => $id_atual, 'status' => $status));
+			//return View::make('admin.index', array( 'nome_usuario' => $usuario_atual, 'id' => $id_atual, 'status' => $status));
+			return View::make('admin.index');
 
 		}else{
 			

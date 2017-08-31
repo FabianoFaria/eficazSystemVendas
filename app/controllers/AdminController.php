@@ -42,6 +42,7 @@ class AdminController extends \BaseController {
 	public function show($id)
 	{
 		//
+		return Redirect::to('/');
 	}
 
 

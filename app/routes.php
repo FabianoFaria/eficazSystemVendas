@@ -35,14 +35,9 @@ Route::get('login', 'SessionsController@create');
 
 Route::get('logout', 'SessionsController@destroy');
 
-Route::resource('users','UsersEficazController');
 
 Route::resource('sessions','SessionsController');
 
-
-//Rota para a sessão de Administrador
-
-Route::resource('admin','AdminController');
 
 // Route::get('admin', function(){
 
@@ -56,3 +51,14 @@ Route::resource('admin','AdminController');
 
 // route to process the form
 //Route::post('login', array('uses' => 'HomeController@doLogin'));
+
+Route::group(array('before' =>'auth'), function()
+{
+
+	//Rota para a sessão de Administrador
+
+	Route::resource('admin','AdminController');
+
+	Route::resource('users','UsersEficazController');
+
+});

@@ -8,9 +8,24 @@
 		    $this->user = $user;
 		}
 
+		public function index(){
+
+			//Verificação de validação
+			if(Auth::check()){
+
+				//Usuário logado
+				return Redirect::to('/admin');
+
+
+			}else{
+				//return View::make('usersEficaz.login');
+				return Redirect::to('/');
+			}
+
+		}
+
 		public function create(){
 
-			
 			//Verificação de validação
 			if(Auth::check()){
 
@@ -18,7 +33,8 @@
 				return Redirect::to('/admin');
 
 			}else{
-				return View::make('usersEficaz.login');
+				//return View::make('usersEficaz.login');
+				return Redirect::to('/');
 			}
 
 		}

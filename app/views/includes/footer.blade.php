@@ -9,6 +9,6 @@
    	<script type="text/javascript" src="{{URL::asset('packages/js/jquery.js')}}"></script>
    	<script type="text/javascript" src="{{URL::asset('packages/js/jquery-ui.js')}}"></script>
    	<script type="text/javascript" src="{{URL::asset('packages/js/bootstrap.min.js')}}"></script>
-    <script type="text/javascript" src="{{URL::asset('packages/js/additional-methods.js')}}"></script>
+    <!-- <script type="text/javascript" src="{{URL::asset('packages/js/additional-methods.js')}}"></script> -->
     <script type="text/javascript" src="{{URL::asset('packages/js/sb-admin-2.js')}}"></script>
    	<script type="text/javascript" src="{{URL::asset('packages/js/metisMenu.js')}}"></script>

@@ -15,19 +15,25 @@ class UsersEficazController extends BaseController {
 
 	public function index() {
 
-		return View::make('usersEficaz.login');
-
 		//Verifica se está logado ou não
 
-		if(Auth::check()){
+		// if(Auth::check()){
 
-			//Usuário logado
-			return Redirect::to('/admin');
+		// 	//Usuário logado
+		 	//return Redirect::to('/admin');
 
-		}else{
-			return View::make('usersEficaz.login');
-		}
+		// }else{
+		// 	return View::make('usersEficaz.login');
+		// }
 
+		//Status de usuários existentes
+		$status 	= StatusUsuarios::all();
+
+
+		//CARREGA TODOS OS USUÁRIOS ATIVOS PARA SEREM EXIBIDOS
+		$users 		= User::where('status', '>', 0)->get();
+
+		return View::make('usersEficaz.listaUsuarios', ['usuariosAtivos' => $users, 'status_users' => $status]);
 	}
 
 	// public function getLogin() {
@@ -75,7 +81,9 @@ class UsersEficazController extends BaseController {
 
 	public function create(){
 
-		return View::make('usersEficaz.create');
+		$status 	= StatusUsuarios::all();
+
+		return View::make('usersEficaz.create', array('statusUsuario' => $status));
 
 	}
 
@@ -162,10 +170,11 @@ class UsersEficazController extends BaseController {
 
 	public function edit($idUser){
 
-		$user = User::find($idUser);
+		$user 		= User::find($idUser);
+		$status 	= StatusUsuarios::all();
 
 		//retorna a view com os dados necessarios.
-		return View::make('usersEficaz.editar', array( 'usuario' => $user));
+		return View::make('usersEficaz.editar', array( 'usuario' => $user, 'statusUsuario' => $status));
 
 
 	}
@@ -199,7 +208,7 @@ class UsersEficazController extends BaseController {
         	$this->user = User::find($id);
            	$this->user->nome_usuario = Input::get('nomeCliente');
 			$this->user->email_usuario = Input::get('emailEnd');
-			$this->user->status = 1;
+			$this->user->status = Input::get('status_usuario');
 			//Verifica se a senha será atualizada ou não
 			if(Input::get('senhaUsuario') != ''){
 				$this->user->senha_usuario = Hash::Make(Input::get('senhaUsuario'));

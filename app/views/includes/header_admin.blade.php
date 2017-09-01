@@ -77,18 +77,40 @@
                                         <a href="{{ URL::to('/users/create') }}">Adicionar novo</a>
                                     </li>
                                     <li>
-                                        <a href="{{ URL::to('/users') }}">Listar</a>
+                                        <a href="{{ URL::to('/users') }}">Listar</a> 
                                     </li>
                                 </ul>
                                 <!-- /.nav-second-level -->
                             </li>
                         @else
                             <li>
-                                <a href="tables.html"><i class="fa fa-table fa-fw"></i> Vendas</a>
+                                <a href="#"><i class="fa fa-group fa-fw"></i> Clientes<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="{{ URL::to('/indicacoes/create') }}"><i class="fa fa-user fa-fw"></i>Adicionar cliente</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ URL::to('/indicacoes') }}"><i class="fa fa-list-alt fa-fw"></i>Listar clientes</a> 
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
                             </li>
+
+
                             <li>
-                                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Orçamento</a>
+                                <a href="#"><i class="fa fa-dollar fa-fw"></i> Orçamentos<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="{{ URL::to('/vendas/create') }}"><i class="fa fa-usd fa-fw"></i> Novo Orçamento </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ URL::to('/vendas') }}"><i class="fa fa-list-alt fa-fw"></i> Listar orçamento</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
                             </li>
+
+                            
                         @endif
 
                     </ul>

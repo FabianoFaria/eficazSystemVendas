@@ -25,6 +25,31 @@
         	@endif
 
         </div>
+
+        <div class="row">
+
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Teste de contatos cadastrados
+                    </div>
+                    <div class="panel-body">
+                            
+                            @foreach($contatosClientes as $contatoCliente)
+
+
+                                <p>{{ $contatoCliente['Nome_Fantasia'] }} - {{ $contatoCliente['Email'] }}</p>
+
+                            @endforeach
+
+                    </div>
+                    <div class="panel-footer">
+                            
+                    </div>
+                </div>
+            </div>
+
+        </div>
         
 
     </div>

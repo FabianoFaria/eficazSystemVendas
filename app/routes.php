@@ -61,4 +61,8 @@ Route::group(array('before' =>'auth'), function()
 
 	Route::resource('users','UsersEficazController');
 
+	Route::resource('vendas','VendasController');
+
+	Route::resource('indicacoes','indicacaoController');
+
 });

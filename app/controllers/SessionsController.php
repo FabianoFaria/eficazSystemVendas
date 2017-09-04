@@ -16,7 +16,6 @@
 				//Usuário logado
 				return Redirect::to('/admin');
 
-
 			}else{
 				//return View::make('usersEficaz.login');
 				return Redirect::to('/');
@@ -69,6 +68,8 @@
 				Session::put('nome_atual', Auth::user()->nome_usuario);
 				Session::put('id_atual', Auth::user()->id);
 				Session::put('status', Auth::user()->status);
+
+				Cookie::queue("session_control","value", 10);
 				
 				//return Auth::user();
 				return Redirect::route('admin.index');

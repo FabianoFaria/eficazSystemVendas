@@ -170,9 +170,8 @@ class UsersEficazController extends BaseController {
 
 	public function edit($idUser){
 
-		$user 		= User::find($idUser);
-		$status 	= StatusUsuarios::all();
-
+		$user 			= User::find($idUser);
+		$status 		= StatusUsuarios::all();
 		//retorna a view com os dados necessarios.
 		return View::make('usersEficaz.editar', array( 'usuario' => $user, 'statusUsuario' => $status));
 
@@ -223,6 +222,13 @@ class UsersEficazController extends BaseController {
         }
 
 		//return 'show edicao de usuário!';
+
+	}
+
+	public function criar_vendor(){
+
+
+		return 'tela para registro de vendedores!';
 
 	}
 }

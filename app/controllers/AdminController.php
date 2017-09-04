@@ -14,8 +14,11 @@ class AdminController extends \BaseController {
 
 		if(Auth::check()){
 
+			$id_user 		= Session::all();
+			$status 		= StatusUsuarios::all();
+			$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
 
-			$json = json_decode(file_get_contents('http://127.0.0.1/apiEficaz/public/api/contatos'), true);
+			//$json 			= json_decode(file_get_contents('http://127.0.0.1/apiEficaz/public/api/contatos'), true);
 
 			//dd($json);
 
@@ -27,7 +30,7 @@ class AdminController extends \BaseController {
 
 			//Usuário logado
 			//return View::make('admin.index', array( 'nome_usuario' => $usuario_atual, 'id' => $id_atual, 'status' => $status));
-			return View::make('admin.index', ['contatosClientes' => $json]);
+			return View::make('admin.index', ['dadosVendedor' => $dadosVendedor, 'statusUsuario' => $status]);
 
 		}else{
 			

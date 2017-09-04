@@ -14,6 +14,7 @@
 App::before(function($request)
 {
 	//
+
 });
 
 
@@ -44,6 +45,20 @@ Route::filter('auth', function()
 		else
 		{
 			return Redirect::guest('login');
+		}
+	}else{
+
+		if (Request::ajax())
+		{
+			return Response::make('Unauthorized', 401);
+		}
+		else
+		{
+			$user_session = Session::get('nome_atual');
+
+			if(empty($user_session)){
+				return Redirect::to('logout');
+			}
 		}
 	}
 });

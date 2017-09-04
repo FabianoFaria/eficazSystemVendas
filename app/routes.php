@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::get('/', function()
 {
 	//return View::make('hello');
@@ -34,6 +35,8 @@ Route::get('/', function()
 Route::get('login', 'SessionsController@create');
 
 Route::get('logout', 'SessionsController@destroy');
+
+Route::get('registrar','UsersEficazController@criar_vendor');
 
 
 Route::resource('sessions','SessionsController');
@@ -60,6 +63,8 @@ Route::group(array('before' =>'auth'), function()
 	Route::resource('admin','AdminController');
 
 	Route::resource('users','UsersEficazController');
+
+	Route::resource('vendedores','VendedorDadosController');
 
 	Route::resource('vendas','VendasController');
 

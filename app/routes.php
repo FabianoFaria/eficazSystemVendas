@@ -66,9 +66,11 @@ Route::group(array('before' =>'auth'), function()
 
 	Route::resource('vendas','VendasController');
 
-	Route::resource('enderecos','VendedorDadosController');
+	Route::resource('enderecos','VendedorEnderecosController');
 
-	Route::resource('telefones','VendasController');
+	Route::resource('telefones','VendedorTelefonesController');
+
+	Route::resource('financas','VendedorFinancasController');
 
 	Route::resource('indicacoes','indicacaoController');
 

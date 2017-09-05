@@ -29,9 +29,23 @@
                                 <a href="{{ URL::to('/users/' . Session::get('id_atual')) }}"><i class="fa fa-user fa-fw"></i> Dados de usuário</a>
                             </li>
                             <li>
+                                <a href="{{ URL::to('/users/' . Session::get('id_atual') .'/edit') }}"><i class="fa fa-list-alt fa-fw"></i> Endereço</a>
+                            </li>
+
+                            <li>
+                                <a href="{{ URL::to('/users/' . Session::get('id_atual') .'/edit') }}"><i class="fa fa-phone fa-fw"></i> Dados Contato</a>
+                            </li>
+
+                            <li>
+                                <a href="{{ URL::to('/users/' . Session::get('id_atual') .'/edit') }}"><i class="fa fa-dollar fa-fw"></i> Dados financeiros</a>
+                            </li>
+
+                            <li>
                                 <a href="{{ URL::to('/users/' . Session::get('id_atual') .'/edit') }}"><i class="fa fa-gear fa-fw"></i> Configurações</a>
                             </li>
+
                             <li class="divider"></li>
+
                             <li>
                                 <a href="{{ url('/logout'); }}"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
                             </li>

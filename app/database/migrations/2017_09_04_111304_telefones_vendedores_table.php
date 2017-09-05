@@ -16,7 +16,7 @@ class TelefonesVendedoresTable extends Migration {
 		Schema::create('vendedores_telefones', function(Blueprint $table)
 	    {
 
-	    	$table->increments('id_endereco');
+	    	$table->increments('id_telefone');
 	    	$table->string('id_user',11);
 			$table->string('telefone',10);
 			$table->string('observacacao_telefone',255)->nullable();

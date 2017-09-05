@@ -19,7 +19,8 @@ class VendedoresDadosTable extends Migration {
 	    	$table->string('id_user',11);
 			$table->string('nome_vendedor',140);
 			$table->string('nome_fantasia',140)->nullable();
-			$table->string('cnpj_cpf',140);
+			$table->string('rg_vendedor',15);
+			$table->string('cnpj_cpf',16);
 			$table->string('genero',2);
 	        $table->string('foto', 255)->nullable();
 	        // required for Laravel 4.1.26

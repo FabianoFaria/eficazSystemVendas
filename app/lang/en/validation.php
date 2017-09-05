@@ -70,6 +70,7 @@ return array(
 	),
 	"unique"               => "The :attribute has already been taken.",
 	"url"                  => "The :attribute format is invalid.",
+	"cpf_cnpj"             => "CPF ou CNPJ não foi digitado corretamente.",
 
 	/*
 	|--------------------------------------------------------------------------
@@ -85,6 +86,7 @@ return array(
 	'custom' => array(
 		'attribute-name' => array(
 			'rule-name' => 'custom-message',
+			'cpfCnpj'   => 'CPF ou CNPJ não foi digitado corretamente.',
 		),
 	),
 

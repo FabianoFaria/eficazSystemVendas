@@ -47,7 +47,15 @@ class VendedorDadosController extends \BaseController {
 
 		}else{
 
+			$this->vendedor->id_user = Input::get('id_usuario');
+			$this->vendedor->nome_vendedor = Input::get('nomeCompleto');
+			$this->vendedor->nome_fantasia = Input::get('nomeFantasia');
+			$this->vendedor->cnpj_cpf = Input::get('cpfCnpj');
+			$this->vendedor->rg_vendedor = Input::get('rgVendedor');
+			$this->vendedor->genero = Input::get('generoVendedor');
+			$this->vendedor->foto = 'default.png';
 
+			$this->vendedor->save();
 
 			return Redirect::route('admin.index');
 		}

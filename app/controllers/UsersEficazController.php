@@ -139,7 +139,7 @@ class UsersEficazController extends BaseController {
 			$this->user->nome_usuario = Input::get('nomeCliente');
 			$this->user->senha_usuario = Hash::Make(Input::get('senhaNovoUsuario'));
 			$this->user->email_usuario = Input::get('emailEnd');
-			$this->user->status = 1;
+			$this->user->status = Input::get('status_usuario');
 
 				// //dd($user);
 

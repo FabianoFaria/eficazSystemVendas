@@ -26,8 +26,94 @@
 
         </div>
 
-        @if( ! empty($dadosVendedor)) 
-        
+        @if( ! empty($dadosVendedor))
+
+            @if(empty($enderecos))
+                <div class="row">
+                    <div class="alert alert-danger">
+                        <h4 class="text-center">Nenhum endereço cadastrado.</h4>
+                        <a href="{{ url('/about'); }} ">
+                            <h5 class="text-center"><i class="fa fa-list-alt "></i> Adicionar endereço.</h5>
+                        </a>
+                    </div>
+                </div>
+            @endif
+
+            @if(empty($telefones))
+                <div class="row">
+                    <div class="alert alert-danger">
+                    <h4 class="text-center">Nenhum telefone cadastrado.</h4>
+                        <a href="{{ url('/about'); }} ">
+                            <h5 class="text-center"><i class="fa fa-phone "></i> Adicionar telefone.</h5>
+                        </a>
+                    </div>
+                </div>
+            @endif
+
+
+            <div class="row">
+
+
+                <div class="col-lg-6">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="text-center"> </h4>  
+                        </div>
+                        <div class="panel-body">
+                        </div>
+                        <div class="panel-footer">
+                                
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="text-center">Contatos Cadastrados</h4>  
+                        </div>
+                        <div class="panel-body">
+                        </div>
+                        <div class="panel-footer">
+                                
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-6">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="text-center"> </h4>  
+                        </div>
+                        <div class="panel-body">
+                        </div>
+                        <div class="panel-footer">
+                                
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="text-center">Endereços cadastrados</h4>  
+                        </div>
+                        <div class="panel-body">
+                        </div>
+                        <div class="panel-footer">
+                                
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         @else
 
@@ -77,10 +163,9 @@
                                     <!-- <label for="nomeCliente">Nome do usuário</label> -->
                                     {{ Form::Label('generoVendedor', 'Gênero') }}
                                     
-                                    {{ Form::radio('generoVendedor', 'feminino', array('class'=>'form-control')) }} Feminino
-                                    {{ Form::radio('generoVendedor', 'masculino', array('class'=>'form-control')) }} Masculino
+                                    {{ Form::radio('generoVendedor', '0', array('class'=>'form-control')) }} Feminino
+                                    {{ Form::radio('generoVendedor', '1', array('class'=>'form-control')) }} Masculino
 
-                                    {{ $errors->first('cpfCnpj', '<span class=inputError>:message</span>') }}
                                 </div>
 
                                 {{ Form::submit('Registrar', array('class'=>'btn btn-large btn-primary btn-block'))}}

@@ -1,8 +1,5 @@
 <?php
 
-
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
-
 class VendedoresDados extends Eloquent {
 
     /**
@@ -16,11 +13,12 @@ class VendedoresDados extends Eloquent {
 
 	protected $fillable 	= ['id_usuario', 'nomeCompleto', 'nomeFantasia', 'rgVendedor', 'cpfCnpj', 'generoVendedor', 'foto'];
 
-	public $errors;	
-
+	public $errors;
+    
 	public static $rules = array(
-    	'nomeCompleto'=>'required|min:2|phone',
-    	'cpfCnpj'=>'required|alpha_num|between:6,32'
+    	'nomeCompleto'=>'required|min:2',
+        'rgVendedor'=>'numeric',
+    	'cpfCnpj'=>'required|alpha_num|cpfCnpj'
     );
 
 

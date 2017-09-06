@@ -23,6 +23,7 @@ class TelefonesVendedoresTable extends Migration {
 	        $table->string('status_telefone', 2)->default(1);
 	        // required for Laravel 4.1.26
 			$table->timestamps();
+			$table->softDeletes();
 
 	    });
 	}

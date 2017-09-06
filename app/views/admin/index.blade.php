@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="alert alert-danger">
                         <h4 class="text-center">Nenhum endereço cadastrado.</h4>
-                        <a href="{{ url('/about'); }} ">
+                        <a href="{{ url('/enderecos'); }} ">
                             <h5 class="text-center"><i class="fa fa-list-alt "></i> Adicionar endereço.</h5>
                         </a>
                     </div>
@@ -43,7 +43,7 @@
                 <div class="row">
                     <div class="alert alert-danger">
                     <h4 class="text-center">Nenhum telefone cadastrado.</h4>
-                        <a href="{{ url('/about'); }} ">
+                        <a href="{{ url('/telefones'); }} ">
                             <h5 class="text-center"><i class="fa fa-phone "></i> Adicionar telefone.</h5>
                         </a>
                     </div>

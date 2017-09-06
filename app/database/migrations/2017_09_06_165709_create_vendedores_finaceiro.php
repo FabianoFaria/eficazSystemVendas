@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class VendedoresDadosTable extends Migration {
+class CreateVendedoresFinaceiro extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -13,19 +13,19 @@ class VendedoresDadosTable extends Migration {
 	public function up()
 	{
 		//
-		Schema::create('vendedores_dados', function(Blueprint $table)
+		Schema::create('vendedores_finaceiros', function(Blueprint $table)
 	    {
-	    	$table->increments('id_vendedor');
+
+	    	$table->increments('id_conta_vendedor');
 	    	$table->string('id_user',11);
-			$table->string('nome_vendedor',140);
-			$table->string('nome_fantasia',140)->nullable();
-			$table->string('rg_vendedor',15);
-			$table->string('cnpj_cpf',16);
-			$table->string('genero',2);
-	        $table->string('foto', 255)->nullable();
+			$table->string('nome_conta',35);
+			$table->string('numero_conta',100);
+			$table->string('instituicao',11);
+			$table->string('tipo_conta',11);
 	        // required for Laravel 4.1.26
 			$table->timestamps();
 			$table->softDeletes();
+
 	    });
 	}
 
@@ -36,9 +36,8 @@ class VendedoresDadosTable extends Migration {
 	 */
 	public function down()
 	{
-		//
 		//Ações para serem executadas ao reverter as ações da tabela
-		Schema::drop('vendedores_dados');
+		Schema::drop('vendedores_finaceiros');
 	}
 
 }

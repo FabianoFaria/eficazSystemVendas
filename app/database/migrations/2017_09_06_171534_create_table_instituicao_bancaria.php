@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStatusUsuariosEficazTable extends Migration {
+class CreateTableInstituicaoBancaria extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,16 +12,15 @@ class CreateStatusUsuariosEficazTable extends Migration {
 	 */
 	public function up()
 	{
-		//
-		//Colunas da tabela UsersEficaz Table quando ela for gerada
-
-		Schema::create('statusUsuariosEficaz', function(Blueprint $table)
+		Schema::create('instituicao_bancaria', function(Blueprint $table)
 	    {
-	    	$table->increments('id_status');
-			$table->string('status_usuario',25);
-			// required for Laravel 4.1.26
+
+	    	$table->increments('id_instituicao_bancaria');
+	    	$table->string('nome_instituicao_bancaria',100);
+	        // required for Laravel 4.1.26
 			$table->timestamps();
 			$table->softDeletes();
+
 	    });
 	}
 
@@ -33,7 +32,7 @@ class CreateStatusUsuariosEficazTable extends Migration {
 	public function down()
 	{
 		//Ações para serem executadas ao reverter as ações da tabela
-		Schema::drop('statusUsuariosEficaz');
+		Schema::drop('instituicao_bancaria');
 	}
 
 }

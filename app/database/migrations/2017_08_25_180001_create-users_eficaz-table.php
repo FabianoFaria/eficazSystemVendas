@@ -24,6 +24,7 @@ class CreateUsersEficazTable extends Migration {
 			// required for Laravel 4.1.26
 	        $table->string('remember_token', 100)->nullable();
 			$table->timestamps();
+			$table->softDeletes();
 	    });
 
 	}

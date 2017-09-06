@@ -27,6 +27,7 @@ class EnderecosVendedoresTable extends Migration {
 	        $table->string('status_endereco', 2)->default(1);
 	        // required for Laravel 4.1.26
 			$table->timestamps();
+			$table->softDeletes();
 
 	    });
 	}

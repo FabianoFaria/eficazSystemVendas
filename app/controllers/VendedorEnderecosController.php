@@ -113,8 +113,8 @@ class VendedorEnderecosController extends \BaseController {
 	{
 		//
 		$id_user 		= Session::get('id_atual');
-		$dadosVendedor 	= VendedoresDados::find($id);
-		$dadosEndereco  = VendedoresEnderecos::where('id_user', $id_user)->first();
+		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
+		$dadosEndereco  = VendedoresEnderecos::find($id); 
 		$estados 		= EstadosPais::all();
 
 		return View::make('enderecos.edit', [

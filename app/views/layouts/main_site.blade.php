@@ -1,25 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR" prefix="og: http://ogp.me/ns#">
     <head>
 
-    	@include('includes.head')
-
-    	<link rel="stylesheet" href="{{ URL::asset('packages/css/main.css') }}">
+    	@include('includes.head_site')
 
     </head>
 
 
- 	<body>
+ 	<body id="page-top">
 
- 		<div id="wrapper">
+ 		<!-- <div id="wrapper"> -->
 
 
- 			@include('includes.header_admin')
+ 			@include('includes.header_site')
 
 
  			@yield('content')  
  			
- 		</div>
+ 		<!-- </div> -->
 
  		
         <!-- <div class="site-wrapper-inner">
@@ -32,7 +30,7 @@
                  @endif -->
 
                
-                @include('includes.footer') 
+                @include('includes.footer_site') 
 
                
                

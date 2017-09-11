@@ -23,7 +23,7 @@ Route::get('/', function()
 
 	}else{
 
-		return View::make('usersEficaz.login');
+		return View::make('sitePrincipal.index');
 	}
 	
 	
@@ -35,7 +35,7 @@ Route::get('login', 'SessionsController@create');
 
 Route::get('logout', 'SessionsController@destroy');
 
-Route::get('registrar','UsersEficazController@criar_vendor');
+Route::get('registrar','UsersEficazController@criar_usuario');
 
 Route::resource('sessions','SessionsController');
 

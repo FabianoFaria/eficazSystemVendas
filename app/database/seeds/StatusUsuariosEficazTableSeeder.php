@@ -14,7 +14,7 @@ class StatusUsuariosEficazTableSeeder extends Seeder
             'status_usuario'     => 'Admin'
         ]);
         DB::table('statusUsuariosEficaz')->insert([
-            'status_usuario'     => 'Vendedores'
+            'status_usuario'     => 'Parceiro'
         ]);
         DB::table('statusUsuariosEficaz')->insert([
             'status_usuario'     => 'Cliente'

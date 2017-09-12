@@ -13,6 +13,9 @@
     <body style="background: url({{ URL::asset('img/background.png') }});">
 
 
+        @include('includes.header_site')
+
+
         <div class="site-wrapper-inner">
 
             <div class="cover-container">

@@ -1,24 +1,28 @@
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-    <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">Start Bootstrap</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          Menu
-          <i class="fa fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#download">Download</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#features">Features</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
-            </li>
-          </ul>
-        </div>
-    </div>
-  </nav>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="" href="{{ URL::to('/') }}"><img src="{{ URL::asset('img/logo-eficaz-system.png') }}" style="height: 80px; width: 200px;">
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right" style="margin: 10px;">
+                <li><a href="{{ URL::to('/login') }}">Entrar</a></li>
+                <li><a href="{{ URL::to('/registrar') }}" style="color:#ffffff;" class="btn btn-success">Cadastrar-se</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Ajuda</a></li>
+              </ul>
+              <!-- <form class="navbar-form navbar-right">
+                <input type="text" class="form-control" placeholder="Search...">
+              </form> -->
+            </div>
+          </div>
+        </nav>
+
+        

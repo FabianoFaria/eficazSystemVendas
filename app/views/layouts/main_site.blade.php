@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" prefix="og: http://ogp.me/ns#">
+<html lang="pt-BR">
     <head>
 
     	@include('includes.head_site')
@@ -40,4 +40,16 @@
         </div> -->
  
     </body>
+
+    <!-- Bootstrap core JavaScript -->
+    <script  src="{{URL::to('packages/js/jquery.js')}}" ></script>
+    <script  src="{{URL::to('packages/js/bootstrap.min.js')}}" ></script>
+    <script  src="{{URL::to('packages/js/popper.min.js')}}" type="text/javascript" ></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{{URL::to('packages/js/jquery.easing.min.js') }} "></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="{{URL::to('packages/js/new-age.min.js') }}"></script>
+
 </html>

@@ -17,8 +17,8 @@
 				return Redirect::to('/admin');
 
 			}else{
-				//return View::make('usersEficaz.login');
-				return Redirect::to('/');
+				return View::make('usersEficaz.login');
+				//return Redirect::to('/login');
 			}
 
 		}
@@ -32,8 +32,8 @@
 				return Redirect::to('/admin');
 
 			}else{
-				//return View::make('usersEficaz.login');
-				return Redirect::to('/');
+				return View::make('usersEficaz.login');
+				//return Redirect::to('/login');
 			}
 
 		}

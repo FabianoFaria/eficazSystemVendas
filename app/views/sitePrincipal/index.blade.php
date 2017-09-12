@@ -4,6 +4,35 @@
 @section('content')
 
 
+  <header class="masthead" style="padding-top: 100px;">
+    <div class="container h-100">
+      <div class="row h-100">
+        <div class="col-lg-7 my-auto">
+          <div class="header-content mx-auto">
+            <h1 class="mb-5">New Age is an app landing page that will help you beautifully showcase your new mobile app, or anything else!</h1>
+            <a href="#download" class="btn btn-outline btn-xl js-scroll-trigger">Start Now for Free!</a>
+          </div>
+        </div>
+          <div class="col-lg-5 my-auto">
+            <div class="device-container">
+              <div class="device-mockup iphone6_plus portrait white">
+                <div class="device">
+                  <div class="screen">
+                    <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
+                    <img src="{{ URL::asset('img/demo-screen-1.jpg') }}" class="img-fluid" alt="" style="max-width: 100%;height: auto;">
+                  </div>
+                  <div class="button">
+                    <!-- You can hook the "home button" to some JavaScript events or just remove it -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </header>
+
+
 <section class="download bg-primary text-center" id="download">
     <div class="container">
         <div class="row">
@@ -33,7 +62,7 @@
                 <div class="device">
                   <div class="screen">
                     <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
-                    <img src="{{ URL::asset('img/demo-screen-1.jpg') }}" class="img-fluid" alt="">
+                    <img src="{{ URL::asset('img/demo-screen-1.jpg') }}" class="img-fluid" alt="" style="max-width: 100%;height: auto;">
                   </div>
                   <div class="button">
                     <!-- You can hook the "home button" to some JavaScript events or just remove it -->
@@ -94,23 +123,21 @@
 
     <section class="contact bg-primary" id="contact">
       <div class="container">
-        <h2>We
-          <i class="fa fa-heart"></i>
-          new friends!</h2>
+        <h2>Acompanhe nossos passos!</h2>
         <ul class="list-inline list-social">
-          <li class="list-inline-item social-twitter">
-            <a href="#">
-              <i class="fa fa-twitter"></i>
+          <li class="list-inline-item social-instagram">
+            <a href="{{ URL::to('https://www.instagram.com/eficazsystem/') }}" target="_blank" >
+              <i class="fa fa-instagram"></i>
             </a>
           </li>
           <li class="list-inline-item social-facebook">
-            <a href="#">
+            <a href="{{ URL::to('https://www.facebook.com/EficazSystem/') }}" target="_blank">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
-          <li class="list-inline-item social-google-plus">
-            <a href="#">
-              <i class="fa fa-google-plus"></i>
+          <li class="list-inline-item social-linkedin">
+            <a href="{{ URL::to('https://www.linkedin.com/company/24784474/') }}" target="_blank">
+              <i class="fa fa-linkedin"></i>
             </a>
           </li>
         </ul>

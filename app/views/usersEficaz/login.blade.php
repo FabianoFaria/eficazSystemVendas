@@ -10,7 +10,10 @@
 
 			 	<div class="panel-heading">
 			 		<div class="imgLogin">
-			 			<img src="{{ URL::asset('img/eficazlogo.jpg') }}">
+			 			
+                        <a class="" href="{{ URL::to('/') }}">
+                            <img src="{{ URL::asset('img/eficazlogo.jpg') }}">
+                        </a>
 			 		</div>
                     <h3 class="panel-title">Identifique-se</h3>
                 </div>

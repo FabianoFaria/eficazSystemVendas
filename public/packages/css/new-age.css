@@ -230,6 +230,10 @@ section.cta {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); }
 
+section.cta.header_capa {
+  background-image: url("../../img/capa_acordo.jpg");
+}
+
 section.contact {
   text-align: center; }
   section.contact h2 {
@@ -286,8 +290,8 @@ footer {
 
 .bg-primary {
   background: #fdcc52;
-  background: -webkit-linear-gradient(#fdcc52, #fdc539);
-  background: linear-gradient(#fdcc52, #fdc539); }
+  background: -webkit-linear-gradient(#1e91f3, #6e808f);
+  background: linear-gradient(#1e91f3, #6e808f); }
 
 .text-primary {
   color: #fdcc52; }
@@ -314,3 +318,10 @@ footer {
 .btn-xl {
   font-size: 11px;
   padding: 15px 45px; }
+
+.lista-descricao{
+  color: #ffffff; }
+  .lista-descricao li{
+    text-align: left;
+    font-size: 20px;
+    height: 60px;}

@@ -4,45 +4,54 @@
 @section('content')
 
 
-  <header class="masthead" style="padding-top: 100px;">
-    <div class="container h-100">
-      <div class="row h-100">
-        <div class="col-lg-7 my-auto">
-          <div class="header-content mx-auto">
-            <h1 class="mb-5">New Age is an app landing page that will help you beautifully showcase your new mobile app, or anything else!</h1>
-            <a href="#download" class="btn btn-outline btn-xl js-scroll-trigger">Start Now for Free!</a>
-          </div>
-        </div>
-          <div class="col-lg-5 my-auto">
-            <div class="device-container">
-              <div class="device-mockup iphone6_plus portrait white">
-                <div class="device">
-                  <div class="screen">
-                    <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
-                    <img src="{{ URL::asset('img/demo-screen-1.jpg') }}" class="img-fluid" alt="" style="max-width: 100%;height: auto;">
-                  </div>
-                  <div class="button">
-                    <!-- You can hook the "home button" to some JavaScript events or just remove it -->
-                  </div>
-                </div>
-              </div>
+  <section class="cta header_capa">
+    <div class="cta-content">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 my-auto">
+            <div class="header-content mx-auto">
+              <h1 class="" style="color:#ffffff;">Procurando uma fonte de renda extra? Seja nosso parceiro e fature suas comissões por indicações!</h1>
+              <a href="#download" class="btn btn-outline btn-xl js-scroll-trigger">Comece agora!</a>
             </div>
           </div>
+          <div class="col-lg-5 my-auto">
+            
+              <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
+             <!--  <img src="{{ URL::asset('img/acordo_negocio.jpg') }}" class="img-fluid" alt="" style="max-width: 100%;height: 100%;"> -->
+
+          </div>
+        </div>
       </div>
     </div>
-  </header>
+    <div class="overlay"></div>
+  </section>
 
 
 <section class="download bg-primary text-center" id="download">
     <div class="container">
         <div class="row">
-          <div class="col-md-8 mx-auto">
-            <h2 class="section-heading">Discover what all the buzz is about!</h2>
-            <p>Our app is available on any mobile device! Download now to get started!</p>
-            <div class="badges">
+          <div class="col-md-6 mx-auto">
+            <h2 class="section-heading">Saiba mais sobre nosso sistema de parceria!</h2>
+            <!-- <p>Através de indicações, consiga uma renda extra com as comissões!</p> -->
+            <!-- <div class="badges">
               <a class="badge-link" href="#"><img src="{{ URL::asset('img/google-play-badge.svg') }}" alt=""></a>
               <a class="badge-link" href="#"><img src="{{ URL::asset('img/app-store-badge.svg') }} " alt=""></a>
-            </div>
+            </div> -->
+          </div>             
+
+          <div class="col-md-6 mx-auto">
+            <ul class="lista-descricao">
+
+              <li>Indique os serviços da Eficaz System.</li>
+              <li>Cadastre sua indicação.</li>
+              <li>Acompanhe a situação de sua indicação.</li>
+              <li>Se sua indicação fechar négocio, é gerado um orçamento.</li>
+              <li>Com a conclusão do orçamento o serviço é entregue a sua indicação.</li>
+              <li>Após o pagamento do serviço, é contabilizado um valor de comissão.</li>
+              <li>A comissão é paga a você.</li>
+
+            </ul>
+
           </div>
         </div>
     </div>
@@ -51,57 +60,51 @@
 <section class="features" id="features">
       <div class="container">
         <div class="section-heading text-center">
-          <h2>Unlimited Features, Unlimited Fun</h2>
-          <p class="text-muted">Check out what you can do with this app theme!</p>
+          <h2>Ao se tornar um parceiro, quais as vantagens?</h2>
+          <p class="text-muted">Confira algumas vantagens com a parceria da Eficaz System.</p>
           <hr>
         </div>
         <div class="row">
-          <div class="col-lg-4 my-auto">
-            <div class="device-container">
-              <div class="device-mockup iphone6_plus portrait white">
-                <div class="device">
-                  <div class="screen">
-                    <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
-                    <img src="{{ URL::asset('img/demo-screen-1.jpg') }}" class="img-fluid" alt="" style="max-width: 100%;height: auto;">
-                  </div>
-                  <div class="button">
-                    <!-- You can hook the "home button" to some JavaScript events or just remove it -->
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-8 my-auto">
+         
+          <div class="col-lg-12 my-auto">
             <div class="container-fluid">
               <div class="row">
                 <div class="col-lg-6">
                   <div class="feature-item">
-                    <i class="icon-screen-smartphone text-primary"></i>
-                    <h3>Device Mockups</h3>
-                    <p class="text-muted">Ready to use HTML/CSS device mockups, no Photoshop required!</p>
+                    <i class="icon-clock text-primary"></i>
+                    <h3>Faça seu horário</h3>
+                    <p class="text-muted">Faça suas indicações quando achar mais apropriado!</p>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="feature-item">
-                    <i class="icon-camera text-primary"></i>
-                    <h3>Flexible Use</h3>
-                    <p class="text-muted">Put an image, video, animation, or anything else in the screen!</p>
+                    <i class="icon-map text-primary"></i>
+                    <h3>De qualquer lugar</h3>
+                    <p class="text-muted">Possibilidade de efetuar indicações da sua própria casa!</p>
                   </div>
                 </div>
+               <!--  <div class="col-lg-4">
+                  <div class="feature-item">
+                    <i class="icon-vector text-primary"></i>
+                    <h3>De qualquer lugar</h3>
+                    <p class="text-muted">Possibilidade de efetuar indicações da sua própria casa!</p>
+                  </div>
+                </div> -->
+
               </div>
               <div class="row">
                 <div class="col-lg-6">
                   <div class="feature-item">
-                    <i class="icon-present text-primary"></i>
-                    <h3>Free to Use</h3>
-                    <p class="text-muted">As always, this theme is free to download and use for any purpose!</p>
+                    <i class="icon-people text-primary"></i>
+                    <h3>Acompanhe suas indicações</h3>
+                    <p class="text-muted">Tenha acesso ao resultado de suas indicações!</p>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="feature-item">
-                    <i class="icon-lock-open text-primary"></i>
-                    <h3>Open Source</h3>
-                    <p class="text-muted">Since this theme is MIT licensed, you can use it commercially!</p>
+                    <i class="icon-wallet text-primary"></i>
+                    <h3>Monitore seus ganhos</h3>
+                    <p class="text-muted">Acompanhe a situação da comissão de suas indicações!</p>
                   </div>
                 </div>
               </div>
@@ -111,11 +114,11 @@
       </div>
     </section>
 
-     <section class="cta">
+    <section class="cta">
       <div class="cta-content">
         <div class="container">
-          <h2>Stop waiting.<br>Start building.</h2>
-          <a href="#contact" class="btn btn-outline btn-xl js-scroll-trigger">Let's Get Started!</a>
+          <h2>Pronto para ser um parceiro?<br>Comece agora!</h2>
+          <a href="#contact" class="btn btn-outline btn-xl js-scroll-trigger">Cadastre-se!</a>
         </div>
       </div>
       <div class="overlay"></div>

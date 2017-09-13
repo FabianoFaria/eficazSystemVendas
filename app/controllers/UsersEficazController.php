@@ -87,6 +87,13 @@ class UsersEficazController extends BaseController {
 
 	}
 
+
+	//Função para criação de usuários através da página principal
+	public function criar_usuario(){
+		
+	}
+
+
 	public function show($idUser){
 
 		$user 		= User::find($idUser);

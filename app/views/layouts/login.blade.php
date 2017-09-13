@@ -1,24 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
     <head>
 
 
-        @include('includes.head')
+        @include('includes.head_site')
 
-        <link rel="stylesheet" href="{{ URL::asset('packages/css/login.css') }}">
+       <!--  <link rel="stylesheet" href="{{ URL::asset('packages/css/login.css') }}"> -->
 
     </head>
    
  
-    <body style="background: url({{ URL::asset('img/background.png') }});">
+    <!-- <body style="background: url({{ URL::asset('img/background.png') }});"> -->
+    <body  id="page-top">
 
 
         @include('includes.header_site')
 
 
-        <div class="site-wrapper-inner">
+        <!-- <div class="site-wrapper-inner">
 
-            <div class="cover-container">
+            <div class="cover-container"> -->
 
               
                 @if(Session::has('message'))
@@ -31,12 +32,12 @@
 
 
                
-                @include('includes.footer')
+                @include('includes.footer_site')
                
 
-            </div>
+          <!--   </div>
 
-        </div>
+        </div> -->
  
     </body>
 </html>

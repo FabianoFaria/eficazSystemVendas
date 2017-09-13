@@ -234,6 +234,11 @@ section.cta.header_capa {
   background-image: url("../../img/capa_acordo.jpg");
 }
 
+section.cta.login_page{
+  background-image: url("../../img/acordo_negocio.jpg");
+  padding: 114px 0;
+}
+
 section.contact {
   text-align: center; }
   section.contact h2 {

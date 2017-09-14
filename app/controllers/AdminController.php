@@ -15,10 +15,12 @@ class AdminController extends \BaseController {
 		if(Auth::check()){
 
 			$id_user 		= Session::get('id_atual');
-			$status 		= StatusUsuarios::all();
+			$status_usuario = Session::get('status');
 			$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
 			$dadosEndereco  = VendedoresEnderecos::where('id_user', $id_user)->first();
 			$dadosContatos  = VendedoresTelefones::where('id_user', $id_user)->first();
+
+			$user 			= User::find($id_user);
 
 			//$json 			= json_decode(file_get_contents('http://127.0.0.1/apiEficaz/public/api/contatos'), true);
 
@@ -32,12 +34,39 @@ class AdminController extends \BaseController {
 
 			//Usuário logado
 			//return View::make('admin.index', array( 'nome_usuario' => $usuario_atual, 'id' => $id_atual, 'status' => $status));
-			return View::make('admin.index', [
-				'dadosVendedor' => $dadosVendedor, 
-				'statusUsuario' => $status,
-				'enderecos' => $dadosEndereco,
-				'telefones' => $dadosContatos
-				]);
+
+			//Verifica para qual tela de administração será redirecionada o admin
+			switch ($status_usuario) {
+				case 'Admin':
+					
+					return View::make('admin.index', [
+					'dadosVendedor' => $dadosVendedor, 
+					'statusUsuario' => $status_usuario,
+					'enderecos' => $dadosEndereco,
+					'telefones' => $dadosContatos
+					]);
+
+				break;
+				
+				case 'Parceiros':
+					
+					return View::make('parceiros.index', [
+					'dadosVendedor' => $dadosVendedor, 
+					'statusUsuario' => $status_usuario,
+					'enderecos' => $dadosEndereco,
+					'telefones' => $dadosContatos
+					]);
+
+				break;
+
+				case 'Cliente':
+					# code...
+				break;
+			}
+
+
+
+			
 
 		}else{
 			

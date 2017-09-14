@@ -63,11 +63,19 @@
 
 			}else{
 
+				$status 	= StatusUsuarios::all();
+
+				foreach ($status->all()  as $statu) {
+					if($statu->id_status == Auth::user()->status){
+						$status_usuario = $statu->status_usuario;
+					}
+				}
+
 
 				//Configura algumas variaveis de sessão para guardar informações do usuário
 				Session::put('nome_atual', Auth::user()->nome_usuario);
 				Session::put('id_atual', Auth::user()->id);
-				Session::put('status', Auth::user()->status);
+				Session::put('status', $status_usuario);
 
 				Cookie::queue("session_control","value", 10);
 				
@@ -81,7 +89,8 @@
 		public function destroy(){
 
 			Auth::Logout();
-
+			Session::flush();
+			
 			//return Redirect::route('sessions.create');
 			return Redirect::to('/');
 

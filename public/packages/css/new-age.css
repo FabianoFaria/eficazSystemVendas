@@ -12,12 +12,12 @@ body {
   font-family: 'Muli', 'Helvetica', 'Arial', 'sans-serif'; }
 
 a {
-  color: #fdcc52;
+  color: #1e119b;
   -webkit-transition: all .35s;
   -moz-transition: all .35s;
   transition: all .35s; }
   a:hover, a:focus {
-    color: #fcbd20; }
+    color: #328ae0; }
 
 hr {
   max-width: 100px;
@@ -239,6 +239,11 @@ section.cta.login_page{
   padding: 114px 0;
 }
 
+section.cta.register_page{
+  background-image: url("../../img/background-pagina-registrar.jpg");
+  padding: 114px 0;
+}
+
 section.contact {
   text-align: center; }
   section.contact h2 {
@@ -330,3 +335,27 @@ footer {
     text-align: left;
     font-size: 20px;
     height: 60px;}
+
+.form-signup-parceiro{
+  color: #ffffff;
+}
+  .form-signup-parceiro h2{
+    font-size: 30px;
+  }
+  .form-signup-parceiro label{
+    font-family: 'Muli', 'Helvetica', 'Arial', 'sans-serif';
+  }
+
+.painel-boas-vindas{
+  color: #745454 !important;}
+.painel-boas-vindas h2{
+  font-size: 45px;}
+
+.titulo-boas-vindas{
+  color: #745454 !important;
+  font-size: 45px !important;
+}
+
+.btn-acessar-conta{
+
+}

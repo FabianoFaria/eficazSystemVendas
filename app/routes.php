@@ -35,7 +35,15 @@ Route::get('login', 'SessionsController@create');
 
 Route::get('logout', 'SessionsController@destroy');
 
+//ROTAS PARA CADASTRO DE NOVO USUÁRIO
 Route::get('registrar','UsersEficazController@criar_usuario');
+
+Route::post('guarda_parceria', array('as' => 'users.nova_parceria','uses' => 'UsersEficazController@guardar_parceria'));
+
+//ROTA PARA TELA DE BOAS VINDAS A UM NOVO USUÁRIO
+Route::get('bemVindo','UsersEficazController@bemVindo');
+
+
 
 Route::resource('sessions','SessionsController');
 

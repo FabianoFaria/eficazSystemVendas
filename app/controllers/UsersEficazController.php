@@ -91,6 +91,8 @@ class UsersEficazController extends BaseController {
 	//Função para criação de usuários através da página principal
 	public function criar_usuario(){
 		
+		return View::make('sitePrincipal.registrar');
+
 	}
 
 
@@ -146,7 +148,12 @@ class UsersEficazController extends BaseController {
 			$this->user->nome_usuario = Input::get('nomeCliente');
 			$this->user->senha_usuario = Hash::Make(Input::get('senhaNovoUsuario'));
 			$this->user->email_usuario = Input::get('emailEnd');
-			$this->user->status = Input::get('status_usuario');
+			
+			if(Input::get('status_usuario') != ''){
+				$this->user->status = Input::get('status_usuario');
+			}else{
+				$this->user->status = 8;
+			}
 
 				// //dd($user);
 
@@ -236,6 +243,48 @@ class UsersEficazController extends BaseController {
 
 
 		return 'tela para registro de vendedores!';
+
+	}
+
+	public function guardar_parceria(){
+		if( ! $this->user->isValid($input = Input::all())){
+
+			return Redirect::back()->withInput()->withErrors($this->user->errors);
+
+		}else{
+
+
+			$this->user->nome_usuario = Input::get('nomeCliente');
+			$this->user->senha_usuario = Hash::Make(Input::get('senhaNovoUsuario'));
+			$this->user->email_usuario = Input::get('emailEnd');
+			
+			if(Input::get('status_usuario') != ''){
+				$this->user->status = Input::get('status_usuario');
+			}else{
+				$this->user->status = 8;
+			}
+
+			$this->user->save();
+
+			// return Redirect::route('users.index');
+			//Redireciona para a página de boas vindas com a mensagem de sucesso do cadastro.
+			return Redirect::to('bemVindo')->with('cadastro', 'Cadastro concluído!');
+
+		}
+	}
+
+	public function bemVindo(){
+		
+
+		$cadastro = Session::get('cadastro');
+
+		if(!isset($cadastro)){
+
+			return Redirect::to('registrar');
+
+		}else{
+			return View::make('sitePrincipal.bemVindo');
+		}
 
 	}
 }

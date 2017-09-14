@@ -17,8 +17,9 @@ class VendedorEnderecosController extends \BaseController {
 	{
 		//
 		$id_user 		= Session::get('id_atual');
+		$status_usuario = Session::get('status');
 		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
-		$dadosEndereco  	= VendedoresEnderecos::where('id_user', $id_user)->first();
+		$dadosEndereco  = VendedoresEnderecos::where('id_user', $id_user)->first();
 
 		// $dadosEndereco 	= DB::table('vendedores_enderecos')->where(function ($query) {
 		//     $query->where('id_user', Session::get('id_atual'))
@@ -30,11 +31,33 @@ class VendedorEnderecosController extends \BaseController {
 
 		$estados 		= EstadosPais::all();
 
-		return View::make('enderecos.index', [
+		//Verifica para qual tela de administração será redirecionada o admin
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make('enderecos.index', [
 				'dadosVendedor' => $dadosVendedor, 
 				'enderecos' => $dadosEndereco,
 				'estados' 	=> $estados,
-		]);
+				]);
+
+			break;
+				
+			case 'Parceiros':
+					
+				return View::make('parceiros.enderecos', [
+				'dadosVendedor' => $dadosVendedor, 
+				'enderecos' => $dadosEndereco,
+				'estados' 	=> $estados,
+				]);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
+
 	}
 
 
@@ -50,10 +73,31 @@ class VendedorEnderecosController extends \BaseController {
 		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
 		$estados 		= EstadosPais::all();
 
-		return View::make('enderecos.create', [
-			'dadosVendedor' => $dadosVendedor,
-			'estados' 	=> $estados,
-		]);
+		
+		//Verifica para qual tela de administração será redirecionada o admin
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make('enderecos.create', [
+					'dadosVendedor' => $dadosVendedor,
+					'estados' 	=> $estados,
+				]);
+
+			break;
+				
+			case 'Parceiros':
+					
+				return View::make('parceiros.create_enderecos', [
+					'dadosVendedor' => $dadosVendedor,
+					'estados' 	=> $estados,
+				]);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
 	}
 
 

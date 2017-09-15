@@ -33,7 +33,32 @@ class UsersEficazController extends BaseController {
 		//CARREGA TODOS OS USUÁRIOS ATIVOS PARA SEREM EXIBIDOS
 		$users 		= User::where('status', '>', 0)->get();
 
-		return View::make('usersEficaz.listaUsuarios', ['usuariosAtivos' => $users, 'status_users' => $status]);
+		
+		//Status do usuario logado...
+		$status_usuario = Session::get('status');
+
+		//Verifica para qual tela de administração será redirecionada o admin
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make('usersEficaz.listaUsuarios', ['usuariosAtivos' => $users, 'status_users' => $status]);
+
+			break;
+				
+			case 'Parceiros':
+					
+				//return View::make( 'enderecos.parceiros_enderecos', $dados);
+				return Redirect::to('admin');
+
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
+
+
 	}
 
 	// public function getLogin() {
@@ -81,9 +106,31 @@ class UsersEficazController extends BaseController {
 
 	public function create(){
 
-		$status 	= StatusUsuarios::all();
+		//Status do usuario logado...
+		$status_usuario = Session::get('status');
 
-		return View::make('usersEficaz.create', array('statusUsuario' => $status));
+		$status 		= StatusUsuarios::all();
+
+		//Verifica para qual tela de administração será redirecionada o admin
+		switch ($status_usuario) {
+			case 'Admin':
+				
+				return View::make('usersEficaz.create', array('statusUsuario' => $status));
+			
+			break;
+				
+			case 'Parceiros':
+					
+				//return View::make( 'enderecos.parceiros_enderecos', $dados);
+				return Redirect::to('admin');
+
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
 
 	}
 
@@ -106,9 +153,56 @@ class UsersEficazController extends BaseController {
 
 		$ativoDesde = implode('/', array_reverse(explode('-',$ativoDesde[0])));
 
-		//retorna a view com os dados necessarios.
-		return View::make('usersEficaz.dadosUsuario', array( 'usuario' => $user, 'ativo_desde' => $ativoDesde));
-		//return 'show usuário!';
+		//Status do usuario logado...
+		$status_usuario = Session::get('status');
+
+		//Verifica para qual tela de administração será redirecionada o admin
+		switch ($status_usuario) {
+			case 'Admin':
+
+				//Logo, o admin irá carregar mais tipos de dados conforme a necessidade.
+				$dados = [
+					'ativo_desde' => $ativoDesde,
+				];
+
+				
+				//retorna a view com os dados necessarios.
+				return View::make('usersEficaz.dadosUsuario', array( 'usuario' => $user, $dados));
+				//return 'show usuário!';
+			
+			break;
+				
+			case 'Parceiros':
+				
+				$dadosVendedor 	= VendedoresDados::where('id_user', $idUser)->first();
+				$dadosTelefones = VendedoresTelefones::where('id_user', $idUser)->take(5)->get();
+				$dadosEndereco  = VendedoresEnderecos::where('id_user', $idUser)->take(5)->get();
+				$dadosFinancas 	= VendedoresFinancas::where('id_user', $idUser)->take(5)->get();
+				$estados 		= EstadosPais::all();
+				$tipos_conta	= TipoContaBancaria::all();
+				$lista_bancos 	= InstituicoesBancarias::all();
+
+				$dados = [
+					'user' 			=> $user,
+					'ativo_desde' 	=> $ativoDesde,
+					'vendedor'		=> $dadosVendedor,
+					'telefones' 	=> $dadosTelefones,
+					'enderecos' 	=> $dadosEndereco,
+					'informacoes_bancarias' => $dadosFinancas,
+					'estados' 		=> $estados,
+					'tipo_contas'   => $tipos_conta,
+					'lista_bancos' 	=> $lista_bancos,
+				];
+
+				return View::make( 'parceiros.dadosUsuarios', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
+
 
 	}
 
@@ -186,9 +280,35 @@ class UsersEficazController extends BaseController {
 
 		$user 			= User::find($idUser);
 		$status 		= StatusUsuarios::all();
-		//retorna a view com os dados necessarios.
-		return View::make('usersEficaz.editar', array( 'usuario' => $user, 'statusUsuario' => $status));
 
+		//Status do usuario logado...
+		$status_usuario = Session::get('status');
+
+		$dados 			= [
+			'statusUsuario' => $status,
+			'usuario' => $user,
+		];
+
+
+		//Verifica para qual tela de administração será redirecionada o admin
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				//retorna a view com os dados necessarios.
+				return View::make('usersEficaz.editar', $dados);
+
+			break;
+				
+			case 'Parceiros':
+					
+				return View::make( 'parceiros.parceiros_editar', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
 
 	}
 

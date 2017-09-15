@@ -69,7 +69,9 @@
                         {{ Form::submit('Atualizar', array('class'=>'btn btn-large btn-primary btn-block'))}}
                     </div>
 
-
+                    <div>
+                        <a href="{{ URL::to('/admin') }}" class="btn btn-large btn-danger btn-block"> Cancelar</a>
+                    </div>
                 </div>
 
             {{ Form::close() }}

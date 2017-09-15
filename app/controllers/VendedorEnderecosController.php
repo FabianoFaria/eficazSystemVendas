@@ -19,7 +19,10 @@ class VendedorEnderecosController extends \BaseController {
 		$id_user 		= Session::get('id_atual');
 		$status_usuario = Session::get('status');
 		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
-		$dadosEndereco  = VendedoresEnderecos::where('id_user', $id_user)->first();
+		$dadosEndereco  = VendedoresEnderecos::where('id_user', $id_user)->get();
+		//$dadosEndereco = DB::table('vendedores_enderecos')->where('id_user', '=', $id_user)->get();
+
+		//dd($dadosEndereco);
 
 		// $dadosEndereco 	= DB::table('vendedores_enderecos')->where(function ($query) {
 		//     $query->where('id_user', Session::get('id_atual'))
@@ -30,26 +33,23 @@ class VendedorEnderecosController extends \BaseController {
 
 
 		$estados 		= EstadosPais::all();
+		$dados 			= [
+			'dadosVendedor' => $dadosVendedor, 
+			'enderecos' => $dadosEndereco,
+			'estados' 	=> $estados,
+		];
 
 		//Verifica para qual tela de administração será redirecionada o admin
 		switch ($status_usuario) {
 			case 'Admin':
 					
-				return View::make('enderecos.index', [
-				'dadosVendedor' => $dadosVendedor, 
-				'enderecos' => $dadosEndereco,
-				'estados' 	=> $estados,
-				]);
+				return View::make( 'enderecos.index', $dados);
 
 			break;
 				
 			case 'Parceiros':
 					
-				return View::make('parceiros.enderecos', [
-				'dadosVendedor' => $dadosVendedor, 
-				'enderecos' => $dadosEndereco,
-				'estados' 	=> $estados,
-				]);
+				return View::make( 'enderecos.parceiros_enderecos', $dados);
 
 			break;
 
@@ -57,6 +57,7 @@ class VendedorEnderecosController extends \BaseController {
 				# code...
 			break;
 		}
+
 
 	}
 
@@ -70,27 +71,26 @@ class VendedorEnderecosController extends \BaseController {
 	{
 		//
 		$id_user 		= Session::get('id_atual');
+		$status_usuario = Session::get('status');
 		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
 		$estados 		= EstadosPais::all();
 
-		
+		$dados 			= [
+					'dadosVendedor' => $dadosVendedor,
+					'estados' 	=> $estados,
+				];
+
 		//Verifica para qual tela de administração será redirecionada o admin
 		switch ($status_usuario) {
 			case 'Admin':
 					
-				return View::make('enderecos.create', [
-					'dadosVendedor' => $dadosVendedor,
-					'estados' 	=> $estados,
-				]);
+				return View::make('enderecos.create', $dados);
 
 			break;
 				
 			case 'Parceiros':
 					
-				return View::make('parceiros.create_enderecos', [
-					'dadosVendedor' => $dadosVendedor,
-					'estados' 	=> $estados,
-				]);
+				return View::make('enderecos.parceiros_create', $dados);
 
 			break;
 
@@ -157,15 +157,37 @@ class VendedorEnderecosController extends \BaseController {
 	{
 		//
 		$id_user 		= Session::get('id_atual');
+		$status_usuario = Session::get('status');
 		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
 		$dadosEndereco  = VendedoresEnderecos::find($id); 
 		$estados 		= EstadosPais::all();
 
-		return View::make('enderecos.edit', [
+		$dados 			= [
 				'dadosVendedor' => $dadosVendedor, 
 				'enderecos' => $dadosEndereco,
 				'estados' 	=> $estados,
-		]);
+		];
+
+
+		//Verifica para qual tela de administração será redirecionada o admin
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make('enderecos.edit', $dados);
+
+			break;
+				
+			case 'Parceiros':
+					
+				return View::make('enderecos.parceiros_edit', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
+
 
 	}
 

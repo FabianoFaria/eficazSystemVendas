@@ -35,27 +35,24 @@ class AdminController extends \BaseController {
 			//Usuário logado
 			//return View::make('admin.index', array( 'nome_usuario' => $usuario_atual, 'id' => $id_atual, 'status' => $status));
 
+			$dados = [
+				'dadosVendedor' => $dadosVendedor, 
+				'statusUsuario' => $status_usuario,
+				'enderecos' => $dadosEndereco,
+				'telefones' => $dadosContatos
+			];
+
 			//Verifica para qual tela de administração será redirecionada o admin
 			switch ($status_usuario) {
 				case 'Admin':
 					
-					return View::make('admin.index', [
-					'dadosVendedor' => $dadosVendedor, 
-					'statusUsuario' => $status_usuario,
-					'enderecos' => $dadosEndereco,
-					'telefones' => $dadosContatos
-					]);
+					return View::make('admin.index', $dados);
 
 				break;
 				
 				case 'Parceiros':
 					
-					return View::make('parceiros.index', [
-					'dadosVendedor' => $dadosVendedor, 
-					'statusUsuario' => $status_usuario,
-					'enderecos' => $dadosEndereco,
-					'telefones' => $dadosContatos
-					]);
+					return View::make('parceiros.index', $dados);
 
 				break;
 

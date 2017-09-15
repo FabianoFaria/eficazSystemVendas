@@ -71,6 +71,7 @@ class VendedorDadosController extends \BaseController {
 	public function show($id)
 	{
 		//
+		return 'teste';
 	}
 
 
@@ -83,6 +84,37 @@ class VendedorDadosController extends \BaseController {
 	public function edit($id)
 	{
 		//
+		$vendedor 			= VendedoresDados::where('id_user', $id)->first();
+
+		//Status do usuario logado...
+		$status_usuario = Session::get('status');
+
+		$dados 			= [
+			'vendedor' => $vendedor,
+		];
+
+
+		//dd($vendedor);
+	
+		//Verifica para qual tela de administração será redirecionada o admin
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				//retorna a view com os dados necessarios.
+				return View::make('admin.editar_parceiro', $dados);
+
+			break;
+				
+			case 'Parceiros':
+					
+				return View::make( 'parceiros.parceiros_editar_vendedor', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
 	}
 
 
@@ -95,6 +127,17 @@ class VendedorDadosController extends \BaseController {
 	public function update($id)
 	{
 		//
+		 $rules = array(
+            'nomeCompleto'       	=> 'required',
+            'rgVendedor'			=> 'numeric',
+            'cpfCnpj'				=> 'required|alpha_num|cpfCnpj',
+        );
+
+		$validator = Validator::make(Input::all(), $rules);
+
+		
+
+
 	}
 
 

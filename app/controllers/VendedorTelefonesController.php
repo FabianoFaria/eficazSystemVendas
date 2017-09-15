@@ -18,16 +18,35 @@ class VendedorTelefonesController extends \BaseController {
 	{
 		//
 		$id_user 		= Session::get('id_atual');
+		$status_usuario = Session::get('status');
 		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
-		$dadosTelefones = VendedoresTelefones::where('id_user', $id_user)->first();
+		$dadosTelefones = VendedoresTelefones::where('id_user', $id_user)->get();
 
 		$estados 		= EstadosPais::all();
 
-		return View::make('telefones.index', [
+		$dados  		= [
 				'dadosVendedor' => $dadosVendedor, 
 				'telefones' 	=> $dadosTelefones,
 				'estados' 		=> $estados,
-		]);
+			];
+
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make('telefones.index', $dados);
+
+			break;
+				
+			case 'Parceiros':
+					
+				return View::make('telefones.parceiros_index', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
 
 	}
 
@@ -41,13 +60,33 @@ class VendedorTelefonesController extends \BaseController {
 	{
 		//
 		$id_user 		= Session::get('id_atual');
+		$status_usuario = Session::get('status');
 		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
 		$estados 		= EstadosPais::all();
 
-		return View::make('telefones.create', [
+		$dados  		= [
 			'dadosVendedor' => $dadosVendedor,
 			'estados' 	=> $estados,
-		]);
+		];
+
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make('telefones.create', $dados);
+
+			break;
+				
+			case 'Parceiros':
+					
+				return View::make('telefones.parceiros_create', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
+
 	}
 
 
@@ -102,13 +141,35 @@ class VendedorTelefonesController extends \BaseController {
 	{
 		//
 		$id_user 		= Session::get('id_atual');
-		$dadosVendedor 	= VendedoresDados::find($id);
-		$dadosTelefones = VendedoresTelefones::where('id_user', $id_user)->first();
+		$status_usuario = Session::get('status');
+		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
+		//$dadosTelefones = VendedoresTelefones::where('id_user', $id_user)->first();
+		$dadosTelefones = VendedoresTelefones::find($id);
 
-		return View::make('telefones.edit', [
-				'dadosVendedor' => $dadosVendedor, 
-				'telefones' => $dadosTelefones,
-		]);
+		//dd($dadosVendedor);
+
+		$dados  		= [
+			'dadosVendedor' => $dadosVendedor,
+			'telefones' => $dadosTelefones,
+		];
+
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make('telefones.edit', $dados);
+
+			break;
+				
+			case 'Parceiros':
+					
+				return View::make('telefones.parceiros_edit', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
 	}
 
 
@@ -121,6 +182,23 @@ class VendedorTelefonesController extends \BaseController {
 	public function update($id)
 	{
 		//
+		$id_telefone = Input::get('id_telefone');
+
+		$this->VendedoresTelefones = VendedoresTelefones::find($id_telefone);
+
+		if( ! $this->VendedoresTelefones->isValid($input = Input::all())){
+
+			return Redirect::back()->withInput()->withErrors($this->VendedoresTelefones->errors);
+
+		}else{
+
+			$this->VendedoresTelefones->telefone 				= Input::get('telefone');
+			$this->VendedoresTelefones->observacacao_telefone	= Input::get('observacao');
+
+			$this->VendedoresTelefones->save();
+			
+			return Redirect::route('telefones.index');
+		}
 	}
 
 
@@ -137,7 +215,7 @@ class VendedorTelefonesController extends \BaseController {
 
 		$telefone->status_telefone = 0;
 		//$telefone->save();
-		$endereco->delete();
+		$telefone->delete();
 
 		return Redirect::route('telefones.index');
 	}

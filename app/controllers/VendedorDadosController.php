@@ -135,8 +135,19 @@ class VendedorDadosController extends \BaseController {
 
 		$validator = Validator::make(Input::all(), $rules);
 
-		
+		// process the login
+        if ($validator->fails()) {
 
+        	// return Redirect::to('vendedores/' . $id . '/edit')
+         //        ->withErrors($validator)
+         //        ->withInput(Input::except('senhaUsuario'),Input::except('confirmaSenhaUsuario'));
+
+            return Redirect::back()->withInput()->withErrors($this->vendedor->errors);
+
+        }else{
+
+
+        }
 
 	}
 

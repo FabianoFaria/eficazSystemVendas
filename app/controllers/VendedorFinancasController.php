@@ -17,6 +17,7 @@ class VendedorFinancasController extends \BaseController {
 	{
 		//
 		$id_user 		= Session::get('id_atual');
+		$status_usuario = Session::get('status');
 		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
 		$dadosFinancas 	= VendedoresFinancas::where('id_user', $id_user)->first();
 		$tipos_conta	= TipoContaBancaria::all();
@@ -24,13 +25,33 @@ class VendedorFinancasController extends \BaseController {
 
 		$estados 		= EstadosPais::all();
 
-		return View::make('informacoesBancarias.index', [
-				'dadosVendedor' => $dadosVendedor, 
-				'contas' 		=> $dadosFinancas,
-				'estados' 		=> $estados,
-				'tipo_contas'   => $tipos_conta,
-				'lista_bancos' 	=> $lista_bancos,
-		]);
+		$dados 			= [
+			'dadosVendedor' => $dadosVendedor, 
+			'contas' 		=> $dadosFinancas,
+			'estados' 		=> $estados,
+			'tipo_contas'   => $tipos_conta,
+			'lista_bancos' 	=> $lista_bancos,
+		];
+
+		//Verifica para qual tela de administração será redirecionada o admin
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make( 'informacoesBancarias.index', $dados);
+
+			break;
+				
+			case 'Parceiros':
+					
+				return View::make( 'informacoesBancarias.parceiros_index', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
+
 	}
 
 
@@ -43,17 +64,37 @@ class VendedorFinancasController extends \BaseController {
 	{
 		//
 		$id_user 		= Session::get('id_atual');
+		$status_usuario = Session::get('status');
 		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
 		$dadosFinancas 	= VendedoresFinancas::where('id_user', $id_user)->first();
 		$tipos_conta	= TipoContaBancaria::all();
 		$lista_bancos 	= InstituicoesBancarias::all();
 
-		return View::make('informacoesBancarias.create', [
-				'dadosVendedor' => $dadosVendedor, 
-				'contas' 		=> $dadosFinancas,
-				'tipo_contas'   => $tipos_conta,
-				'lista_bancos' 	=> $lista_bancos,
-		]);
+		$dados 			= [
+			'dadosVendedor' => $dadosVendedor, 
+			'contas' 		=> $dadosFinancas,
+			'tipo_contas'   => $tipos_conta,
+			'lista_bancos' 	=> $lista_bancos,
+		];
+
+		//Verifica para qual tela de administração será redirecionada o admin
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make( 'informacoesBancarias.create', $dados);
+
+			break;
+				
+			case 'Parceiros':
+					
+				return View::make( 'informacoesBancarias.parceiros_create', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
 	}
 
 
@@ -96,6 +137,42 @@ class VendedorFinancasController extends \BaseController {
 	public function show($id)
 	{
 		//
+		$id_user 		= $id;
+		$status_usuario = Session::get('status');
+		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
+		$dadosFinancas 	= VendedoresFinancas::where('id_user', $id_user)->first();
+		$tipos_conta	= TipoContaBancaria::all();
+		$lista_bancos 	= InstituicoesBancarias::all();
+
+		$estados 		= EstadosPais::all();
+
+		$dados 			= [
+			'dadosVendedor' => $dadosVendedor, 
+			'contas' 		=> $dadosFinancas,
+			'estados' 		=> $estados,
+			'tipo_contas'   => $tipos_conta,
+			'lista_bancos' 	=> $lista_bancos,
+		];
+
+		//Verifica para qual tela de administração será redirecionada o admin
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make( 'informacoesBancarias.index', $dados);
+
+			break;
+				
+			case 'Parceiros':
+					
+				return View::make( 'informacoesBancarias.parceiros_index', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
+
 	}
 
 
@@ -110,17 +187,37 @@ class VendedorFinancasController extends \BaseController {
 
 		//
 		$id_user 		= Session::get('id_atual');
+		$status_usuario = Session::get('status');
 		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
 		$dadosFinancas 	= VendedoresFinancas::find($id);
 		$tipos_conta	= TipoContaBancaria::all();
 		$lista_bancos 	= InstituicoesBancarias::all();
 
-		return View::make('informacoesBancarias.edit', [
-				'dadosVendedor' => $dadosVendedor, 
-				'contas' 		=> $dadosFinancas,
-				'tipo_contas'   => $tipos_conta,
-				'lista_bancos' 	=> $lista_bancos,
-		]);
+		$dados 			= [
+			'dadosVendedor' => $dadosVendedor, 
+			'contas' 		=> $dadosFinancas,
+			'tipo_contas'   => $tipos_conta,
+			'lista_bancos' 	=> $lista_bancos,
+		];
+
+		//Verifica para qual tela de administração será redirecionada o admin
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make( 'informacoesBancarias.edit', $dados);
+
+			break;
+				
+			case 'Parceiros':
+					
+				return View::make( 'informacoesBancarias.parceiros_edit', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
 	}
 
 

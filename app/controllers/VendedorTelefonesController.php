@@ -128,6 +128,38 @@ class VendedorTelefonesController extends \BaseController {
 	public function show($id)
 	{
 		//
+		$id_user 		= $id;
+		$status_usuario = Session::get('status');
+		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
+		$dadosTelefones = VendedoresTelefones::where('id_user', $id_user)->get();
+
+		$estados 		= EstadosPais::all();
+
+		$dados  		= [
+				'dadosVendedor' => $dadosVendedor, 
+				'telefones' 	=> $dadosTelefones,
+				'estados' 		=> $estados,
+			];
+
+			//dd($dadosVendedor);
+
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make('telefones.index', $dados);
+
+			break;
+				
+			case 'Parceiros':
+					
+				return View::make('telefones.parceiros_index', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
 	}
 
 

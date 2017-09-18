@@ -58,7 +58,6 @@ class VendedorEnderecosController extends \BaseController {
 			break;
 		}
 
-
 	}
 
 
@@ -144,8 +143,37 @@ class VendedorEnderecosController extends \BaseController {
 	public function show($id)
 	{
 		//
-	}
+		$id_user 		= $id;
+		$status_usuario = Session::get('status');
+		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
+		$dadosEndereco  = VendedoresEnderecos::where('id_user', $id_user)->get();
 
+		$estados 		= EstadosPais::all();
+		$dados 			= [
+			'dadosVendedor' => $dadosVendedor, 
+			'enderecos' => $dadosEndereco,
+			'estados' 	=> $estados,
+		];
+
+		//Verifica para qual tela de administração será redirecionada o admin
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make( 'enderecos.index', $dados);
+
+			break;
+				
+			case 'Parceiros':
+					
+				return View::make( 'enderecos.parceiros_enderecos', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
+	}
 
 	/**
 	 * Show the form for editing the specified resource.

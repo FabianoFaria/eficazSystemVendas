@@ -9,7 +9,7 @@
 				<div class="col-md-6 col-md-offset-3">
 
 
-					{{ Form::open(array('route'=> 'indicacoes.store', 'class'=>'form')) }}
+					{{ Form::open(array('route'=> 'indicacoes.store', 'class'=>'form','files' => true)) }}
 
 
 						<h3 class="page-header">Cadastrando nova indicação para {{ $dadosVendedor->nome_vendedor }}</h3>
@@ -39,6 +39,14 @@
 			                <div class="form-group">
 
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
+			                    {{ Form::Label('email_cliente', 'Email cliente') }}
+			                    {{ Form::text('email_cliente', null, array( 'id'=>'email_cliente', 'class'=>'form-control', 'placeholder'=>'Email cliente')) }}
+			                    {{ $errors->first('email_cliente', '<span class=inputError>:message</span>') }}
+			                </div>
+
+			                <div class="form-group">
+
+			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
 			                    {{ Form::Label('data_nascimento_criacao', 'Data nascimento/criação') }}
 			                    {{ Form::text('data_nascimento_criacao', null, array( 'id'=>'data_nascimento_criacao', 'class'=>'form-control', 'placeholder'=>'Data de nascimento ou criação')) }}
 			                    {{ $errors->first('data_nascimento_criacao', '<span class=inputError>:message</span>') }}
@@ -50,6 +58,13 @@
 			                    {{ Form::Label('cpf_cnpj', 'Cpf ou Cnpj') }}
 			                    {{ Form::text('cpf_cnpj', null, array( 'id'=>'cpf_cnpj', 'class'=>'form-control', 'placeholder'=>'Cpf ou Cnpj')) }}
 			                    {{ $errors->first('cpf_cnpj', '<span class=inputError>:message</span>') }}
+			                </div>
+
+			                <div class="form-group">
+
+			                	{{ Form::label('imagem_documento', 'Imagem documento',array('class' => 'sr-only' )) }}
+					    		{{ Form::file('imagem_documento', array('accept'=> 'image/*;capture=camera')) }}
+
 			                </div>
 
 			                <div class="form-group">

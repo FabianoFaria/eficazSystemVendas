@@ -104,8 +104,41 @@ class IndicacaoController extends \BaseController {
 		}else{
 
 
-			dd(Input::all());
+			$this->clienteIndicacao->id_user = Input::get('id_usuario');
+			$this->clienteIndicacao->nome_completo = Input::get('nome_completo');
+			$this->clienteIndicacao->nome_fantasia_cliente = Input::get('nome_fantasia');
+			$this->clienteIndicacao->email_cliente = Input::get('email_cliente');
+			$this->clienteIndicacao->data_nascimento = Input::get('data_nascimento');
+			$this->clienteIndicacao->cpf_cnpj = Input::get('cpf_cnpj');
 
+			if (Input::hasFile('imagem_documento'))
+			{
+			    $file = Input::file('imagem_documento');
+			    $file->move('img/uploads/imagens_documentos', $file->getClientOriginalName());
+
+			    //$img = Image::make(Input::file('imagem_documento')->getRealPath());
+
+
+			    $nomeImagem = Hash::Make($file->getClientOriginalName());
+
+			    //dd($nomeImagem);
+
+			    $image = Image::make(sprintf('img/uploads/imagens_documentos/%s', $file->getClientOriginalName()) )->resize(200, 200)->save('img/uploads/imagens_documento/'.$nomeImagem.'jpg');
+
+			    //dd($nomeImagem);
+
+			    //$image = Image::make(Input::file('imagem_documento')->getRealPath())->resize(120,75);
+
+			    // $image = Image::make(sprintf('img/uploads/imagens_documentos/%s', Input::file('imagem_documento')->getRealPath() )->resize(200, 200)->save('public/img/uploads/imagens_documento/'.$nomeImagem.'.jpg');
+
+			    $this->clienteIndicacao->cliente_imagem_documento = $nomeImagem.'.png';
+
+			}
+
+
+			//$this->clienteIndicacao->save();
+
+			return Redirect::route('indicacoes.index');
 		}
 	}
 

@@ -40,6 +40,7 @@
 		                            <tr>
 		                                <th>Nome completo</th>
 		                                <th>Nome fantasia</th>
+		                                <th>Email cliente</th>
 		                                <th>Data nscimento/criação</th>
 		                                <th>Editar</th>
 		                                <th>Excluir</th>
@@ -58,6 +59,9 @@
 			                                    </td>
 			                                    <td>
 			                                        {{ $cliente->observacacao_telefone }}
+			                                    </td>
+			                                    <td>
+			                                        {{ $cliente->email_cliente }}
 			                                    </td>
 			                                    <td>
 			                                        <a href="{{ URL::to('/indicacoes/' . $cliente->id_cliente_indicado .'/edit') }}" class="btn btn-info"><i class="fa fa-pencil"></i></a>

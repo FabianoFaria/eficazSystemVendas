@@ -20,6 +20,7 @@ class CreateClientesIndicadosTable extends Migration {
 	    	$table->string('id_user', 11);
 	    	$table->string('nome_completo', 255);
 	    	$table->string('nome_fantasia_cliente', 255);
+	    	$table->string('email_cliente', 75);
 	    	$table->date('data_nascimento');
 	    	$table->string('cpf_cnpj',20);
 	    	$table->string('cliente_imagem_documento',255);

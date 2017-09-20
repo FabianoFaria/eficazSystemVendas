@@ -41,7 +41,7 @@
 		                                <th>Nome completo</th>
 		                                <th>Nome fantasia</th>
 		                                <th>Email cliente</th>
-		                                <th>Data nscimento/criação</th>
+		                                <th>CPF/CNPJ</th>
 		                                <th>Editar</th>
 		                                <th>Excluir</th>
 		                            </tr>
@@ -55,13 +55,16 @@
 			                     			<tr>
 
 			                     				<td>
-			                                        {{ $cliente->telefone }}
+			                                        {{ $cliente->nome_completo }}
 			                                    </td>
 			                                    <td>
-			                                        {{ $cliente->observacacao_telefone }}
+			                                        {{ $cliente->nome_fantasia_cliente }}
 			                                    </td>
 			                                    <td>
 			                                        {{ $cliente->email_cliente }}
+			                                    </td>
+			                                    <td>
+			                                        {{ $cliente->cpf_cnpj }}
 			                                    </td>
 			                                    <td>
 			                                        <a href="{{ URL::to('/indicacoes/' . $cliente->id_cliente_indicado .'/edit') }}" class="btn btn-info"><i class="fa fa-pencil"></i></a>

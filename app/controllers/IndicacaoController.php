@@ -1,7 +1,9 @@
 <?php
 
-class IndicacaoController extends \BaseController {
+//Pacote para efetuar requizições para a API Eficaz
+use GuzzleHttp\Client;
 
+class IndicacaoController extends \BaseController {
 
 	public function __construct(ClientesIndicacoes $ClientesIndicacoes) {
 	    //$this->beforeFilter('csrf', array('on'=>'post'));
@@ -133,8 +135,23 @@ class IndicacaoController extends \BaseController {
 
 			}
 
+			//SALVA O CLIENTE NO BANCO DE DADOS DO SISTEMA DE VENDAS
+			//$this->clienteIndicacao->save();
+			//EFETUA O ENVIO DE DADOS PARA A API DA EFICAZ
 
-			$this->clienteIndicacao->save();
+			$client = new Client;
+
+			dd($client); 
+
+			$r = $client->post('http://127.0.0.1/apiEficaz/public/api/contatos/create', 
+                ['json' => [
+                    "access_token" =>"thats a secret!",
+                    "another_payload" => $aVariable
+                ]]);
+
+			$statusRequisicao = $r->getStatusCode();
+
+			
 
 			return Redirect::route('indicacoes.index');
 		}

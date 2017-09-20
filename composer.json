@@ -6,7 +6,9 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"twitter/bootstrap": "*",
-		"intervention/image": "dev-master"
+		"intervention/image": "dev-master",
+		"guzzlehttp/guzzle": "~4.0"
+
 	},
 	"autoload": {
 		"classmap": [

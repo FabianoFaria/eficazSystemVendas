@@ -3,7 +3,6 @@
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-
 class ClientesIndicacoes extends Eloquent {
 
 

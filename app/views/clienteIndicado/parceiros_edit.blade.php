@@ -17,7 +17,9 @@
 	          			<div class="row well">
 
 	          				<div class="form-group">
-			            		{{ Form::hidden('id_indicacao', $cliente->id_cliente_indicado, array('id' => 'id_indicacao')) }}	
+			            		{{ Form::hidden('id_indicacao', $cliente->id_cliente_indicado, array('id' => 'id_indicacao')) }}
+
+			            		{{ Form::hidden('id_cliente_sistema_eficaz', $cliente->id_cliente_sistema_eficaz, array('id' => 'id_cliente_sistema_eficaz')) }}	
 
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
 			                    {{ Form::Label('nome_completo', 'Nome completo') }}

@@ -1,8 +1,5 @@
 <?php
 
-//Pacote para efetuar requizições para a API Eficaz
-use GuzzleHttp\Client;
-
 class IndicacaoController extends \BaseController {
 
 	public function __construct(ClientesIndicacoes $ClientesIndicacoes) {
@@ -101,6 +98,7 @@ class IndicacaoController extends \BaseController {
 
 		if( ! $this->clienteIndicacao->isValid($input = Input::all())){
 
+
 			return Redirect::back()->withInput()->withErrors($this->clienteIndicacao->errors);
 
 		}else{
@@ -139,21 +137,60 @@ class IndicacaoController extends \BaseController {
 			//$this->clienteIndicacao->save();
 			//EFETUA O ENVIO DE DADOS PARA A API DA EFICAZ
 
-			$client = new Client;
+			//use GuzzleHttp\Client;
 
-			dd($client); 
+			//$client = new Client;
 
-			$r = $client->post('http://127.0.0.1/apiEficaz/public/api/contatos/create', 
+			//Inicia pacote para enviar dados para API
+			$client = new \GuzzleHttp\Client(); 
+
+			$r = $client->post('http://127.0.0.1/apiEficaz/public/api/criarContato', 
                 ['json' => [
-                    "access_token" =>"thats a secret!",
-                    "another_payload" => $aVariable
+                    "Nome" 				=>	Input::get('nome_completo'),
+                    "Nome_Fantasia" 	=> 	Input::get('nome_fantasia'),
+                    "Email"				=>	Input::get('email_cliente'),
+                    "Cpf_Cnpj"			=>	Input::get('cpf_cnpj'),
+                    "Data_Nascimento"	=>	$data_nascimento_criacao
                 ]]);
 
-			$statusRequisicao = $r->getStatusCode();
+			$statusRequisicao 	= $r->getStatusCode();
+			$resultado			= $r->json();
+			// $contantType 		= $r->getHeader('Content-Length');
+			// $reason 			= $r->getReasonPhrase(); // OK
+
+			switch ($statusRequisicao) {
+				case '201':
+
+					# Cadastro foi efetuado com sucesso
+					# Cliente será salvo no cadastro do parceiro
+					$this->clienteIndicacao->id_cliente_sistema_eficaz = $resultado['Cadastro_ID'];
+
+					$this->clienteIndicacao->save();
+
+					return Redirect::route('indicacoes.index');
+
+				break;
+				
+				case '400':
+			
+					Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informado e tente novamente.');
+
+					return Redirect::back()->withInput();
+
+
+				break;
+				default:
+					# Caso tenha ocorrido um erro de servidor
+					Session::flash('error_cad', 'Não foi possivel cadastrar no momento, tente novamente em alguns instante.');
+
+					return Redirect::back()->withInput();
+
+				break;
+			}
+
+			//Verificar o status da requisição e então 
 
 			
-
-			return Redirect::route('indicacoes.index');
 		}
 	}
 
@@ -238,13 +275,14 @@ class IndicacaoController extends \BaseController {
 
 		}else{
 
-
 			$this->clienteIndicacao = ClientesIndicacoes::find(Input::get('id_indicacao'));
 			//$this->clienteIndicacao->id_user = Input::get('id_usuario');
 			$this->clienteIndicacao->nome_completo = Input::get('nome_completo');
 			$this->clienteIndicacao->nome_fantasia_cliente = Input::get('nome_fantasia');
 			$this->clienteIndicacao->email_cliente = Input::get('email_cliente');
 			$this->clienteIndicacao->cpf_cnpj = Input::get('cpf_cnpj');
+
+			$data_nascimento_criacao = implode('-', array_reverse(explode('/', Input::get('data_nascimento_criacao'))));
 
 			if (Input::hasFile('imagem_documento'))
 			{
@@ -270,9 +308,52 @@ class IndicacaoController extends \BaseController {
 			    $this->clienteIndicacao->cliente_imagem_documento = $filename;
 			}
 
-			$this->clienteIndicacao->save();
+			#Envio para edição via API
+			$client = new \GuzzleHttp\Client(); 
 
-			return Redirect::route('indicacoes.index');
+			$r = $client->post('http://127.0.0.1/apiEficaz/public/api/editarContato', 
+                ['json' => [
+                	"Cadastro_ID" 		=> Input::get('id_cliente_sistema_eficaz'),
+                    "Nome" 				=>	Input::get('nome_completo'),
+                    "Nome_Fantasia" 	=> 	Input::get('nome_fantasia'),
+                    "Email"				=>	Input::get('email_cliente'),
+                    "Cpf_Cnpj"			=>	Input::get('cpf_cnpj'),
+                    "Data_Nascimento"	=>	$data_nascimento_criacao
+                ]]);
+
+			$statusRequisicao 	= $r->getStatusCode();
+			$resultado			= $r->json();
+
+			switch ($statusRequisicao) {
+				case '201':
+
+					# Update foi efetuado com sucesso
+
+					$this->clienteIndicacao->save();
+
+					return Redirect::route('indicacoes.index');
+
+				break;
+				
+				case '400':
+			
+					Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informado e tente novamente.');
+
+					return Redirect::back()->withInput();
+
+				break;
+				default:
+					# Caso tenha ocorrido um erro de servidor
+					Session::flash('error_cad', 'Não foi possivel cadastrar no momento, tente novamente em alguns instante.');
+
+					return Redirect::back()->withInput();
+
+				break;
+			}
+
+			// $this->clienteIndicacao->save();
+
+			// return Redirect::route('indicacoes.index');
 		}
 	}
 

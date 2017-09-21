@@ -18,6 +18,7 @@ class CreateClientesIndicadosTable extends Migration {
 
 	    	$table->increments('id_cliente_indicado');
 	    	$table->string('id_user', 11);
+	    	$table->string('id_cliente_sistema_eficaz', 11);
 	    	$table->string('nome_completo', 255);
 	    	$table->string('nome_fantasia_cliente', 255);
 	    	$table->string('email_cliente', 75);

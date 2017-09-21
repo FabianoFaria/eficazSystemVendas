@@ -60,6 +60,10 @@
 			                    {{ $errors->first('cpf_cnpj', '<span class=inputError>:message</span>') }}
 			                </div>
 
+			                @if (Session::has('error_cad'))
+							    <div class="alert alert-info">{{ Session::get('error_cad') }}</div>
+							@endif
+
 			                <div class="form-group">
 
 			                	{{ Form::label('imagem_documento', 'Imagem documento',array('class' => 'sr-only' )) }}

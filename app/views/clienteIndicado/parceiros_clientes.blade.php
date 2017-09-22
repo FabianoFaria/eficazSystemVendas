@@ -42,8 +42,9 @@
 		                                <th>Nome fantasia</th>
 		                                <th>Email cliente</th>
 		                                <th>CPF/CNPJ</th>
+		                                <th>Telefones</th>
+		                                <th>Endereços</th>
 		                                <th>Editar</th>
-		                                <th>Excluir</th>
 		                            </tr>
 		                        </thead>
 		                        <tbody>
@@ -67,12 +68,14 @@
 			                                        {{ $cliente->cpf_cnpj }}
 			                                    </td>
 			                                    <td>
-			                                        <a href="{{ URL::to('/indicacoes/' . $cliente->id_cliente_indicado .'/edit') }}" class="btn btn-info"><i class="fa fa-pencil"></i></a>
+			                                        <a href="{{ URL::to('/telefones_indicacoes/' . $cliente->id_cliente_indicado ) }}" class="btn btn-success"><i class="fa fa-list-alt "></i></a>
 			                                    </td>
 			                                    <td>
-			                                        {{ Form::open(array('route' => array('indicacoes.destroy', $cliente->id_cliente_indicado), 'method' => 'delete')) }}
-			                                            <button type="submit" class="btn btn-danger"><i class="fa fa-times"></i></button>
-			                                        {{ Form::close() }}
+			                                        <a href="{{ URL::to('/enderecos_indicacoes/' . $cliente->id_cliente_indicado ) }}" class="btn btn-primary"><i class="fa fa-phone"></i></a>
+			                                    </td>
+
+			                                    <td>
+			                                        <a href="{{ URL::to('/indicacoes/' . $cliente->id_cliente_indicado .'/edit') }}" class="btn btn-info"><i class="fa fa-pencil"></i></a>
 			                                    </td>
 
 			                     			</tr>

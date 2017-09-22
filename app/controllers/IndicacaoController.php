@@ -311,7 +311,7 @@ class IndicacaoController extends \BaseController {
 			#Envio para edição via API
 			$client = new \GuzzleHttp\Client(); 
 
-			$r = $client->post('http://127.0.0.1/apiEficaz/public/api/editarContato', 
+			$r = $client->put('http://127.0.0.1/apiEficaz/public/api/editarContato/'.Input::get('id_cliente_sistema_eficaz'.''), 
                 ['json' => [
                 	"Cadastro_ID" 		=> Input::get('id_cliente_sistema_eficaz'),
                     "Nome" 				=>	Input::get('nome_completo'),

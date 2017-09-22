@@ -1,30 +1,28 @@
 <?php
 
-
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class ClientesIndicacoes extends Eloquent {
+
+class ClientesTelefones extends Eloquent {
 
 
 	use SoftDeletingTrait;
+
 
 	/**
 	* The database table used by the model.
 	*
 	* @var string
 	*/
-	protected $table 		= 'clientes_indicados';
+	protected $table 		= 'clientes_telefones';
 
-	protected $primaryKey 	= 'id_cliente_indicado';
+	protected $primaryKey 	= 'id_cliente_telefone';
 
-	protected $fillable 	= ['nome_completo', 'email_cliente', 'data_nascimento_criacao', 'cpf_cnpj'];
+	protected $fillable 	= ['telefone'];
 
-	public static $rules 	= array(
-    	'nome_completo'=>'required|min:2',
-    	'email_cliente'=>'required|email|unique:clientes_indicados',
-    	'data_nascimento_criacao' => 'required|date_format:d/m/Y',
-    	'cpf_cnpj' => 'required|cpfCnpj|unique:clientes_indicados',
-    );
+	public static $rules = array(
+	  		'telefone'=> 'required|numeric|min:8',
+	    );
 
 	public $errors;
 
@@ -50,5 +48,3 @@ class ClientesIndicacoes extends Eloquent {
     }
 
 }
-
-

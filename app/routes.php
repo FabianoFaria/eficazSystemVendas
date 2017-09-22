@@ -70,6 +70,8 @@ Route::group(array('before' =>'auth'), function()
 
 	Route::resource('users','UsersEficazController');
 
+	//Rotas direcionadas ao cadastro do parceiro
+
 	Route::resource('vendedores','VendedorDadosController');
 
 	Route::resource('vendas','VendasController');
@@ -80,7 +82,13 @@ Route::group(array('before' =>'auth'), function()
 
 	Route::resource('financas','VendedorFinancasController');
 
+	//Rotas direcionadas ao cadastro de clientes
+
 	Route::resource('indicacoes','indicacaoController');
+
+	Route::resource('enderecos_indicacoes','IndicacoesEnderecosController');
+
+	Route::resource('telefones_indicacoes','IndicacoesTelefonesController');
 
 });
 

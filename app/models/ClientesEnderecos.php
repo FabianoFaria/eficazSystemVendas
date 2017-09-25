@@ -18,13 +18,19 @@ class ClientesEnderecos extends Eloquent {
 
 	protected $primaryKey 	= 'id_cliente_endereco';
 
-	protected $fillable 	= [''];
+	protected $fillable 	= ['logradouro','numero','complemento','bairro','cidade','estado_endereco', 'cep'];
 
-	public static $rules 	= array();
+	public static $rules 	= array(
+		'logradouro'=> 'required|min:2',
+        'bairro'=> 'required|min:2',
+    	'cidade'=>'required',
+    	'estado_endereco'=>'required',
+    	'cep'=>'required|min:8|max:9',
+	);
 
 	public $errors;
 
-	public function isValid($data, $rulse){
+	public function isValid($data){
 
     	//FAZENDO A VALIDAÇÃO COM OS ATRIBUTOS DO PROPRIO OBJETO
     	//$validacao = Validator::Make($this->attributes, static::$rules);

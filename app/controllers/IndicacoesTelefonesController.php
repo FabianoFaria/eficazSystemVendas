@@ -149,8 +149,8 @@ class IndicacoesTelefonesController extends \BaseController {
 		$status_usuario 	= Session::get('status');
 		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
 		$dadosCliente 		= ClientesIndicacoes::find($id);
-		//$telefonesClientes 	= ClientesTelefones::where('id_cliente_indicado','=', $id)->get();
-		$telefonesClientes 	= DB::table('clientes_telefones')->where('id_cliente_indicado', $id)->get();
+		$telefonesClientes 	= ClientesTelefones::where('id_cliente_indicado', $id)->get();
+		//$telefonesClientes 	= DB::table('clientes_telefones')->where('id_cliente_indicado', $id)->get();
 
 		//dd($telefonesClientes);
 
@@ -252,14 +252,50 @@ class IndicacoesTelefonesController extends \BaseController {
 
 		}else{
 
-			$this->clientesTelefones->telefone_cliente 				= Input::get('telefone');
+			$this->clientesTelefones->telefone_cliente 		= Input::get('telefone');
 			$this->clientesTelefones->observacao_telefone	= Input::get('observacao');
 
-			$this->clientesTelefones->save();
+			//Inicia pacote para enviar dados para API
+			$client = new \GuzzleHttp\Client();
+
+			$r = $client->put('http://127.0.0.1/apiEficaz/public/api/editarTelefoneContato/'.Input::get('id_sistema_eficaz'), 
+                ['json' => [
+                    "Cadastro_Telefone_ID" 	=>	Input::get('id_sistema_eficaz'),
+                    "Telefone" 				=> 	Input::get('telefone'),
+                    "Observacao"			=>	Input::get('observacao'),
+                ]]);
+
+			$statusRequisicao 	= $r->getStatusCode();
+			$resultado			= $r->json();
+
+
+			switch ($statusRequisicao) {
+				case '201':
+
+					# Cadastro foi efetuado com sucesso
+					# Cliente será salvo no cadastro do parceiro
+					$this->clientesTelefones->save();
+
+					return Redirect::route('telefones_indicacoes.show', Session::get('cliente_atual'));
+
+				break;
+				
+				case '400':
 			
-			return Redirect::route('telefones_indicacoes.show', Session::get('cliente_atual'));
+					Session::flash('error_cad', 'Não foi possivel atualizar, verifique os dados informado e tente novamente.');
+
+					return Redirect::back()->withInput();
 
 
+				break;
+				default:
+					# Caso tenha ocorrido um erro de servidor
+					Session::flash('error_cad', 'Não foi possivel atualizar no momento, tente novamente em alguns instante.');
+
+					return Redirect::back()->withInput();
+
+				break;
+			}
 
 		}
 
@@ -278,9 +314,48 @@ class IndicacoesTelefonesController extends \BaseController {
 	{
 		//
 		$telefone = ClientesTelefones::find($id);
+
+		//Inicia pacote para enviar dados para API
+		$client = new \GuzzleHttp\Client();
+
+		$r = $client->delete('http://127.0.0.1/apiEficaz/public/api/removerTelefoneContato/'.$telefone->id_telefone_sistema_eficaz, 
+                ['json' => [
+                    "Cadastro_Telefone_ID" 	=>	$telefone->id_telefone_sistema_eficaz
+                ]]);
+
+		$statusRequisicao 	= $r->getStatusCode();
+		$resultado			= $r->json();
+
 		$telefone->delete();
 
-		return Redirect::route('telefones_indicacoes.show',Session::get('cliente_atual'));
+		switch ($statusRequisicao) {
+				case '201':
+
+					# Cadastro foi efetuado com sucesso
+					# Cliente será salvo no cadastro do parceiro
+					$telefone->delete();
+
+					return Redirect::route('telefones_indicacoes.show',Session::get('cliente_atual'));
+
+				break;
+				
+				case '400':
+			
+					Session::flash('error_cad', 'Não foi possivel remover, verifique os dados informado e tente novamente.');
+
+					return Redirect::route('telefones_indicacoes.show',Session::get('cliente_atual'));
+
+
+				break;
+				default:
+					# Caso tenha ocorrido um erro de servidor
+					Session::flash('error_cad', 'Não foi possivel remover no momento, tente novamente em alguns instante.');
+
+					return Redirect::route('telefones_indicacoes.show',Session::get('cliente_atual'));
+
+				break;
+			}
+
 	}
 
 

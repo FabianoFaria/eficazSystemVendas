@@ -16,8 +16,8 @@ class ClientesEnderecosTable extends Migration {
 		Schema::create('clientes_enderecos', function(Blueprint $table)
 	    {
 	    	$table->increments('id_cliente_endereco'); 
-	    	$table->string('id_telefone_sistema_eficaz', 11);
-	    	$table->string('id_cliente_indicado', 11);
+	    	$table->integer('id_endereco_sistema_eficaz', 11);
+	    	$table->integer('id_cliente_indicado', 11);
 	    	$table->string('cep_endereco',10);
 			$table->string('logradouro',255);
 			$table->string('numero',11);

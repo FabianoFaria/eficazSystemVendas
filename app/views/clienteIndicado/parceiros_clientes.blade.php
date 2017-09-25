@@ -68,10 +68,10 @@
 			                                        {{ $cliente->cpf_cnpj }}
 			                                    </td>
 			                                    <td>
-			                                        <a href="{{ URL::to('/telefones_indicacoes/' . $cliente->id_cliente_indicado ) }}" class="btn btn-success"><i class="fa fa-list-alt "></i></a>
+			                                        <a href="{{ URL::to('/telefones_indicacoes/' . $cliente->id_cliente_indicado ) }}" class="btn btn-primary"><i class="fa fa-phone"></i></a>
 			                                    </td>
 			                                    <td>
-			                                        <a href="{{ URL::to('/enderecos_indicacoes/' . $cliente->id_cliente_indicado ) }}" class="btn btn-primary"><i class="fa fa-phone"></i></a>
+			                                        <a href="{{ URL::to('/enderecos_indicacoes/' . $cliente->id_cliente_indicado ) }}" class="btn btn-success"><i class="fa fa-list-alt"></i></a>
 			                                    </td>
 
 			                                    <td>

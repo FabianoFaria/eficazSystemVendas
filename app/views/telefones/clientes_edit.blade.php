@@ -29,7 +29,7 @@
 		    				<div class="form-group">
 			            		{{ Form::hidden('id_telefone', $telefones->id_cliente_telefone, array('id' => 'id_telefone')) }}
 
-			            		{{ Form::hidden('id_sistema_eficaz', $dadosCliente->id_telefone_sistema_eficaz, array('id' => 'id_sistema_eficaz')) }}
+			            		{{ Form::hidden('id_sistema_eficaz', $telefones->id_telefone_sistema_eficaz, array('id' => 'id_sistema_eficaz')) }}
 
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
 			                    {{ Form::Label('telefone', 'Logradouro') }}

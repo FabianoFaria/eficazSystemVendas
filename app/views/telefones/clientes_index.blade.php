@@ -34,6 +34,9 @@
 				            		<a class="btn btn-primary" href="{{ url('/telefones_indicacoes/create') }}"> 
 				            			<i class="fa fa-plus-square "></i> Cadastrar telefone
 				            		</a>
+				            		<a class="btn btn-success" href="{{ url('/indicacoes') }}"> 
+				            			<i class="fa fa-undo"></i> Voltar
+				            		</a>
 			            		</div>
 		            		</div>
 		            	</div>

@@ -90,6 +90,10 @@ Route::group(array('before' =>'auth'), function()
 
 	Route::resource('telefones_indicacoes','IndicacoesTelefonesController');
 
+	//Rotas direcionadas para cadastros de orçamentos
+
+	Route::resource('orcamentos','OrcamentoController');
+
 });
 
 

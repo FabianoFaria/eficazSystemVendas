@@ -341,6 +341,62 @@ class IndicacoesEnderecosController extends \BaseController {
 	public function destroy($id)
 	{
 		//
+		$endereco = ClientesEnderecos::find($id);
+
+		//Inicia pacote para enviar dados para API
+		$client = new \GuzzleHttp\Client();
+
+		$r = $client->delete('http://127.0.0.1/apiEficaz/public/api/removerEnderecoContato/'.$endereco->id_endereco_sistema_eficaz, 
+                ['json' => [
+                    "Cadastro_Endereco_ID" 	=>	$endereco->id_endereco_sistema_eficaz
+                ]]);
+
+		$statusRequisicao 	= $r->getStatusCode();
+		$resultado			= $r->json();
+
+		$endereco->delete();
+
+		switch ($statusRequisicao) {
+
+			case '200':
+				# Requisição foi concluida com sucesso
+
+				$endereco->delete();
+
+				return Redirect::route('enderecos_indicacoes.show',Session::get('cliente_atual'));
+			break;
+			case '201':
+
+				# Cadastro foi efetuado com sucesso
+				# Cliente será salvo no cadastro do parceiro
+				$endereco->delete();
+
+				return Redirect::route('enderecos_indicacoes.show',Session::get('cliente_atual'));
+
+			break;
+				
+			case '400':
+			
+				Session::flash('error_cad', 'Não foi possivel remover, verifique os dados informado e tente novamente.');
+
+				return Redirect::route('enderecos_indicacoes.show',Session::get('cliente_atual'));
+
+
+			break;
+			case '401':
+				Session::flash('error_cad', 'Não foi possivel remover, operação não autorizada.');
+
+				return Redirect::route('enderecos_indicacoes.show',Session::get('cliente_atual'));
+			break;
+			default:
+				# Caso tenha ocorrido um erro de servidor
+				Session::flash('error_cad', 'Não foi possivel remover no momento, tente novamente em alguns instante.');
+
+				return Redirect::route('enderecos_indicacoes.show',Session::get('cliente_atual'));
+
+			break;
+
+		}
 	}
 
 

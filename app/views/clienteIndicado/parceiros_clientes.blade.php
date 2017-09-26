@@ -23,7 +23,7 @@
 		            		<div class="col-lg-6">
 			            		<div id="dataTables-example_filter" class="dataTables_filter pull-right">
 				            		<a class="btn btn-primary" href="{{ url('/indicacoes/create') }}"> 
-				            			<i class="fa fa-plus-square "></i> Cadastrar indicação
+				            			<i class="fa fa-user"></i> Cadastrar indicação
 				            		</a>
 			            		</div>
 		            		</div>
@@ -41,7 +41,7 @@
 		                                <th>Nome completo</th>
 		                                <th>Nome fantasia</th>
 		                                <th>Email cliente</th>
-		                                <th>CPF/CNPJ</th>
+		                                <th>Orçamentos</th>
 		                                <th>Telefones</th>
 		                                <th>Endereços</th>
 		                                <th>Editar</th>
@@ -65,7 +65,7 @@
 			                                        {{ $cliente->email_cliente }}
 			                                    </td>
 			                                    <td>
-			                                        {{ $cliente->cpf_cnpj }}
+			                                        <a href="{{ URL::to('/orcamentos/' . $cliente->id_cliente_indicado ) }}" class="btn btn-info"><i class="fa fa-money"></i></a>
 			                                    </td>
 			                                    <td>
 			                                        <a href="{{ URL::to('/telefones_indicacoes/' . $cliente->id_cliente_indicado ) }}" class="btn btn-primary"><i class="fa fa-phone"></i></a>
@@ -73,9 +73,8 @@
 			                                    <td>
 			                                        <a href="{{ URL::to('/enderecos_indicacoes/' . $cliente->id_cliente_indicado ) }}" class="btn btn-success"><i class="fa fa-list-alt"></i></a>
 			                                    </td>
-
 			                                    <td>
-			                                        <a href="{{ URL::to('/indicacoes/' . $cliente->id_cliente_indicado .'/edit') }}" class="btn btn-info"><i class="fa fa-pencil"></i></a>
+			                                        <a href="{{ URL::to('/indicacoes/' . $cliente->id_cliente_indicado .'/edit') }}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
 			                                    </td>
 
 			                     			</tr>

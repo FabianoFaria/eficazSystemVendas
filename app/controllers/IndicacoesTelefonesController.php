@@ -329,32 +329,45 @@ class IndicacoesTelefonesController extends \BaseController {
 		$telefone->delete();
 
 		switch ($statusRequisicao) {
-				case '201':
 
-					# Cadastro foi efetuado com sucesso
-					# Cliente será salvo no cadastro do parceiro
-					$telefone->delete();
+			case '200':
+				# Requisição foi concluida com sucesso
 
-					return Redirect::route('telefones_indicacoes.show',Session::get('cliente_atual'));
+				$telefone->delete();
 
-				break;
+				return Redirect::route('telefones_indicacoes.show',Session::get('cliente_atual'));
+			break;
+			case '201':
+
+				# Cadastro foi efetuado com sucesso
+				# Cliente será salvo no cadastro do parceiro
+				$telefone->delete();
+
+				return Redirect::route('telefones_indicacoes.show',Session::get('cliente_atual'));
+
+			break;
 				
-				case '400':
+			case '400':
 			
-					Session::flash('error_cad', 'Não foi possivel remover, verifique os dados informado e tente novamente.');
+				Session::flash('error_cad', 'Não foi possivel remover, verifique os dados informado e tente novamente.');
 
-					return Redirect::route('telefones_indicacoes.show',Session::get('cliente_atual'));
+				return Redirect::route('telefones_indicacoes.show',Session::get('cliente_atual'));
 
 
-				break;
-				default:
-					# Caso tenha ocorrido um erro de servidor
-					Session::flash('error_cad', 'Não foi possivel remover no momento, tente novamente em alguns instante.');
+			break;
+			case '401':
+				Session::flash('error_cad', 'Não foi possivel remover, operação não autorizada.');
 
-					return Redirect::route('telefones_indicacoes.show',Session::get('cliente_atual'));
+				return Redirect::route('telefones_indicacoes.show',Session::get('cliente_atual'));
+			break;
+			default:
+				# Caso tenha ocorrido um erro de servidor
+				Session::flash('error_cad', 'Não foi possivel remover no momento, tente novamente em alguns instante.');
 
-				break;
-			}
+				return Redirect::route('telefones_indicacoes.show',Session::get('cliente_atual'));
+
+			break;
+		}
 
 	}
 

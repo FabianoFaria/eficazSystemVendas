@@ -46,7 +46,7 @@
                   <ul class="nav navbar-nav navbar-right" style="margin: 10px;">
                    
                     <li><a href="{{ url('/indicacoes'); }}">Indicações</a></li>
-                    <li><a href="#">Orçamentos</a></li>
+                    <li><a href="{{ url('/orcamentos'); }}">Orçamentos</a></li>
                     <!-- /.dropdown -->
                     <li class="dropdown">
                       <a class="dropdown-toggle" data-toggle="dropdown" href="#">

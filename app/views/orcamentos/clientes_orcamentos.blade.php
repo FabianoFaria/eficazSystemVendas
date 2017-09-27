@@ -57,14 +57,27 @@
 		                            </tr>
 		                        </thead>
 		                        <tbody>
-		                        	<tr>
-		                        		<td>
-		                        		</td>
-		                        		<td>
-		                        		</td>
-		                        		<td>
-		                        		</td>
-		                        	<tr>
+		                        	
+		                        	@if(!empty($orcamentos))
+
+		                        		@foreach($orcamentos as $orcamento)
+
+		                        			<tr>
+				                        		<td>
+				                        			{{ $orcamento['Titulo'] }}
+				                        		</td>
+				                        		<td>
+				                        			{{ $orcamento['Data_Abertura'] }}
+				                        		</td>
+				                        		<td>
+				                        			{{ $orcamento['Situacao'] }}
+				                        		</td>
+				                        	<tr>
+
+
+		                        		@endforeach
+
+		                        	@endif
 
 		                        </tbody>
 

@@ -17,6 +17,9 @@ class OrcamentoController extends \BaseController {
 	public function index()
 	{
 		//
+		$id_user 			= Session::get('id_atual');
+		$status_usuario 	= Session::get('status');
+		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
 	}
 
 
@@ -28,6 +31,34 @@ class OrcamentoController extends \BaseController {
 	public function create()
 	{
 		//
+		$id_user 			= Session::get('id_atual');
+		$status_usuario 	= Session::get('status');
+		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
+		$dadosCliente 		= ClientesIndicacoes::find(Session::get('cliente_atual'));
+
+		$dados 			= [
+			'dadosVendedor' => $dadosVendedor, 
+			'dadosCliente' 	=> $dadosCliente
+		];
+
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make( 'clienteIndicado.telefones', $dados);
+
+			break;
+				
+			case 'Parceiros':
+				
+				return View::make( 'orcamentos.clientes_create', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
+
 	}
 
 
@@ -39,6 +70,61 @@ class OrcamentoController extends \BaseController {
 	public function store()
 	{
 		//
+		if( ! $this->Orcamentos->isValid($input = Input::all() )){
+
+			return Redirect::back()->withInput()->withErrors($this->Orcamentos->errors);
+
+		}else{
+
+			$this->Orcamentos->id_cliente	= Input::get('id_cliente_indicado');
+			$this->Orcamentos->id_user 		= Input::get('id_usuario');
+
+			//Inicia pacote para enviar dados para API
+			$client = new \GuzzleHttp\Client();
+
+			$r = $client->post('http://127.0.0.1/apiEficaz/public/api/criarNovoOrcamentoCliente', 
+                ['json' => [
+                    "Cadastro_ID" 	=>	Input::get('id_cliente_indicado'),
+                    "Titulo" 		=> 	Input::get('titulo_orcamento'),
+                    "Descricao"		=>	Input::get('descricao_orcamento')
+                ]]);
+
+			$statusRequisicao 	= $r->getStatusCode();
+			$resultado			= $r->json();
+
+			switch ($statusRequisicao) {
+
+				case '201':
+
+					# Cadastro foi efetuado com sucesso
+					# Cliente será salvo no cadastro do parceiro
+					$this->Orcamentos->id_orcamento_sistema = $resultado['Workflow_ID'];
+
+					$this->Orcamentos->save();
+
+					return Redirect::route('orcamentos.show', Session::get('cliente_atual'));
+
+				break;
+
+				case '400':
+			
+					Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informado e tente novamente.');
+
+					return Redirect::back()->withInput();
+
+
+				break;
+				default:
+					# Caso tenha ocorrido um erro de servidor
+					Session::flash('error_cad', 'Não foi possivel cadastrar no momento, tente novamente em alguns instante.');
+
+					return Redirect::back()->withInput();
+
+				break;
+
+			}
+
+		}
 	}
 
 
@@ -55,15 +141,83 @@ class OrcamentoController extends \BaseController {
 		$status_usuario 	= Session::get('status');
 		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
 		$dadosCliente 		= ClientesIndicacoes::find($id);
-		$orcamentosCliente 	= Orcamentos::where('id_cliente', $id)->get();
+		//$orcamentosCliente 	= Orcamentos::where('id_cliente', $dadosCliente->id_cliente_sistema_eficaz)->get();
+		$orcamentosCliente 	= DB::table('orcamentos_indicados')->where('id_cliente', '=', $dadosCliente->id_cliente_sistema_eficaz)->get();
+
+		$arrayOrcamentos	= array();
+
+		//Inicia pacote para enviar dados para API
+		$client = new \GuzzleHttp\Client();
+
+		if(!empty($orcamentosCliente)){
+
+			foreach ($orcamentosCliente as $orcamento) {
+				
+				// Envia requisição para a API e recuperar o status dos orçamentos
+				$r = $client->get('http://127.0.0.1/apiEficaz/public/api/statusOrcamentoCliente/'.$orcamento->id_orcamento_sistema, 
+	                ['json' => [
+	                    "Cadastro_ID" 	=>	Input::get('id_cliente_indicado'),
+	                    "Titulo" 		=> 	Input::get('titulo_orcamento'),
+	                    "Descricao"		=>	Input::get('descricao_orcamento')
+	                ]]);
+
+				$statusRequisicao 	= $r->getStatusCode();
+				$resultado			= $r->json();
+
+				switch ($statusRequisicao) {
+
+					case '200':
+
+						//dd($resultado);
+
+						if( !empty($resultado)){
+
+							$dateTemp = $resultado['Data_Abertura'];
+
+							$data  	  = explode(' ',$dateTemp);
+
+							$resultado['Data_Abertura'] = implode('/', array_reverse(explode('-', $data[0])));
+
+							array_push($arrayOrcamentos ,$resultado);
+						}
+
+					break;
+
+					// case '201':
+
+					// 	if(!empty($resultado) && $resultado != '404'){
+							
+					// 		$dateTemp = $resultado[0]['Data_Abertura'];
+
+					// 		$data  	  = explode(' ',$dateTemp);
+
+					// 		$resultado[0]['Data_Abertura'] = implode('/', array_reverse(explode('-', $data[0])));
+
+					// 		array_push($arrayOrcamentos ,$resultado[0]);
+					// 	}
+					// break;
+
+					case '404':
+						echo 'Falha ao encontrar.';
+					break;
+
+					default:
+						echo 'Falha ao encontrar.';
+					break;
+				}
+
+			}	
+		}
 
 		Session::put('cliente_atual', $id);
 
 		$dados 			= [
 			'dadosVendedor' => $dadosVendedor, 
 			'dadosCliente' 	=> $dadosCliente,
-			'orcamentos' 	=> $orcamentosCliente
+			'orcamentos' 	=> $arrayOrcamentos
 		];
+
+		//dd($arrayOrcamentos);
 
 		switch ($status_usuario) {
 			case 'Admin':

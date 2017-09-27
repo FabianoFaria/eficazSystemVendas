@@ -55,20 +55,22 @@ return array(
 	"not_in"               => "The selected :attribute is invalid.",
 	"numeric"              => "The :attribute must be a number.",
 	"regex"                => "The :attribute format is invalid.",
-	"required"             => "The :attribute field is required.",
-	"required_if"          => "The :attribute field is required when :other is :value.",
-	"required_with"        => "The :attribute field is required when :values is present.",
-	"required_with_all"    => "The :attribute field is required when :values is present.",
-	"required_without"     => "The :attribute field is required when :values is not present.",
+
+
+	"required"             => "Campo :attribute é obrigatório.",
+	"required_if"          => "Campo :attribute é obrigatório quando :other é :value.",
+	"required_with"        => "Campo :attribute é obrigatório quando :values esta presente.",
+	"required_with_all"    => "Campo :attribute é obrigatório quando :values está presente.",
+	"required_without"     => "Campo :attribute é obrigatório quando :values não está presente.",
 	
 	"required_without_all" => " :attribute campo é obrigatório quando nenhum dos :values estão presentes.",
 	"same"                 => " :attribute e :other devem ser iguais.",
 
 	"size"                 => array(
-		"numeric" => " :attribute deve ser :size.",
-		"file"    => " :attribute deve ser :size kilobytes.",
-		"string"  => " :attribute deve ter :size caracteres.",
-		"array"   => " :attribute deve conter :size items.",
+		"numeric" => "Campo :attribute deve ser :size.",
+		"file"    => "Campo :attribute deve ser :size kilobytes.",
+		"string"  => "Campo :attribute deve ter :size caracteres.",
+		"array"   => "Campo :attribute deve conter :size items.",
 	),
 	"unique"               => " :attribute já existe no sistema.",
 	"url"                  => " :attribute está no formato inválido.",

@@ -11,7 +11,6 @@ class AdminController extends \BaseController {
 	{
 		//
 
-
 		if(Auth::check()){
 
 			$id_user 		= Session::get('id_atual');
@@ -19,6 +18,7 @@ class AdminController extends \BaseController {
 			$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
 			$dadosEndereco  = VendedoresEnderecos::where('id_user', $id_user)->first();
 			$dadosContatos  = VendedoresTelefones::where('id_user', $id_user)->first();
+			$dadosFinaceiro = VendedoresFinancas::where('id_user', $id_user)->first();
 
 			$user 			= User::find($id_user);
 
@@ -39,7 +39,8 @@ class AdminController extends \BaseController {
 				'dadosVendedor' => $dadosVendedor, 
 				'statusUsuario' => $status_usuario,
 				'enderecos' => $dadosEndereco,
-				'telefones' => $dadosContatos
+				'telefones' => $dadosContatos,
+				'financeiro' => $dadosFinaceiro
 			];
 
 			//Verifica para qual tela de administração será redirecionada o admin

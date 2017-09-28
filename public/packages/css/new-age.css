@@ -359,3 +359,21 @@ footer {
 .btn-acessar-conta{
 
 }
+
+.my-4{
+  margin-top: 35px;
+}
+
+.card {
+    height: 100%;
+}
+
+.card-img-top {
+  width: 100%;
+  border-top-left-radius: calc(.25rem - 1px);
+  border-top-right-radius: calc(.25rem - 1px);
+}
+
+.section_index {
+  padding: 35px 0;
+}

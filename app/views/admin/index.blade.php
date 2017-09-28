@@ -23,6 +23,7 @@
         	<p> Teste : {{ Session::get('status') }}</p>  -->
 
         	@endif
+            
 
         </div>
 

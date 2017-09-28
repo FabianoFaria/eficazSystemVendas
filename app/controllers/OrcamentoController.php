@@ -20,6 +20,32 @@ class OrcamentoController extends \BaseController {
 		$id_user 			= Session::get('id_atual');
 		$status_usuario 	= Session::get('status');
 		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
+
+		$orcamentoParceiro  = $this->Orcamentos->orcamentoUsuario($id_user);
+
+		$dados 				= [
+			'dadosVendedor' => $dadosVendedor, 
+			'orcamentos' 	=> $orcamentoParceiro
+		];
+
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make( 'clienteIndicado.telefones', $dados);
+
+			break;
+				
+			case 'Parceiros':
+				
+				return View::make( 'orcamentos.parceiros_orcamentos', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
+
 	}
 
 

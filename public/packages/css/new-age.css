@@ -336,6 +336,14 @@ footer {
     font-size: 20px;
     height: 60px;}
 
+@media screen and (max-width: 450px) {
+  .lista-descricao li{
+    height: 90px;}
+  }
+}
+
+
+
 .form-signup-parceiro{
   color: #ffffff;
 }

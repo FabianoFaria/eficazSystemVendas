@@ -26,17 +26,22 @@
                             <!-- {{ Form::open(array('url'=>'users/signin', 'class'=>'form-signin')) }} -->
                             <!-- Enviando para a rota Sessions -> store -->
                             {{ Form::open(['route'=>'sessions.store', 'class'=>'form-signin']) }}
+                                <div class="form-group text-center text-danger">
 
+                                    {{ $errors->first('message', '<span class=inputError>:message</span>') }}
+
+                                </div>
                                 <div class="form-group">
                                     {{ Form::text('email_usuario', null, array('id' => 'email_usuario','class'=>'form-control', 'placeholder'=>'Email Cadastrado')) }}
+                                    {{ $errors->first('email_usuario', '<span class=inputError>:message</span>') }}
                                 </div>
                                 <div class="form-group">
                                     {{ Form::password('senha_usuario', array('id' => 'senha_usuario','class'=>'form-control', 'placeholder'=>'Senha de acesso')) }}
+                                    {{ $errors->first('senha_usuario', '<span class=inputError>:message</span>') }}
                                 </div>
                                 
                                 {{ Form::submit('Entrar', array('class'=>'btn btn-lg btn-success btn-block'))}}
 
-                                {{ $errors->first('message') }}
 
                             {{ Form::close() }}
                         </div>

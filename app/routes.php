@@ -84,7 +84,7 @@ Route::group(array('before' =>'auth'), function()
 
 	//Rotas direcionadas ao cadastro de clientes
 
-	Route::resource('indicacoes','indicacaoController');
+	Route::resource('indicacoes','IndicacaoController');
 
 	Route::resource('enderecos_indicacoes','IndicacoesEnderecosController');
 

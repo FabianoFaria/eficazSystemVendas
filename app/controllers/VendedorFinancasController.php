@@ -19,7 +19,7 @@ class VendedorFinancasController extends \BaseController {
 		$id_user 		= Session::get('id_atual');
 		$status_usuario = Session::get('status');
 		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
-		$dadosFinancas 	= VendedoresFinancas::where('id_user', $id_user)->first();
+		$dadosFinancas 	= VendedoresFinancas::where('id_user', $id_user)->get();
 		$tipos_conta	= TipoContaBancaria::all();
 		$lista_bancos 	= InstituicoesBancarias::all();
 

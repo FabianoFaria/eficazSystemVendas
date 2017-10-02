@@ -88,11 +88,12 @@
 					$status 	= StatusUsuarios::all();
 
 					foreach ($status->all()  as $statu) {
+
 						if($statu->id_status == Auth::user()->status){
 							$status_usuario = $statu->status_usuario;
 						}
-					}
 
+					}
 
 					//Configura algumas variaveis de sessão para guardar informações do usuário
 					Session::put('nome_atual', Auth::user()->nome_usuario);

@@ -31,6 +31,8 @@
 
 		                        {{ Form::hidden('id_usuario', $usuario->id, array('id' => 'id_usuario')) }}
 
+		                        {{ Form::hidden('status_usuario', $usuario->status, array('id' => 'status_usuario')) }}
+
 		                        <!-- <label for="nomeCliente">Nome do usuário</label> --> 
 		                        {{ Form::Label('nomeCliente', 'Nome do usuário') }}
 		                        {{ Form::text('nomeCliente', $usuario->nome_usuario, array( 'id'=>'nomeCliente', 'class'=>'form-control', 'placeholder'=>'Nome do usuário')) }}

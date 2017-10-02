@@ -115,6 +115,7 @@ class VendedorFinancasController extends \BaseController {
 		}else{
 
 			$this->VendedoresFinancas->id_user 			= Input::get('id_usuario');
+			$this->VendedoresFinancas->agencia 			= Input::get('agencia');
 			$this->VendedoresFinancas->nome_conta 		= Input::get('nomeConta');
 			$this->VendedoresFinancas->numero_conta 	= Input::get('numeroConta');
 			$this->VendedoresFinancas->instituicao 		= Input::get('instituicao');
@@ -244,6 +245,7 @@ class VendedorFinancasController extends \BaseController {
 		}else{
 
 			$this->VendedoresFinancas->nome_conta 		= Input::get('nomeConta');
+			$this->VendedoresFinancas->agencia 			= Input::get('agencia');
 			$this->VendedoresFinancas->numero_conta 	= Input::get('numeroConta');
 			$this->VendedoresFinancas->instituicao 		= Input::get('instituicao');
 			$this->VendedoresFinancas->tipo_conta 		= Input::get('tipoConta');

@@ -22,7 +22,7 @@
 			            		{{ Form::hidden('id_cliente_sistema_eficaz', $cliente->id_cliente_sistema_eficaz, array('id' => 'id_cliente_sistema_eficaz')) }}	
 
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
-			                    {{ Form::Label('nome_completo', 'Nome completo') }}
+			                    {{ Form::Label('nome_completo', 'Nome completo') }} *Obrigatório
 			                    {{ Form::text('nome_completo', $cliente->nome_completo, array( 'id'=>'nome_completo', 'class'=>'form-control', 'placeholder'=>'Nome completo')) }}
 			                    {{ $errors->first('nome_completo', '<span class=inputError>:message</span>') }}
 			                </div>
@@ -39,7 +39,7 @@
 			                <div class="form-group">
 
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
-			                    {{ Form::Label('email_cliente', 'Email cliente') }}
+			                    {{ Form::Label('email_cliente', 'Email cliente') }} *Obrigatório
 			                    {{ Form::text('email_cliente', $cliente->email_cliente, array( 'id'=>'email_cliente', 'class'=>'form-control', 'placeholder'=>'Email cliente')) }}
 			                    {{ $errors->first('email_cliente', '<span class=inputError>:message</span>') }}
 			                </div>
@@ -75,6 +75,7 @@
 
 			                <div class="form-group">
 
+			                	{{ Form::Label('imagem_documento', 'Tirar foto de documento') }}
 			                	{{ Form::label('imagem_documento', 'Imagem documento',array('class' => 'sr-only' )) }}
 					    		{{ Form::file('imagem_documento', array('accept'=> 'image/*;capture=camera')) }}
 

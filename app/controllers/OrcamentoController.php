@@ -168,6 +168,7 @@ class OrcamentoController extends \BaseController {
 		$status_usuario 	= Session::get('status');
 		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
 		$dadosCliente 		= ClientesIndicacoes::find($id);
+
 		//$orcamentosCliente 	= Orcamentos::where('id_cliente', $dadosCliente->id_cliente_sistema_eficaz)->get();
 		$orcamentosCliente 	= DB::table('orcamentos_indicados')->where('id_cliente', '=', $dadosCliente->id_cliente_sistema_eficaz)->get();
 

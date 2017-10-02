@@ -20,7 +20,7 @@
     						<div class="form-group">
 			            		{{ Form::hidden('id_telefone', $telefones->id_telefone, array('id' => 'id_telefone')) }}	
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
-			                    {{ Form::Label('telefone', 'Logradouro') }}
+			                    {{ Form::Label('telefone', 'Logradouro') }} *Obrigatório
 			                    {{ Form::text('telefone', $telefones->telefone, array( 'id'=>'telefone', 'class'=>'form-control', 'placeholder'=>'Número do telefone')) }}
 			                    {{ $errors->first('telefone', '<span class=inputError>:message</span>') }}
 			                </div>

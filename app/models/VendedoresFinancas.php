@@ -15,12 +15,13 @@ class VendedoresFinancas extends Eloquent {
 
 	protected $primaryKey 	= 'id_conta_vendedor';
 
-	protected $fillable 	= ['id_user', 'nomeConta', 'numeroConta', 'instituicao', 'tipoConta'];
+	protected $fillable 	= ['id_user', 'nomeConta', 'agencia', 'numeroConta', 'instituicao', 'tipoConta'];
 
 	public $errors;
     
 	public static $rules = array(
     	'nomeConta'=>'required|min:2',
+        'agencia'=>'required',
         'numeroConta'=>'required|min:5',
         'instituicao'=>'required',
         'tipoConta'=>'required'

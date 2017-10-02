@@ -21,9 +21,7 @@ class ClientesIndicacoes extends Eloquent {
 
 	public static $rules 	= array(
     	'nome_completo'=>'required|min:2',
-    	'email_cliente'=>'required|email|unique:clientes_indicados',
-    	'data_nascimento_criacao' => 'required|date_format:d/m/Y',
-    	'cpf_cnpj' => 'required|cpfCnpj|unique:clientes_indicados',
+    	'email_cliente'=>'required|email|unique:clientes_indicados'
     );
 
 	public $errors;

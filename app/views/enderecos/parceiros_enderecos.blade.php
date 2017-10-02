@@ -26,6 +26,10 @@
                                 <a class="btn btn-primary" href="{{ url('/enderecos/create') }}"> 
                                     <i class="fa fa-plus-square "></i> Cadastrar endereço
                                 </a>
+
+                                <a class="btn btn-success" href="{{ url('/admin') }}"> 
+                                    <i class="fa fa-undo"></i> Voltar
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -33,7 +33,7 @@
 			            		{{ Form::hidden('id_sistema_eficaz', $dadosCliente->id_cliente_sistema_eficaz, array('id' => 'id_sistema_eficaz')) }}
 
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
-			                    {{ Form::Label('telefone', 'Telefone') }}
+			                    {{ Form::Label('telefone', 'Telefone') }} *Obrigatório
 			                    {{ Form::text('telefone', null, array( 'id'=>'telefone', 'class'=>'form-control', 'placeholder'=>'Número do telefone')) }}
 			                    {{ $errors->first('telefone', '<span class=inputError>:message</span>') }}
 			                </div>

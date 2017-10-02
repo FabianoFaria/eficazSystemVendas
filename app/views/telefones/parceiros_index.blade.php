@@ -24,6 +24,10 @@
 				            		<a class="btn btn-primary" href="{{ url('/telefones/create') }}"> 
 				            			<i class="fa fa-plus-square "></i> Cadastrar telefone
 				            		</a>
+				            		
+				            		<a class="btn btn-success" href="{{ url('/admin') }}"> 
+	                                    <i class="fa fa-undo"></i> Voltar
+	                                </a>
 			            		</div>
 		            		</div>
 		            	</div>

@@ -25,6 +25,10 @@
 				            		<a class="btn btn-primary" href="{{ url('/indicacoes/create') }}"> 
 				            			<i class="fa fa-user"></i> Cadastrar indicação
 				            		</a>
+
+				            		<a class="btn btn-success" href="{{ url('/admin') }}"> 
+	                                    <i class="fa fa-undo"></i> Voltar
+	                                </a>
 			            		</div>
 		            		</div>
 		            	</div>

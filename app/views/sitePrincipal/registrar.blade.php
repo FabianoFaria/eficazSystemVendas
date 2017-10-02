@@ -34,8 +34,8 @@
 	            			 	<div class="form-group">
 
 	            			 		<label for="emailEnd">Email do usuário</label>
-                        			{{ Form::text('emailEnd', null, array('id'=>'emailEnd', 'class'=>'form-control', 'placeholder'=>'Email do usuário')) }}
-                        			{{ $errors->first('emailEnd') }}
+                        			{{ Form::text('email', null, array('id'=>'email', 'class'=>'form-control', 'placeholder'=>'Email do usuário')) }}
+                        			{{ $errors->first('email') }}
 
 	            			 	</div>
 

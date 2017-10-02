@@ -24,6 +24,10 @@
 				            		<a class="btn btn-primary" href="{{ url('/financas/create') }}"> 
 				            			<i class="fa fa-plus-square "></i> Cadastrar conta bancaria
 				            		</a>
+
+				            		<a class="btn btn-success" href="{{ url('/admin') }}"> 
+	                                    <i class="fa fa-undo"></i> Voltar
+	                                </a>
 			            		</div>
 		            		</div>
 		            	</div>
@@ -40,6 +44,7 @@
 		    					<thead>
 		                           	<tr>
 		                                <th>Nome conta</th>
+		                                <th>Agência</th>
 		                                <th>Número</th>
 		                                <th>Tipo conta</th>
 		                                <th>Instituição</th>
@@ -55,6 +60,9 @@
 											<tr>
 			                                    <td>
 			                                        {{ $conta->nome_conta }}
+			                                    </td>
+			                                    <td>
+			                                        {{ $conta->agencia }}
 			                                    </td>
 			                                    <td>
 			                                        {{ $conta->numero_conta }}

@@ -21,7 +21,7 @@
 			            		{{ Form::hidden('id_usuario', $dadosVendedor->id_user, array('id' => 'id_usuario')) }}	
 
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
-			                    {{ Form::Label('logradouro', 'Logradouro') }}
+			                    {{ Form::Label('logradouro', 'Logradouro') }} *Obrigatório
 			                    {{ Form::text('logradouro', null, array( 'id'=>'logradouro', 'class'=>'form-control', 'placeholder'=>'Rua, Av ou estrada')) }}
 			                    {{ $errors->first('logradouro', '<span class=inputError>:message</span>') }}
 			                </div>
@@ -35,28 +35,28 @@
 
 			                <div class="form-group">
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
-			                    {{ Form::Label('complemento', 'Complemento') }}
+			                    {{ Form::Label('complemento', 'Complemento') }} 
 			                    {{ Form::text('complemento', null, array( 'id'=>'complemento', 'class'=>'form-control', 'placeholder'=>'Complemento')) }}
 			                    {{ $errors->first('complemento', '<span class=inputError>:message</span>') }}
 			                </div>
 
 			                <div class="form-group">
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
-			                    {{ Form::Label('bairro', 'Bairro') }}
+			                    {{ Form::Label('bairro', 'Bairro') }} *Obrigatório
 			                    {{ Form::text('bairro', null, array( 'id'=>'bairro', 'class'=>'form-control', 'placeholder'=>'Bairro')) }}
 			                    {{ $errors->first('bairro', '<span class=inputError>:message</span>') }}
 			                </div>
 
 			                <div class="form-group">
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
-			                    {{ Form::Label('cidade', 'Cidade') }}
+			                    {{ Form::Label('cidade', 'Cidade') }} *Obrigatório
 			                    {{ Form::text('cidade', null, array( 'id'=>'cidade', 'class'=>'form-control', 'placeholder'=>'Cidade')) }}
 			                    {{ $errors->first('cidade', '<span class=inputError>:message</span>') }}
 			                </div>
 
 			                <div class="form-group">
 			                    <label></label>
-			                    {{ Form::Label('estado_endereco', 'Estado') }}
+			                    {{ Form::Label('estado_endereco', 'Estado') }} *Obrigatório
 			                    <select class="form-control" name="estado_endereco" id="estado_endereco">
 
 			                    	<option value=" ">Selecione... </option>
@@ -72,7 +72,7 @@
 
 			                <div class="form-group">
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
-			                    {{ Form::Label('cep', 'CEP') }}
+			                    {{ Form::Label('cep', 'CEP') }} *Obrigatório
 			                    {{ Form::text('cep', null, array( 'id'=>'cep', 'class'=>'form-control', 'placeholder'=>'CEP')) }}
 			                    {{ $errors->first('cep', '<span class=inputError>:message</span>') }}
 			                </div>

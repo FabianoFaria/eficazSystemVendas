@@ -24,7 +24,7 @@
 			            		{{ Form::hidden('id_usuario', $dadosVendedor->id_user, array('id' => 'id_usuario')) }}	
 
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
-			                    {{ Form::Label('telefone', 'Telefone') }}
+			                    {{ Form::Label('telefone', 'Telefone') }} *Obrigatório
 			                    {{ Form::text('telefone', null, array( 'id'=>'telefone', 'class'=>'form-control', 'placeholder'=>'Número do telefone')) }}
 			                    {{ $errors->first('telefone', '<span class=inputError>:message</span>') }}
 			                </div>

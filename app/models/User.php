@@ -31,9 +31,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public static $rules = array(
     	'nomeCliente'=>'required|min:2',
-    	'emailEnd'=>'required|email|unique:usersEficazTable,email_usuario',
-    	'senhaNovoUsuario'=>'required|alpha_num|between:6,32',
-    	'confirmaSenhaNovoUsuario' =>'required|alpha_num|between:6,32|same:senhaNovoUsuario'
+    	'email'=>'required|email|unique:usersEficazTable,email_usuario',
+    	'senhaNovoUsuario'=>'required|between:6,32',
+    	'confirmaSenhaNovoUsuario' =>'required|between:6,32|same:senhaNovoUsuario'
     );
 
 

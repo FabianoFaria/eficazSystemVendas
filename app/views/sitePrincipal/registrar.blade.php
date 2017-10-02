@@ -18,7 +18,7 @@
 
 	            		{{ Form::open(array('route'=> 'users.nova_parceria', 'class'=>'form form-signup-parceiro', 'method'=>'POST')) }}
 
-	            			<h3 class="">Crie sua conta e seja um novo parceiro.</h3>
+	            			<h3 class="novoParceiroTitulo">Crie sua conta e seja um novo parceiro.</h3>
 
 	            			<div class="row">
 	            			 	

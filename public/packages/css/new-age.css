@@ -343,6 +343,9 @@ footer {
 }
 
 
+.novoParceiroTitulo{
+  color: #ffffff;
+}
 
 .form-signup-parceiro{
   color: #ffffff;
@@ -352,6 +355,7 @@ footer {
   }
   .form-signup-parceiro label{
     font-family: 'Muli', 'Helvetica', 'Arial', 'sans-serif';
+    color: #ffffff;
   }
 
 .painel-boas-vindas{

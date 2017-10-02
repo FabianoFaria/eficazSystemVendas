@@ -54,10 +54,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => '',
-			'database'  => '',
-			'username'  => '',
-			'password'  => '',
+			'host'      => 'eficazvendas.mysql.dbaas.com.br',
+			'database'  => 'eficazvendas',
+			'username'  => 'eficazvendas',
+			'password'  => 'eficaz!@#1968',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

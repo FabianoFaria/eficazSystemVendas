@@ -408,7 +408,7 @@ class UsersEficazController extends BaseController {
 			);
 
 			//Teste de envio de email para parceiro recem cadastrado
-			Mail::send('emails.bemVindo', $data, function($message)
+			Mail::send('emails.bemvindo', $data, function($message)
 			{
 			  	//
 				$message->to(Input::get('email'), Input::get('nomeCliente'))

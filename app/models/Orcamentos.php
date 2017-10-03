@@ -123,4 +123,15 @@ class Orcamentos extends Eloquent {
     	return $arrayOrcamentos;
 
     }
+
+    // Retorna o total de orçamentos do parceiro
+
+    public static function quantidadeOrcamentoUsuario($id_user){
+
+    	$totalOrcamentos  = DB::table('orcamentos_indicados')
+    							->select(DB::raw("COUNT(id_orcamento) as orcamentos"))
+    							->where('id_user', '=', $id_user)->get();
+
+    	return $totalOrcamentos;
+    }
 }

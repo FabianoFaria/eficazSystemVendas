@@ -373,7 +373,7 @@ footer {
 }
 
 .my-4{
-  margin-top: 35px;
+  margin-top: 85px;
 }
 
 .card {
@@ -388,4 +388,40 @@ footer {
 
 .section_index {
   padding: 35px 0;
+}
+
+.huge {
+  font-size: 40px;
+}
+
+.panel-primary > a {
+   color: #337ab7;
+}
+
+.panel-green {
+  border-color: #5cb85c;
+}
+
+.panel-green > .panel-heading {
+  border-color: #5cb85c;
+  color: white;
+  background-color: #5cb85c;
+}
+
+.panel-green > a {
+   color: #5cb85c;
+}
+
+.panel-yellow {
+  border-color: #f0ad4e;
+}
+
+.panel-yellow > .panel-heading {
+  border-color: #f0ad4e;
+  color: white;
+  background-color: #f0ad4e;
+}
+
+.panel-yellow > a {
+  color: #f0ad4e;
 }

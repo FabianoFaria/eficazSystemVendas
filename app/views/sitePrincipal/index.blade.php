@@ -11,7 +11,7 @@
           <div class="col-lg-7 my-auto">
             <div class="header-content mx-auto">
               <h1 class="" style="color:#ffffff;">Procurando uma fonte de renda extra? Seja nosso parceiro e fature suas comissões por indicações!</h1>
-              <a href="#download" class="btn btn-outline btn-xl js-scroll-trigger">Comece agora!</a>
+              <a href="#saibaMais" class="btn btn-outline btn-xl js-scroll-trigger">Comece agora!</a>
             </div>
           </div>
           <div class="col-lg-5 my-auto">
@@ -27,7 +27,7 @@
   </section>
 
 
-<section class="download bg-primary text-center" id="download">
+<section class="download bg-primary text-center" id="saibaMais">
     <div class="container">
         <div class="row">
           <div class="col-md-6 mx-auto">
@@ -118,7 +118,7 @@
       <div class="cta-content">
         <div class="container">
           <h2>Pronto para ser um parceiro?<br>Comece agora!</h2>
-          <a href="#contact" class="btn btn-outline btn-xl js-scroll-trigger">Cadastre-se!</a>
+          <a href="{{ URL::to('/registrar') }}" class="btn btn-outline btn-xl js-scroll-trigger">Cadastre-se!</a>
         </div>
       </div>
       <div class="overlay"></div>

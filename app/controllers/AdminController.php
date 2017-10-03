@@ -35,12 +35,40 @@ class AdminController extends \BaseController {
 			//Usuário logado
 			//return View::make('admin.index', array( 'nome_usuario' => $usuario_atual, 'id' => $id_atual, 'status' => $status));
 
+			// Carrega dados referentes ao total em indicações e o total de indicados
+
+
+
+			switch ($status_usuario) {
+
+				case 'Admin':
+					
+					$faturarIndicacoes = 0.00;
+					$totalOrcamentos = Orcamentos::quantidadeOrcamentoUsuario($id_user);
+					$totalIndicacoes = ClientesIndicacoes::quantidadeIndicadosUsuario($id_user);
+
+				break;
+				
+				case 'Parceiros':
+					
+					$faturarIndicacoes = 0.00;
+					$totalOrcamentos = Orcamentos::quantidadeOrcamentoUsuario($id_user);
+					$totalIndicacoes = ClientesIndicacoes::quantidadeIndicadosUsuario($id_user);
+
+				break;
+
+			}
+
+
 			$dados = [
 				'dadosVendedor' => $dadosVendedor, 
 				'statusUsuario' => $status_usuario,
 				'enderecos' => $dadosEndereco,
 				'telefones' => $dadosContatos,
-				'financeiro' => $dadosFinaceiro
+				'financeiro' => $dadosFinaceiro,
+				'indicacoes' => $totalIndicacoes[0]->indicados,
+				'totalOrcamentos' => $totalOrcamentos[0]->orcamentos,
+				'faturar'	=> $faturarIndicacoes
 			];
 
 			//Verifica para qual tela de administração será redirecionada o admin

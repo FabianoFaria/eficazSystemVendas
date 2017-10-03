@@ -47,6 +47,17 @@ class ClientesIndicacoes extends Eloquent {
 
     }
 
+    // Retorna o total de indicados do parceiro
+
+    public static function quantidadeIndicadosUsuario($id_user){
+
+        $totalIndicados  = DB::table('clientes_indicados')
+                                ->select(DB::raw("COUNT(id_cliente_indicado) as indicados"))
+                                ->where('id_user', '=', $id_user)->get();
+
+        return $totalIndicados;
+    }
+
 }
 
 

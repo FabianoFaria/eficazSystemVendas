@@ -31,7 +31,7 @@
 
 		                        {{ Form::hidden('id_usuario', $usuario->id, array('id' => 'id_usuario')) }}
 
-		                        {{ Form::hidden('status_usuario', $usuario->status, array('id' => 'status_usuario')) }}
+		                        <!-- {{ Form::hidden('status_usuario', $usuario->status, array('id' => 'status_usuario')) }} -->
 
 		                        <!-- <label for="nomeCliente">Nome do usuário</label> --> 
 		                        {{ Form::Label('nomeCliente', 'Nome do usuário') }}

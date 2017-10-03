@@ -341,7 +341,12 @@ class UsersEficazController extends BaseController {
         	$this->user = User::find($id);
            	$this->user->nome_usuario = Input::get('nomeCliente');
 			$this->user->email_usuario = Input::get('emailEnd');
-			$this->user->status = Input::get('status_usuario');
+			
+			//Verifica se o status foi alterado ou não
+			if(Input::get('status_usuario') != ''){
+				$this->user->status = Input::get('status_usuario');
+			}
+
 			//Verifica se a senha será atualizada ou não
 			if(Input::get('senhaUsuario') != ''){
 				$this->user->senha_usuario = Hash::Make(Input::get('senhaUsuario'));
@@ -381,10 +386,36 @@ class UsersEficazController extends BaseController {
 			if(Input::get('status_usuario') != ''){
 				$this->user->status = Input::get('status_usuario');
 			}else{
-				$this->user->status = 8;
+
+				$status = StatusUsuarios::all();
+
+				foreach ($status->all()  as $statu) {
+
+					if($statu->status_usuario == 'Parceiros'){
+			
+						$this->user->status = $statu->id_status;
+					}
+
+				}
+
+				//$this->user->status = 8;
 			}
 
 			$this->user->save();
+
+			$data = array(
+				'nomeUsuario'=> Input::get('nomeCliente')
+			);
+
+			//Teste de envio de email para parceiro recem cadastrado
+			Mail::send('emails.welcome', $data, function($message)
+			{
+			  	//
+				$message->to(Input::get('email'), Input::get('nomeCliente'))
+          ->subject('Bem Vindo a Efficaz,'.Input::get('nomeCliente').' !');
+
+			});
+
 
 			// return Redirect::route('users.index');
 			//Redireciona para a página de boas vindas com a mensagem de sucesso do cadastro.

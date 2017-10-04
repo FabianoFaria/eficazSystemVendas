@@ -98,7 +98,7 @@ class IndicacoesEnderecosController extends \BaseController {
 			$client = new \GuzzleHttp\Client();
 
 			//$r = $client->post('http://127.0.0.1/apiEficaz/public/api/criarEnderecoContato', 
-			$r = $client->post('https://api.eficazsystem.com.br/api/criarEnderecoContato', 
+			$r = $client->post('http://127.0.0.1/apiEficaz/public/api/criarEnderecoContato', 
                 ['json' => [
                     "Cadastro_ID" 		=>	Input::get('id_cliente_sistema'),
                     "CEP" 				=> 	Input::get('cep'),
@@ -286,7 +286,7 @@ class IndicacoesEnderecosController extends \BaseController {
 			$client = new \GuzzleHttp\Client();
 
 			//$r = $client->put('http://127.0.0.1/apiEficaz/public/api/editarEnderecoContato/'.Input::get('id_endereco_sistema'), 
-			$r = $client->put('https://api.eficazsystem.com.br/api/editarEnderecoContato/'.Input::get('id_endereco_sistema'), 
+			$r = $client->put('http://127.0.0.1/apiEficaz/public/api/editarEnderecoContato/'.Input::get('id_endereco_sistema'), 
                 ['json' => [
                     "Cadastro_Endereco_ID" 	=>	Input::get('id_endereco_sistema'),
                     "CEP" 				=> 	Input::get('cep'),
@@ -349,7 +349,7 @@ class IndicacoesEnderecosController extends \BaseController {
 		$client = new \GuzzleHttp\Client();
 
 		//$r = $client->delete('http://127.0.0.1/apiEficaz/public/api/removerEnderecoContato/'.$endereco->id_endereco_sistema_eficaz, 
-		$r = $client->delete('https://api.eficazsystem.com.br/api/removerEnderecoContato/'.$endereco->id_endereco_sistema_eficaz, 
+		$r = $client->delete('http://127.0.0.1/apiEficaz/public/api/removerEnderecoContato/'.$endereco->id_endereco_sistema_eficaz, 
                 ['json' => [
                     "Cadastro_Endereco_ID" 	=>	$endereco->id_endereco_sistema_eficaz
                 ]]);

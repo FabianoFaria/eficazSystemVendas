@@ -145,7 +145,7 @@ class IndicacaoController extends \BaseController {
 			$client = new \GuzzleHttp\Client(); 
 
 			// $r = $client->post('http://127.0.0.1/apiEficaz/public/api/criarContato', 
-			$r = $client->post('https://api.eficazsystem.com.br/api/criarContato', 
+			$r = $client->post('http://127.0.0.1/apiEficaz/public/api/criarContato', 
                 ['json' => [
                     "Nome" 				=>	Input::get('nome_completo'),
                     "Nome_Fantasia" 	=> 	Input::get('nome_fantasia'),
@@ -313,7 +313,7 @@ class IndicacaoController extends \BaseController {
 			$client = new \GuzzleHttp\Client(); 
 
 			// $r = $client->put('http://127.0.0.1/apiEficaz/public/api/editarContato/'.Input::get('id_cliente_sistema_eficaz'.''), 
-			$r = $client->put('https://api.eficazsystem.com.br/api/editarContato/'.Input::get('id_cliente_sistema_eficaz'.''), 
+			$r = $client->put('http://127.0.0.1/apiEficaz/public/api/editarContato/'.Input::get('id_cliente_sistema_eficaz'.''), 
                 ['json' => [
                 	"Cadastro_ID" 		=> Input::get('id_cliente_sistema_eficaz'),
                     "Nome" 				=>	Input::get('nome_completo'),

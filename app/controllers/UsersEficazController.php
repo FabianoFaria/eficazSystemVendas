@@ -412,7 +412,9 @@ class UsersEficazController extends BaseController {
 			{
 			  	//
 				$message->to(Input::get('email'), Input::get('nomeCliente'))
-          ->subject('Bem Vindo a Efficaz,'.Input::get('nomeCliente').' !');
+						->from('noreply@sistema.eficazsystem.com.br')
+          				->subject('Bem Vindo a Efficaz,'.Input::get('nomeCliente').' !');
+          				
 
 			});
 

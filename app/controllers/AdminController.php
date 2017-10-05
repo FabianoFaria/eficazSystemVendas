@@ -51,9 +51,76 @@ class AdminController extends \BaseController {
 				
 				case 'Parceiros':
 					
-					$faturarIndicacoes = 0.00;
-					$totalOrcamentos = Orcamentos::quantidadeOrcamentoUsuario($id_user);
-					$totalIndicacoes = ClientesIndicacoes::quantidadeIndicadosUsuario($id_user);
+					$indicacoesOrcamentos 	= Orcamentos::orcamentosIndicados($id_user);
+					$totalOrcamentos 		= Orcamentos::quantidadeOrcamentoUsuario($id_user);
+					$totalIndicacoes 		= ClientesIndicacoes::quantidadeIndicadosUsuario($id_user);
+
+					$faturarIndicacoes 		= '';
+
+					if(!empty($indicacoesOrcamentos)){
+
+						//dd($indicacoesOrcamentos);
+
+						$arrayOrcamentos	= array();
+
+						//Inicia pacote para enviar dados para API
+						$client = new \GuzzleHttp\Client();
+
+
+						foreach ($indicacoesOrcamentos as $orcamento) { 
+
+							$r = $client->get('http://127.0.0.1/apiEficaz/public/api/orcamentoClienteDetalhado/'.$orcamento->id_orcamento_sistema);
+
+							$statusRequisicao 	= $r->getStatusCode();
+							$resultado			= $r->json();
+
+							switch ($statusRequisicao) {
+
+								case '200':
+
+									//dd($resultado);
+
+									if( !empty($resultado)){
+
+										$dateTemp = $resultado['Data_Abertura'];
+
+										$data  	  = explode(' ',$dateTemp);
+
+										$resultado['Data_Abertura'] = implode('/', array_reverse(explode('-', $data[0])));
+
+										array_push($arrayOrcamentos ,$resultado);
+									}
+
+								break;
+
+								case '404':
+									echo 'Falha ao encontrar.';
+								break;
+
+								default:
+									echo 'Falha ao encontrar.';
+								break;
+
+							}
+
+						}
+
+						// var_dump($arrayOrcamentos);
+
+						// die();
+
+						if(!empty($arrayOrcamentos)){
+
+							$faturarIndicacoes == '1,00';
+
+						}else{
+							$faturarIndicacoes == 0.00;
+						}
+					}else{
+
+						$faturarIndicacoes 		= 0.00;
+
+					}
 
 				break;
 

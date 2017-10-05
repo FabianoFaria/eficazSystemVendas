@@ -134,4 +134,22 @@ class Orcamentos extends Eloquent {
 
     	return $totalOrcamentos;
     }
+
+    // Retorna o total em comissões a ser paga ao parceiro
+
+    public static function orcamentosIndicados($id_user){
+
+    	$orcamentosFechados = DB::table('orcamentos_indicados')
+    							->select('id_orcamento',
+    									'id_orcamento_sistema',
+    									'id_cliente'
+    									)
+    							->where('id_user', '=', $id_user)
+    							->get();
+
+    	//dd($orcamentosFechados);
+
+    	return $orcamentosFechados;
+
+    }
 }

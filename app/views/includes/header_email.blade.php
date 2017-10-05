@@ -10,7 +10,7 @@
     <table cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="margin: auto;" class="email-container">
 		<tr>
 			<td style="padding: 20px 0; text-align: center">
-				<img src="https://parcerias.eficazsystem.com.br/img/logo-eficaz-system.png" width="200" height="50" alt="alt_text" border="0">
+				<img src="https://parcerias.eficazsystem.com.br/img/logo-eficaz-system.png" width="200" height="75" alt="Eficaz System" border="0">
 			</td>
 		</tr>
     </table>

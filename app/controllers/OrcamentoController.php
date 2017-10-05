@@ -171,7 +171,9 @@ class OrcamentoController extends \BaseController {
 		$dadosCliente 		= ClientesIndicacoes::find($id);
 
 		//$orcamentosCliente 	= Orcamentos::where('id_cliente', $dadosCliente->id_cliente_sistema_eficaz)->get();
-		$orcamentosCliente 	= DB::table('orcamentos_indicados')->where('id_cliente', '=', $dadosCliente->id_cliente_sistema_eficaz)->get();
+		$orcamentosCliente 	= DB::table('orcamentos_indicados')
+								->where('id_cliente', '=', $dadosCliente->id_cliente_sistema_eficaz)
+								->get();
 
 		$arrayOrcamentos	= array();
 
@@ -302,6 +304,100 @@ class OrcamentoController extends \BaseController {
 	public function destroy($id)
 	{
 		//
+	}
+
+	/**
+	 * Retorna o total a ser pago para o parceiro em comissôes.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function contabilizarComissaoParceiro()
+	{
+
+		//
+		$id_user 			= Session::get('id_atual');
+		$status_usuario 	= Session::get('status');
+		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
+		$dadosCliente 		= ClientesIndicacoes::where('id_user', $id_user)->get();
+
+		$orcamentosCliente 	= DB::table('orcamentos_indicados')
+							->where('id_user', '=', $id_user)
+							->get();
+
+		$arrayOrcamentos	= array();
+
+		//Inicia pacote para enviar dados para API
+		$client = new \GuzzleHttp\Client();
+
+		if(!empty($orcamentosCliente)){
+
+			foreach ($orcamentosCliente as $orcamento) { 
+
+				$r = $client->get('http://127.0.0.1/apiEficaz/public/api/orcamentoClienteDetalhado/'.$orcamento->id_orcamento_sistema
+					);
+
+				$statusRequisicao 	= $r->getStatusCode();
+				$resultado			= $r->json();
+
+				switch ($statusRequisicao) {
+
+					case '200':
+
+						//dd($resultado);
+
+						if( !empty($resultado)){
+
+							$dateTemp = $resultado['Data_Abertura'];
+
+							$data  	  = explode(' ',$dateTemp);
+
+							$resultado['Data_Abertura'] = implode('/', array_reverse(explode('-', $data[0])));
+
+							array_push($arrayOrcamentos ,$resultado);
+						}
+
+					break;
+
+					case '404':
+						echo 'Falha ao encontrar.';
+					break;
+
+					default:
+						echo 'Falha ao encontrar.';
+					break;
+
+				}
+
+			}
+
+		}
+
+		$dados 			= [
+			'dadosVendedor' => $dadosVendedor, 
+			'dadosCliente' 	=> $dadosCliente,
+			'orcamentos' 	=> $arrayOrcamentos
+		];
+
+
+		switch ($status_usuario) {
+			case 'Admin':
+					
+				return View::make( 'clienteIndicado.telefones', $dados);
+
+			break;
+				
+			case 'Parceiros':
+				
+				return View::make( 'orcamentos.parceiro_orcamentos_comicoes', $dados);
+
+			break;
+
+			case 'Cliente':
+				# code...
+			break;
+		}
+
 	}
 
 

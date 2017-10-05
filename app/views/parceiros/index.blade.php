@@ -118,12 +118,12 @@
                                     <i class="fa fa-dollar fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">R$ 0,00</div>
+                                    <div class="huge">R$ {{ $faturar }}</div>
                                     <div>Comissões</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="{{ url('/orcamentos'); }}">
+                        <a href="{{ url('/contabilizarComissaoParceiro'); }}">
                             <div class="panel-footer">
                                 <span class="pull-left">Ver detalhes</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

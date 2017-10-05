@@ -9,7 +9,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="" href="{{ URL::to('/') }}"><img src="{{ URL::asset('img/logo-eficaz-system.png') }}" style="height: 80px; width: 200px;">
+                <a class="" href="{{ URL::to('/') }}"><img src="{{ URL::asset('img/logo-eficaz-system.png', 'Eficaz') }}" style="height: 80px; width: 200px;">
                 </a>
             </div>
             <!-- /.navbar-header -->

@@ -25,6 +25,11 @@
 				            		<!-- <a class="btn btn-primary" href="{{ url('/orcamentos/create') }}"> 
 				            			<i class="fa fa-plus-square "></i> Cadastrar novo orçamento
 				            		</a> -->
+
+				                   <a href="{{ URL::to('/solicitarPagamentoComissao/' . $dadosVendedor->id_user) }}" class="btn btn-warning">
+				                   		<i class="fa fa-pencil"></i> Solicitar pagamento
+				                   </a>
+				                        		
 				            		<a class="btn btn-success" href="{{ url('/') }}"> 
 				            			<i class="fa fa-undo"></i> Voltar
 				            		</a>
@@ -41,9 +46,46 @@
 		            		<hr>
 		    			@else
 
-		    				<p>
-		    					Teste
-		    				</p>
+		    				<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+
+		    					<thead>
+		                            <tr>
+		                                <th>Título</th>
+		                                <th>Data finalizada</th>
+		                                <th>Status</th>
+		                                <th>Comissão</th>
+		                            </tr>
+		                        </thead>
+
+		                        <tbody>
+
+		                        	@if(!empty($orcamentos))
+
+		                        		@foreach($orcamentos as $orcamento)
+
+		                        			<tr>
+				                        		<td>
+				                        			{{ $orcamento['Orc_titulo'] }}
+				                        		</td>
+				                        		<td>
+				                        			{{ $orcamento['Data_Finalizado'] }}
+				                        		</td>
+				                        		<td>
+				                        			{{ $orcamento['Status'] }} 
+				                        		</td>
+				                        		<td>
+				                        			{{ number_format($orcamento['totalServico'], 2) }}
+				                        		</td>
+				                        		
+				                        	<tr>
+
+
+		                        		@endforeach
+
+		                        	@endif
+
+		                        </tbody>
+		    				</table>
 
 
 		    			@endif

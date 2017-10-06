@@ -96,6 +96,8 @@ Route::group(array('before' =>'auth'), function()
 
 	Route::get('contabilizarComissaoParceiro', 'OrcamentoController@contabilizarComissaoParceiro');
 
+	Route::post('solicitarPagamentoComissao', 'OrcamentoController@solicitarPagamentoComissao');
+
 });
 
 

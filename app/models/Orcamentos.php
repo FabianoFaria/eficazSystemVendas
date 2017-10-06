@@ -64,7 +64,7 @@ class Orcamentos extends Eloquent {
 			foreach ($orcamentoParceiro as $orcamento) {
 
 				// Envia requisição para a API e recuperar o status dos orçamentos
-				$r = $client->get('http://127.0.0.1/apiEficaz/public/api/orcamentoClienteDetalhado/'.$orcamento->id_orcamento_sistema );
+				$r = $client->get('http://127.0.0.1/apiEficaz/public/api/statusOrcamentoCliente/'.$orcamento->id_orcamento_sistema );
 
 				$statusRequisicao 	= $r->getStatusCode();
 				$resultado			= $r->json();
@@ -150,6 +150,22 @@ class Orcamentos extends Eloquent {
     	//dd($orcamentosFechados);
 
     	return $orcamentosFechados;
+
+    }
+
+    // Retorna o valor da comisão, já com os valores de imposto e porcentagem descontado
+
+    public static function comissaoOrcamentoAulso($valorTotalOrcamento){
+
+    	/*
+			preço liquido = Preço final - 18% de imposto
+			total a pagar = preço liquido - 10%
+    	*/
+
+		$valorLiquido =  $valorTotalOrcamento - (($valorTotalOrcamento / 100) * 18);
+		$valorComisao =  ($valorLiquido / 100) * 10;
+
+		return $valorComisao;
 
     }
 }

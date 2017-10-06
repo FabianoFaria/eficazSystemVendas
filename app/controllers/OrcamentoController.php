@@ -23,6 +23,8 @@ class OrcamentoController extends \BaseController {
 
 		$orcamentoParceiro  = $this->Orcamentos->orcamentoUsuario($id_user);
 
+		//dd($orcamentoParceiro);
+
 		$dados 				= [
 			'dadosVendedor' => $dadosVendedor, 
 			'orcamentos' 	=> $orcamentoParceiro
@@ -348,11 +350,16 @@ class OrcamentoController extends \BaseController {
 
 						if( !empty($resultado)){
 
-							$dateTemp = $resultado['Data_Abertura'];
+							$dateTemp = $resultado['Data_Finalizado'];
 
 							$data  	  = explode(' ',$dateTemp);
 
-							$resultado['Data_Abertura'] = implode('/', array_reverse(explode('-', $data[0])));
+							$resultado['Data_Finalizado'] = implode('/', array_reverse(explode('-', $data[0])));
+ 							
+ 							//Exibe apenas o total da comissão a ser pago pelo orcamento
+							$resultado['totalServico'] = Orcamentos::comissaoOrcamentoAulso($resultado['totalServico']);
+
+
 
 							array_push($arrayOrcamentos ,$resultado);
 						}
@@ -379,6 +386,7 @@ class OrcamentoController extends \BaseController {
 			'orcamentos' 	=> $arrayOrcamentos
 		];
 
+		//dd($dadosVendedor);
 
 		switch ($status_usuario) {
 			case 'Admin':

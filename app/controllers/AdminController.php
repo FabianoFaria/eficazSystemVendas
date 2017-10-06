@@ -57,15 +57,16 @@ class AdminController extends \BaseController {
 
 					$faturarIndicacoes 		= '';
 
+					// Contabiliza o total para pagar em comissões
+
 					if(!empty($indicacoesOrcamentos)){
 
-						//dd($indicacoesOrcamentos);
+						$faturarIndicacoes 	= '1.00';
 
 						$arrayOrcamentos	= array();
 
 						//Inicia pacote para enviar dados para API
 						$client = new \GuzzleHttp\Client();
-
 
 						foreach ($indicacoesOrcamentos as $orcamento) { 
 
@@ -78,15 +79,13 @@ class AdminController extends \BaseController {
 
 								case '200':
 
-									//dd($resultado);
-
 									if( !empty($resultado)){
 
-										$dateTemp = $resultado['Data_Abertura'];
+										// $dateTemp = $resultado['Data_Abertura'];
 
-										$data  	  = explode(' ',$dateTemp);
+										// $data  	  = explode(' ',$dateTemp);
 
-										$resultado['Data_Abertura'] = implode('/', array_reverse(explode('-', $data[0])));
+										// $resultado['Data_Abertura'] = implode('/', array_reverse(explode('-', $data[0])));
 
 										array_push($arrayOrcamentos ,$resultado);
 									}
@@ -102,25 +101,34 @@ class AdminController extends \BaseController {
 								break;
 
 							}
-
 						}
 
-						// var_dump($arrayOrcamentos);
-
-						// die();
+						//Após recuperar os dados dos orçamentos, retirar os valores
+						// cobrados nos orçamentos.
+						//Orcamentos::comissaoOrcamentoAulso();
 
 						if(!empty($arrayOrcamentos)){
 
-							$faturarIndicacoes == '1,00';
+							foreach ($arrayOrcamentos as $orcamentosFechados) {
+								
+								//dd($orcamentosFechados);
+								$valorOrcamento    = $orcamentosFechados['totalServico'];
+
+								$faturarIndicacoes = $faturarIndicacoes + Orcamentos::comissaoOrcamentoAulso($valorOrcamento);
+							}
 
 						}else{
-							$faturarIndicacoes == 0.00;
+
+							$faturarIndicacoes 		= 0;
 						}
+
 					}else{
 
-						$faturarIndicacoes 		= 0.00;
+						$faturarIndicacoes 		= 0;
 
 					}
+
+					$faturarIndicacoes = number_format($faturarIndicacoes, 2, ',', '');
 
 				break;
 

@@ -350,16 +350,70 @@ class OrcamentoController extends \BaseController {
 
 						if( !empty($resultado)){
 
-							$dateTemp = $resultado['Data_Finalizado'];
+							// $dateTemp = $resultado['Data_Finalizado'];
 
-							$data  	  = explode(' ',$dateTemp);
+							// $data  	  = explode(' ',$dateTemp);
 
-							$resultado['Data_Finalizado'] = implode('/', array_reverse(explode('-', $data[0])));
+							// $resultado['Data_Finalizado'] = implode('/', array_reverse(explode('-', $data[0])));
  							
  							//Exibe apenas o total da comissão a ser pago pelo orcamento
-							$resultado['totalServico'] = Orcamentos::comissaoOrcamentoAulso($resultado['totalServico']);
+							//$resultado['totalServico'] = Orcamentos::comissaoOrcamentoAulso($resultado['totalServico']);
 
 
+							//Adiciona o número de dias para calcular a data de faturamento
+							//$dateTemp = date($resultado['Data_Finalizado'], strtotime("+".$resultado['Dias_Vencimento']." days"));
+
+							//$dateTemp = strtotime(date("Y-m-d H:i:s", strtotime()) . " +".$resultado['Dias_Vencimento']."days");
+							$diasParaFaturar = $resultado['Dias_Vencimento'];
+
+							$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+
+						    //$date = strtotime($dateTemp);
+    						$date = date("l", $dateTemp);
+
+    						switch ($date) {
+    							case 'Saturday':
+    								$diasParaFaturar = $diasParaFaturar + 2;
+
+						        	$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+
+
+						        	$resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
+
+    							break;
+
+    							case 'Sunday':
+    								
+    								$diasParaFaturar = $diasParaFaturar + 1;
+
+						        	$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+
+						        	$resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
+
+    							break;
+    							
+    							default:
+    								
+    								$resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
+
+    							break;
+    						}
+
+						    
+
+						    //
+
+							/*
+								
+								'Titulo' => string 'Baterias juarez - bancos de baterias' (length=36)
+							    'Data_Finalizado' => string '05/10/2017' (length=10)
+							    'Proposta_ID' => int 414
+							    'Forma_Pagamento_ID' => int 1357
+							    'Data_Vencimento' => null
+							    'Dias_Vencimento' => int 30
+							    'Valor_Vencimento' => string '899.60' (length=6)
+									
+							*/
 
 							array_push($arrayOrcamentos ,$resultado);
 						}
@@ -377,6 +431,8 @@ class OrcamentoController extends \BaseController {
 				}
 
 			}
+
+			dd($arrayOrcamentos);
 
 		}
 

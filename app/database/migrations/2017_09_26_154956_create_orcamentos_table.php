@@ -19,6 +19,7 @@ class CreateOrcamentosTable extends Migration {
 	    	$table->string('id_orcamento_sistema', 11);
 	    	$table->string('id_cliente', 11);
 	    	$table->string('id_user', 11);
+	    	$table->string('pagamentoComicao', 2);
 	    	$table->timestamps();
 			$table->softDeletes();
 

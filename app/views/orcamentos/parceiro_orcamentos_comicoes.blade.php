@@ -8,6 +8,12 @@
     		<div class="section-heading text-center">
               <h3 class="page-header">Orçamentos indicados por {{ $dadosVendedor->nome_vendedor }}</h3>
               <hr>
+
+              	@if(! empty($solicitacao))
+
+		            <h3 class='text-center'>{{ $solicitacao }} </h3>
+
+		        @endif
             </div>
 
     		<div class="row">
@@ -26,7 +32,7 @@
 				            			<i class="fa fa-plus-square "></i> Cadastrar novo orçamento
 				            		</a> -->
 
-				                   <a href="{{ URL::to('/solicitarPagamentoComissao/' . $dadosVendedor->id_user) }}" class="btn btn-warning">
+				                   <a href="{{ URL::to('/solicitarPagamentoComissao') }}" class="btn btn-warning">
 				                   		<i class="fa fa-pencil"></i> Solicitar pagamento
 				                   </a>
 				                        		
@@ -41,7 +47,7 @@
 		            <div class="panel-body">
 
 		            	@if( empty($orcamentos))
-		            		<h4>Nenhum orçamento concluído ainda.</h4>
+		            		<h4>Nenhum orçamento com pagamento concluido ainda.</h4>
 		            		<br>
 		            		<hr>
 		    			@else
@@ -54,6 +60,7 @@
 		                                <th>Data finalizada</th>
 		                                <th>Status</th>
 		                                <th>Comissão</th>
+		                                <th>Data pagamento</th>
 		                            </tr>
 		                        </thead>
 
@@ -65,7 +72,7 @@
 
 		                        			<tr>
 				                        		<td>
-				                        			{{ $orcamento['Orc_titulo'] }}
+				                        			{{ $orcamento['Titulo'] }}
 				                        		</td>
 				                        		<td>
 				                        			{{ $orcamento['Data_Finalizado'] }}
@@ -76,8 +83,24 @@
 				                        		<td>
 				                        			{{ number_format($orcamento['totalServico'], 2) }}
 				                        		</td>
-				                        		
+				                        		<td>
+				                        			{{ $orcamento['Data_Faturamento'] }}
+				                        		</td>
 				                        	<tr>
+
+				                        	<!-- 
+
+												'Titulo' => string 'Baterias juarez - bancos de baterias' (length=36)
+											    'Data_Finalizado' => string '05/10/2017' (length=10)
+											    'Proposta_ID' => int 414
+											    'Forma_Pagamento_ID' => int 1357
+											    'Data_Vencimento' => null
+											    'Dias_Vencimento' => int 30
+											    'Valor_Vencimento' => string '899.60' (length=6)
+											    'totalServico' => string '899.60' (length=6)
+											    'Data_Faturamento' => string '06/11/2017' (length=10)
+
+				                        	-->
 
 
 		                        		@endforeach

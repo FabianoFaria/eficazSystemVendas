@@ -322,7 +322,6 @@ class OrcamentoController extends \BaseController {
 		$status_usuario 	= Session::get('status');
 		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
 		$dadosCliente 		= ClientesIndicacoes::where('id_user', $id_user)->get();
-
 		$orcamentosCliente 	= DB::table('orcamentos_indicados')
 							->where('id_user', '=', $id_user)
 							->get();
@@ -364,7 +363,10 @@ class OrcamentoController extends \BaseController {
 							//$dateTemp = date($resultado['Data_Finalizado'], strtotime("+".$resultado['Dias_Vencimento']." days"));
 
 							//$dateTemp = strtotime(date("Y-m-d H:i:s", strtotime()) . " +".$resultado['Dias_Vencimento']."days");
-							$diasParaFaturar = $resultado['Dias_Vencimento'];
+
+							//Data de faturamento mais cinco dias para pagar o parceiro após o recebimento do faturamento do cliente.
+
+							$diasParaFaturar = $resultado['Dias_Vencimento'] + 5;
 
 							$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
 
@@ -400,22 +402,30 @@ class OrcamentoController extends \BaseController {
     						}
 
 						    
+    						$dateTempFatramento 	= $resultado['Data_Finalizado'];
+    						$dateTempPagamento 		= $resultado['Data_Faturamento'];
 
-						    //
 
-							/*
-								
-								'Titulo' => string 'Baterias juarez - bancos de baterias' (length=36)
-							    'Data_Finalizado' => string '05/10/2017' (length=10)
-							    'Proposta_ID' => int 414
-							    'Forma_Pagamento_ID' => int 1357
-							    'Data_Vencimento' => null
-							    'Dias_Vencimento' => int 30
-							    'Valor_Vencimento' => string '899.60' (length=6)
-									
-							*/
+							$data 		= explode(' ',$dateTempFatramento);
+							$dataPag 	= explode(' ',$dateTempPagamento);
 
-							array_push($arrayOrcamentos ,$resultado);
+							$resultado['Data_Finalizado'] 	= implode('/', array_reverse(explode('-', $data[0])));
+							$resultado['Data_Faturamento'] 	= implode('/', array_reverse(explode('-', $dataPag[0])));
+
+							// calculo da comissão
+							$resultado['Valor_Vencimento'] 	= Orcamentos::comissaoOrcamentoAulso($resultado['Valor_Vencimento']);
+							$resultado['totalServico'] 	= Orcamentos::comissaoOrcamentoAulso($resultado['totalServico']);
+
+							// Verifica se já chegou a data de pagar o orçamento ao parceiro
+
+							// $hoje = date('Y-m-d H:i:s');
+						   	
+						 //   	if($hoje > $dateTempPagamento){
+
+						    		array_push($arrayOrcamentos ,$resultado);
+
+						 //   	}
+
 						}
 
 					break;
@@ -431,8 +441,6 @@ class OrcamentoController extends \BaseController {
 				}
 
 			}
-
-			dd($arrayOrcamentos);
 
 		}
 
@@ -464,5 +472,184 @@ class OrcamentoController extends \BaseController {
 
 	}
 
+	/**
+	 * Envia email de solicitação de pagamento de comissao
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function solicitarPagamentoComissao()
+	{
+
+		$id_user 			= Session::get('id_atual');
+		$status_usuario 	= Session::get('status');
+		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
+
+		$dadosCliente 		= ClientesIndicacoes::where('id_user', $id_user)->get();
+		$orcamentosCliente 	= DB::table('orcamentos_indicados')
+							->where('id_user', '=', $id_user)
+							->where('pagamentoComicao', '=', 0)
+							->get();
+
+		//Inicia pacote para enviar dados para API
+		$client = new \GuzzleHttp\Client();
+
+		if(!empty($orcamentosCliente)){
+
+			$arrayOrcamentos	= array();
+
+			foreach ($orcamentosCliente as $orcamento) {
+
+				$r = $client->get('http://127.0.0.1/apiEficaz/public/api/orcamentoClienteDetalhado/'.$orcamento->id_orcamento_sistema
+					);
+
+				$statusRequisicao 	= $r->getStatusCode();
+				$resultado			= $r->json();
+
+				switch ($statusRequisicao) {
+
+					case '200':
+
+						if( !empty($resultado)){
+
+							$diasParaFaturar = $resultado['Dias_Vencimento'] + 5;
+
+							$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+
+						    //$date = strtotime($dateTemp);
+    						$date = date("l", $dateTemp);
+
+    						switch ($date) {
+    							case 'Saturday':
+    								$diasParaFaturar = $diasParaFaturar + 2;
+
+						        	$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+
+
+						        	$resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
+
+    							break;
+
+    							case 'Sunday':
+    								
+    								$diasParaFaturar = $diasParaFaturar + 1;
+
+						        	$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+
+						        	$resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
+
+    							break;
+    							
+    							default:
+    								
+    								$resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
+
+    							break;
+    						}
+
+    						$dateTempFatramento 	= $resultado['Data_Finalizado'];
+    						$dateTempPagamento 		= $resultado['Data_Faturamento'];
+
+							$data 		= explode(' ',$dateTempFatramento);
+							$dataPag 	= explode(' ',$dateTempPagamento);
+
+							$resultado['Data_Finalizado'] 	= implode('/', array_reverse(explode('-', $data[0])));
+							$resultado['Data_Faturamento'] 	= implode('/', array_reverse(explode('-', $dataPag[0])));
+
+							// calculo da comissão
+							$resultado['Valor_Vencimento'] 	= Orcamentos::comissaoOrcamentoAulso($resultado['Valor_Vencimento']);
+							$resultado['totalServico'] 	= Orcamentos::comissaoOrcamentoAulso($resultado['totalServico']);
+
+							// Verifica se já chegou a data de pagar o orçamento ao parceiro
+
+							$hoje = date('Y-m-d H:i:s');
+						   	
+						   	// if($hoje > $dateTempPagamento){
+
+						     	array_push($arrayOrcamentos ,$resultado);
+
+						   	// }
+
+						}
+
+					break;
+
+					case '404':
+						echo 'Falha ao encontrar.';
+					break;
+
+					default:
+						echo 'Falha ao encontrar.';
+					break;
+
+				}
+
+				// Envia email para o setor responsavel pelo pagamento para efetuar o pagamento do parceiro
+				// switch ($status_usuario) {
+				// 	case 'Admin':
+							
+				// 		return View::make('clienteIndicado.telefones', $dados);
+
+				// 	break;
+						
+				// 	case 'Parceiros':
+						
+				// 		return View::make('orcamentos.parceiro_orcamentos_comicoes', $dados);
+
+				// 	break;
+
+				// 	case 'Cliente':
+				// 		# code...
+				// 	break;
+				// }
+
+			}
+
+
+			$dados = array(
+				'dadosVendedor' => $dadosVendedor, 
+				'dadosCliente' 	=> $dadosCliente,
+				'orcamentos' 	=> $arrayOrcamentos,
+				'nomeUsuario'	=> $dadosVendedor->nome_vendedor,
+				'solicitacao'   => ''
+			);
+
+
+			//dd($dadosVendedor->nome_vendedor);
+
+			$nome_vendedor = $dadosVendedor->nome_vendedor;
+
+			//Teste de envio de email para parceiro recem cadastrado
+			//Utilizando use para que a variavel $nome_vendedor possa ser utilizado
+			Mail::send('emails.solicitacao_pagamento', $dados, function($message) use ($nome_vendedor)
+			{
+
+				//
+				$message->to('sistemaeficaz@sistema.eficazsystem.com.br', $nome_vendedor)
+						->from('noreply@sistema.eficazsystem.com.br')
+	          			->subject('Solicitação de pagamento de comissão ,'. $nome_vendedor .' !');
+	          				
+			});
+
+			//return Redirect::back()->withInput(array( 'solicitacao' => 'Solicitação efetuada com sucesso!'));
+			$dados['solicitacao'] = 'Solicitação efetuada com sucesso!';
+
+
+			return View::make( 'orcamentos.parceiro_orcamentos_comicoes', $dados);
+
+			// dd($arrayOrcamentos);
+
+			// die();
+		}else{
+
+			$dados['solicitacao'] = 'Nenhum orçamento completado para efetuar pagamento!';
+
+			return View::make( 'orcamentos.parceiro_orcamentos_comicoes', $dados);
+
+			//return Redirect::back()->withInput(array( 'solicitacao' => 'Nenhum orçamento completado para efetuar pagamento!'));
+
+		}
+
+	}
 
 }

@@ -81,13 +81,58 @@ class AdminController extends \BaseController {
 
 									if( !empty($resultado)){
 
-										// $dateTemp = $resultado['Data_Abertura'];
 
-										// $data  	  = explode(' ',$dateTemp);
+										//Dias para vencer prazo de faturamento do orçamento para o cliente
 
-										// $resultado['Data_Abertura'] = implode('/', array_reverse(explode('-', $data[0])));
+										$diasParaFaturar = $resultado['Dias_Vencimento'] + 5;
 
-										array_push($arrayOrcamentos ,$resultado);
+										$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+
+									    //$date = strtotime($dateTemp);
+			    						$date = date("l", $dateTemp);
+
+			    						switch ($date) {
+			    							case 'Saturday':
+			    								$diasParaFaturar = $diasParaFaturar + 2;
+
+									        	$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+
+
+									        	$resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
+
+			    							break;
+
+			    							case 'Sunday':
+			    								
+			    								$diasParaFaturar = $diasParaFaturar + 1;
+
+									        	$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+
+									        	$resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
+
+			    							break;
+			    							
+			    							default:
+			    								
+			    								$resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
+
+			    							break;
+			    						}
+
+			    						///////
+			    						
+    									$dateTempPagamento 		= $resultado['Data_Faturamento'];
+
+    									$hoje = date('Y-m-d H:i:s');
+						   	
+									   	if($hoje > $dateTempPagamento){
+
+									   		array_push($arrayOrcamentos ,$resultado);
+
+									   	}
+
+										//dd($resultado);
+										
 									}
 
 								break;

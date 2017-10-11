@@ -51,7 +51,10 @@ class Orcamentos extends Eloquent {
     public function orcamentoUsuario($id_user){
 
 
-    	$orcamentoParceiro  = DB::table('orcamentos_indicados')->where('id_user', '=', $id_user)->get();
+    	$orcamentoParceiro  = DB::table('orcamentos_indicados')
+    						->where('id_user', '=', $id_user)
+    						->where('pagamentoComicao', '=', 0)
+    						->get();
 
     	$arrayOrcamentos	= array();
 
@@ -130,7 +133,9 @@ class Orcamentos extends Eloquent {
 
     	$totalOrcamentos  = DB::table('orcamentos_indicados')
     							->select(DB::raw("COUNT(id_orcamento) as orcamentos"))
-    							->where('id_user', '=', $id_user)->get();
+    							->where('id_user', '=', $id_user)
+    							->where('pagamentoComicao', '=', 0)
+    							->get();
 
     	return $totalOrcamentos;
     }
@@ -145,6 +150,7 @@ class Orcamentos extends Eloquent {
     									'id_cliente'
     									)
     							->where('id_user', '=', $id_user)
+    							->where('pagamentoComicao', '=', 0)
     							->get();
 
     	//dd($orcamentosFechados);

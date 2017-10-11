@@ -43,10 +43,11 @@ Route::post('guarda_parceria', array('as' => 'users.nova_parceria','uses' => 'Us
 //ROTA PARA TELA DE BOAS VINDAS A UM NOVO USUÁRIO
 Route::get('bemVindo','UsersEficazController@bemVindo');
 
-
-
 Route::resource('sessions','SessionsController');
 
+Route::get('marcarComoPago/{id}','OrcamentoController@marcarComoPago');
+
+Route::post('gardar_pgmt',array('as' => 'orcamentos.gardar_pgmt', 'uses' => 'OrcamentoController@gardar_pgmt'));
 
 // Route::get('admin', function(){
 

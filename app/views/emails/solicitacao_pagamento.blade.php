@@ -17,6 +17,23 @@
         		<p>
         			O parceiro {{ $dadosVendedor->nome_vendedor }} efetuou a solicitação de pagamento das comissões dos seguintes orçamentos:
         		</p>
+
+
+        		@if(! empty($financeiro))
+
+        			<p>
+        				Contas disponiveis para efetuar o pagamento.
+        			</p>
+
+        			@foreach($financeiro as $contas)
+
+        				<p>
+        					Banco : {{ $contas->nome_instituicao_bancaria }} Agência : {{ $contas->agencia }} Conta : {{ $contas->numero_conta }} Tipo conta : {{ $contas->tipo_conta }}
+        				</p>
+
+        			@endif
+
+        		@endif
          		
          			
          		@if( empty($orcamentos))
@@ -37,6 +54,7 @@
 		                        <th>Data para pagamento</th>
 		                        <th>Data pagamento</th>
 		                        <th>Valor do pagamento</th>
+		                        <th>Registrar Pagamento</th>
 		                    </tr>
 		                </thead>
 		                <tbody>
@@ -57,7 +75,12 @@
 			    						{{ $orcamento['Data_Faturamento'] }}
 			    					</td>
 			    					<td>
-			    						{{ $orcamento['Valor_Vencimento'] }}
+			    						{{ number_format($orcamento['Valor_Vencimento'], 2) }}
+			    					</td>
+			    					<td>
+			    						<a href="https://parcerias.eficazsystem.com.br/marcarComoPago/{{ $orcamento['Workflow_ID'] }}" style="background: #222222; border: 15px solid #222222; font-family: sans-serif; font-size: 13px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold;" class="button-a">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ffffff">Registrar pagamento de comissão</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            			</a>
 			    					</td>
 			    				</tr>
 

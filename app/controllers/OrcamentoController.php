@@ -324,6 +324,7 @@ class OrcamentoController extends \BaseController {
 		$dadosCliente 		= ClientesIndicacoes::where('id_user', $id_user)->get();
 		$orcamentosCliente 	= DB::table('orcamentos_indicados')
 							->where('id_user', '=', $id_user)
+							->where('pagamentoComicao', '=', 0)
 							->get();
 
 		$arrayOrcamentos	= array();
@@ -491,6 +492,25 @@ class OrcamentoController extends \BaseController {
 							->where('pagamentoComicao', '=', 0)
 							->get();
 
+		$dadosFinanceiros	=VendedoresFinancas::where('id_user', '=', $id_user)->first();
+
+		// $dadosFinanceiros 	= DB::table('vendedores_finaceiros')  
+		// 					->where('id_user', '=', $id_user)
+		// 					->get();
+		$dadosFinanceiros	=	DB::table('vendedores_finaceiros')
+					            ->join('tipo_conta_banco as tpc', 'tpc.id_tipo_conta', '=', 'vendedores_finaceiros.tipo_conta')
+					            ->join('instituicao_bancaria as instB', 'instB.id_instituicao_bancaria', '=', 'vendedores_finaceiros.instituicao')
+					            ->select(
+					            	'vendedores_finaceiros.nome_conta', 
+					            	'vendedores_finaceiros.agencia', 
+					            	'vendedores_finaceiros.numero_conta',
+					            	'tpc.tipo_conta',
+					            	'instB.nome_instituicao_bancaria'
+					            )
+					            ->where('vendedores_finaceiros.id_user', '=', $id_user)
+					            ->where('vendedores_finaceiros.deleted_at', '=', null)
+					            ->get();
+
 		//Inicia pacote para enviar dados para API
 		$client = new \GuzzleHttp\Client();
 
@@ -605,9 +625,11 @@ class OrcamentoController extends \BaseController {
 
 			}
 
+			dd($arrayOrcamentos);
 
 			$dados = array(
-				'dadosVendedor' => $dadosVendedor, 
+				'dadosVendedor' => $dadosVendedor,
+				'financeiro' 	=> $dadosFinanceiros,
 				'dadosCliente' 	=> $dadosCliente,
 				'orcamentos' 	=> $arrayOrcamentos,
 				'nomeUsuario'	=> $dadosVendedor->nome_vendedor,
@@ -648,6 +670,188 @@ class OrcamentoController extends \BaseController {
 
 			//return Redirect::back()->withInput(array( 'solicitacao' => 'Nenhum orçamento completado para efetuar pagamento!'));
 
+		}
+
+	}
+
+
+
+	/**
+	 * Carrega a tela de registro de pagamento da comissão.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function marcarComoPago($id){
+
+		$arrayOrcamentos	= array();
+		$parceiroPago 		= '';
+
+		//Carrega dados do orçamento
+		$orcamentosCliente 	= DB::table('orcamentos_indicados')
+							->where('id_orcamento_sistema', '=', $id)
+							->where('pagamentoComicao', '=', 0)
+							->where('deleted_at', '=', null)
+							->get();
+
+		if(! empty($orcamentosCliente)){
+			$parceiroPago 	= DB::table('usersEficazTable')
+							->where('id', '=', $orcamentosCliente[0]->id_user)
+							->get();
+		}
+
+		//Carregar os detalhes do orçamento
+
+		if(! empty($orcamentosCliente)){
+
+			//Inicia pacote para enviar dados para API
+			$client = new \GuzzleHttp\Client();
+
+			$r = $client->get('http://127.0.0.1/apiEficaz/public/api/orcamentoClienteDetalhado/'.$orcamentosCliente[0]->id_orcamento_sistema
+					);
+
+			$statusRequisicao 	= $r->getStatusCode();
+			$resultado			= $r->json();
+
+
+			switch ($statusRequisicao) {
+
+				case '200':
+
+					if( !empty($resultado)){
+
+						$diasParaFaturar = $resultado['Dias_Vencimento'] + 5;
+
+						$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+
+						//$date = strtotime($dateTemp);
+	    				$date = date("l", $dateTemp);
+
+	    				switch ($date) {
+	    					case 'Saturday':
+	    						$diasParaFaturar = $diasParaFaturar + 2;
+
+							    $dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+
+							    $resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
+
+	    					break;
+
+	    					case 'Sunday':
+	    								
+	    						$diasParaFaturar = $diasParaFaturar + 1;
+
+							    $dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+
+							    $resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
+
+	    					break;
+	    							
+	    					default:
+	    								
+	    						$resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
+
+	    					break;
+	    				}
+
+	    				$dateTempFatramento 	= $resultado['Data_Finalizado'];
+	    				$dateTempPagamento 		= $resultado['Data_Faturamento'];
+
+						$data 		= explode(' ',$dateTempFatramento);
+						$dataPag 	= explode(' ',$dateTempPagamento);
+
+						$resultado['Data_Finalizado'] 	= implode('/', array_reverse(explode('-', $data[0])));
+						$resultado['Data_Faturamento'] 	= implode('/', array_reverse(explode('-', $dataPag[0])));
+
+						// calculo da comissão
+						$resultado['Valor_Vencimento'] 	= Orcamentos::comissaoOrcamentoAulso($resultado['Valor_Vencimento']);
+						$resultado['totalServico'] 	= Orcamentos::comissaoOrcamentoAulso($resultado['totalServico']);
+
+						array_push($arrayOrcamentos ,$resultado);
+
+					}
+
+				break;
+
+				case '404':
+					echo 'Falha ao encontrar.';
+				break;
+
+				default:
+					echo 'Falha ao encontrar.';
+				break;
+
+			}
+
+		}
+
+		// dd($arrayOrcamentos);
+
+		$dados 			= [
+			'orcamentos' 	=> $arrayOrcamentos,
+			'parceiro'		=> $parceiroPago
+		];
+
+		// Carrega a tela para pagar o parceiro
+
+		return View::make( 'orcamentos.parceiro_registrar_pagamento_comicoes', $dados);
+
+	}
+
+	/**
+	 * Carrega a tela de registro de pagamento da comissão.
+	 *
+	 * @return Response
+	 */
+	public function gardar_pgmt(){
+
+
+		$vendedor_pagamento  = new VendedoresPagamentos();
+
+
+		if( ! $vendedor_pagamento->isValid($input = Input::all())){
+
+			//return 'Falha de validação!';
+			//return Redirect::back()->withInput()->withErrors($validacao->messages());
+			return Redirect::back()->withInput()->withErrors($vendedor_pagamento->errors);
+
+		}else{
+
+			//$orcamento 	 	= 	new Orcamentos();
+
+			$orcamentoPago  =	DB::table('orcamentos_indicados')
+								->where('id_orcamento_sistema', '=', Input::get('id_orcamento'))
+								->where('pagamentoComicao', '=', 0)
+								->where('deleted_at', '=', null)
+								->first();
+
+			
+
+			$orcamento 		= Orcamentos::find($orcamentoPago->id_orcamento);
+
+			//dd($orcamento);
+
+			//find(Input::get('id_orcamento'));
+
+			//dd($orcamentoPago);
+
+			$orcamento->pagamentoComicao		= 1;
+			$orcamento->save();
+
+			$vendedor_pagamento->id_orcamento 		= Input::get('id_orcamento');
+			$vendedor_pagamento->id_user 			= Input::get('id_usuario');
+			$vendedor_pagamento->observacao_pgmt 	= Input::get('observacao_pgmt');
+
+
+			$vendedor_pagamento->save();
+
+
+			$dados 			= [
+				'orcamentoId' 	=> Input::get('id_orcamento')
+			];
+
+			
+			return View::make( 'orcamentos.parceiro_pagamento_efetuado', $dados);
 		}
 
 	}

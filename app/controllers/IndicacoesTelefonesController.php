@@ -91,8 +91,8 @@ class IndicacoesTelefonesController extends \BaseController {
 			//Inicia pacote para enviar dados para API
 			$client = new \GuzzleHttp\Client();
 
-			//$r = $client->post('http://127.0.0.1/apiEficaz/public/api/criarTelefoneContato', 
-			$r = $client->post('http://127.0.0.1/apiEficaz/public/api/criarTelefoneContato', 
+			//$r = $client->post('https://api.eficazsystem.com.br/api/criarTelefoneContato', 
+			$r = $client->post('https://api.eficazsystem.com.br/api/criarTelefoneContato', 
                 ['json' => [
                     "Cadastro_ID" 		=>	Input::get('id_sistema_eficaz'),
                     "Telefone" 			=> 	Input::get('telefone'),
@@ -259,8 +259,8 @@ class IndicacoesTelefonesController extends \BaseController {
 			//Inicia pacote para enviar dados para API 
 			$client = new \GuzzleHttp\Client();
 
-			// $r = $client->put('http://127.0.0.1/apiEficaz/public/api/editarTelefoneContato/'.Input::get('id_sistema_eficaz'),
-			$r = $client->put('http://127.0.0.1/apiEficaz/public/api/editarTelefoneContato/'.Input::get('id_sistema_eficaz'),
+			// $r = $client->put('https://api.eficazsystem.com.br/api/editarTelefoneContato/'.Input::get('id_sistema_eficaz'),
+			$r = $client->put('https://api.eficazsystem.com.br/api/editarTelefoneContato/'.Input::get('id_sistema_eficaz'),
                 ['json' => [
                     "Cadastro_Telefone_ID" 	=>	Input::get('id_sistema_eficaz'),
                     "Telefone" 				=> 	Input::get('telefone'),
@@ -320,8 +320,8 @@ class IndicacoesTelefonesController extends \BaseController {
 		//Inicia pacote para enviar dados para API
 		$client = new \GuzzleHttp\Client(); 
 
-		//$r = $client->delete('http://127.0.0.1/apiEficaz/public/api/removerTelefoneContato/'.$telefone->id_telefone_sistema_eficaz, 
-		$r = $client->delete('http://127.0.0.1/apiEficaz/public/api/removerTelefoneContato/'.$telefone->id_telefone_sistema_eficaz, 
+		//$r = $client->delete('https://api.eficazsystem.com.br/api/removerTelefoneContato/'.$telefone->id_telefone_sistema_eficaz, 
+		$r = $client->delete('https://api.eficazsystem.com.br/api/removerTelefoneContato/'.$telefone->id_telefone_sistema_eficaz, 
                 ['json' => [
                     "Cadastro_Telefone_ID" 	=>	$telefone->id_telefone_sistema_eficaz
                 ]]);

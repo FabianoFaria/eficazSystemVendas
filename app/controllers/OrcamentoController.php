@@ -110,9 +110,9 @@ class OrcamentoController extends \BaseController {
 			//Inicia pacote para enviar dados para API
 			$client = new \GuzzleHttp\Client();   
 
-			//$r = $client->post('http://127.0.0.1/apiEficaz/public/api/criarNovoOrcamentoCliente',
+			//$r = $client->post('https://api.eficazsystem.com.br/api/criarNovoOrcamentoCliente',
 			// http://127.0.0.1/apiEficaz/public
-			$r = $client->post('http://127.0.0.1/apiEficaz/public/api/criarNovoOrcamentoCliente', 
+			$r = $client->post('https://api.eficazsystem.com.br/api/criarNovoOrcamentoCliente', 
                 ['json' => [
                     "Cadastro_ID" 	=>	Input::get('id_cliente_indicado'),
                     "Titulo" 		=> 	Input::get('titulo_orcamento'),
@@ -187,8 +187,8 @@ class OrcamentoController extends \BaseController {
 			foreach ($orcamentosCliente as $orcamento) { 
 				
 				// Envia requisição para a API e recuperar o status dos orçamentos
-				//$r = $client->get('http://127.0.0.1/apiEficaz/public/api/statusOrcamentoCliente/'.$orcamento->id_orcamento_sistema, 
-				$r = $client->get('http://127.0.0.1/apiEficaz/public/api/statusOrcamentoCliente/'.$orcamento->id_orcamento_sistema, 
+				//$r = $client->get('https://api.eficazsystem.com.br/api/statusOrcamentoCliente/'.$orcamento->id_orcamento_sistema, 
+				$r = $client->get('https://api.eficazsystem.com.br/api/statusOrcamentoCliente/'.$orcamento->id_orcamento_sistema, 
 	                ['json' => [
 	                    "Cadastro_ID" 	=>	Input::get('id_cliente_indicado'),
 	                    "Titulo" 		=> 	Input::get('titulo_orcamento'),
@@ -336,7 +336,7 @@ class OrcamentoController extends \BaseController {
 
 			foreach ($orcamentosCliente as $orcamento) { 
 
-				$r = $client->get('http://127.0.0.1/apiEficaz/public/api/orcamentoClienteDetalhado/'.$orcamento->id_orcamento_sistema
+				$r = $client->get('https://api.eficazsystem.com.br/api/orcamentoClienteDetalhado/'.$orcamento->id_orcamento_sistema
 					);
 
 				$statusRequisicao 	= $r->getStatusCode();
@@ -520,7 +520,7 @@ class OrcamentoController extends \BaseController {
 
 			foreach ($orcamentosCliente as $orcamento) {
 
-				$r = $client->get('http://127.0.0.1/apiEficaz/public/api/orcamentoClienteDetalhado/'.$orcamento->id_orcamento_sistema
+				$r = $client->get('https://api.eficazsystem.com.br/api/orcamentoClienteDetalhado/'.$orcamento->id_orcamento_sistema
 					);
 
 				$statusRequisicao 	= $r->getStatusCode();
@@ -707,7 +707,7 @@ class OrcamentoController extends \BaseController {
 			//Inicia pacote para enviar dados para API
 			$client = new \GuzzleHttp\Client();
 
-			$r = $client->get('http://127.0.0.1/apiEficaz/public/api/orcamentoClienteDetalhado/'.$orcamentosCliente[0]->id_orcamento_sistema
+			$r = $client->get('https://api.eficazsystem.com.br/api/orcamentoClienteDetalhado/'.$orcamentosCliente[0]->id_orcamento_sistema
 					);
 
 			$statusRequisicao 	= $r->getStatusCode();

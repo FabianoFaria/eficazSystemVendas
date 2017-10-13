@@ -22,7 +22,7 @@ class AdminController extends \BaseController {
 
 			$user 			= User::find($id_user);
 
-			//$json 			= json_decode(file_get_contents('http://127.0.0.1/apiEficaz/public/api/contatos'), true);
+			//$json 			= json_decode(file_get_contents('https://api.eficazsystem.com.br/api/contatos'), true);
 
 			//dd($dadosVendedor);
 
@@ -70,7 +70,7 @@ class AdminController extends \BaseController {
 
 						foreach ($indicacoesOrcamentos as $orcamento) { 
 
-							$r = $client->get('http://127.0.0.1/apiEficaz/public/api/orcamentoClienteDetalhado/'.$orcamento->id_orcamento_sistema);
+							$r = $client->get('https://api.eficazsystem.com.br/api/orcamentoClienteDetalhado/'.$orcamento->id_orcamento_sistema);
 
 							$statusRequisicao 	= $r->getStatusCode();
 							$resultado			= $r->json();

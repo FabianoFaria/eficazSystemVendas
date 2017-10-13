@@ -49,6 +49,13 @@ Route::get('marcarComoPago/{id}','OrcamentoController@marcarComoPago');
 
 Route::post('gardar_pgmt',array('as' => 'orcamentos.gardar_pgmt', 'uses' => 'OrcamentoController@gardar_pgmt'));
 
+//Rotas para direcionar para recuperação de senha
+
+Route::get('relembrarSenha', 'RemindersController@getRemind');
+
+Route::post('verificaEndereco', array('as' => 'RemindersController.postRemind', 'uses' => 'RemindersController@postRemind'));
+
+
 // Route::get('admin', function(){
 
 // 	return 'Admin page...';

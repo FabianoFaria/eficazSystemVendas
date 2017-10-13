@@ -625,7 +625,7 @@ class OrcamentoController extends \BaseController {
 
 			}
 
-			dd($arrayOrcamentos);
+			// dd($arrayOrcamentos);
 
 			$dados = array(
 				'dadosVendedor' => $dadosVendedor,

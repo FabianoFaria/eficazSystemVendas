@@ -60,8 +60,8 @@
 	        }else{
 
 	        	$dataAttempt = array(
-		            'email_usuario' => Input::get('email_usuario'),
-		            'password' => Input::get('senha_usuario')
+		            'email_usuario' 	=> Input::get('email_usuario'),
+		            'password' 			=> Input::get('senha_usuario')
 		        );
 
 

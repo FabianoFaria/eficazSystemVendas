@@ -67,7 +67,7 @@ class Orcamentos extends Eloquent {
 			foreach ($orcamentoParceiro as $orcamento) {
 
 				// Envia requisição para a API e recuperar o status dos orçamentos
-				$r = $client->get('http://127.0.0.1/apiEficaz/public/api/statusOrcamentoCliente/'.$orcamento->id_orcamento_sistema );
+				$r = $client->get('https://api.eficazsystem.com.br/api/statusOrcamentoCliente/'.$orcamento->id_orcamento_sistema );
 
 				$statusRequisicao 	= $r->getStatusCode();
 				$resultado			= $r->json();

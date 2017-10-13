@@ -19,6 +19,6 @@ return array(
 
 	"token" => "Token para renovar a senha está inválido.",
 
-	"sent" => "Lembrete de senha foi enviado!",
+	"sent" => "Lembrete de senha foi enviado para o email cadastrado!",
 
 );

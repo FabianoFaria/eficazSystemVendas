@@ -31,7 +31,7 @@
         					Banco : {{ $contas->nome_instituicao_bancaria }} Agência : {{ $contas->agencia }} Conta : {{ $contas->numero_conta }} Tipo conta : {{ $contas->tipo_conta }}
         				</p>
 
-        			@endif
+        			@endforeach
 
         		@endif
          		

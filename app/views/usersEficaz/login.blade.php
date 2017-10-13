@@ -19,7 +19,7 @@
                                     <img src="{{ URL::asset('img/eficazlogo.jpg') }}">
                                 </a>
                             </div>
-                            <h3 class="panel-title">Identifique-se</h3>
+                            <h3 class="panel-title text-center">Identifique-se</h3>
                         </div>
                         <div class="panel-body">
 
@@ -39,10 +39,17 @@
                                     {{ Form::password('senha_usuario', array('id' => 'senha_usuario','class'=>'form-control', 'placeholder'=>'Senha de acesso')) }}
                                     {{ $errors->first('senha_usuario', '<span class=inputError>:message</span>') }}
                                 </div>
-                                
+
                                 {{ Form::submit('Entrar', array('class'=>'btn btn-lg btn-success btn-block'))}}
 
+                                <div class="form-group">
 
+                                    <h4 class="text-center text-danger">
+                                        <a href="{{ URL::to('/relembrarSenha') }}">Esqueceu a senha ?</a>
+                                    </h4>
+
+                                </div>
+                                
                             {{ Form::close() }}
                         </div>
                     </div>

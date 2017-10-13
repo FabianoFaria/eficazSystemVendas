@@ -192,8 +192,8 @@ class VendedorEnderecosController extends \BaseController {
 
 		$dados 			= [
 				'dadosVendedor' => $dadosVendedor, 
-				'enderecos' => $dadosEndereco,
-				'estados' 	=> $estados,
+				'enderecos' 	=> $dadosEndereco,
+				'estados' 		=> $estados,
 		];
 
 

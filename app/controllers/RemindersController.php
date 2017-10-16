@@ -85,29 +85,53 @@ class RemindersController extends Controller {
 	 */
 	public function postReset()
 	{
-		$credentials = Input::only(
-			'email', 'password', 'password_confirmation', 'token'
-		);
 
-		$response = Password::reset($credentials, function($user, $password)
-		{
-			$user->password = Hash::make($password);
+		$rules = array(
+            'email_usuario'      		=> 'required|email',
+            'password' 					=> 'alpha_num|between:6,32|same:password_confirmation',
+            'password_confirmation' 	=> 'alpha_num|between:6,32|same:password'
+        );
 
-			$user->save();
-		});
+		$validator = Validator::make(Input::all(), $rules);
 
-		switch ($response)
-		{
-			case Password::INVALID_PASSWORD:
-			case Password::INVALID_TOKEN:
-			case Password::INVALID_USER:
-				return Redirect::back()->with('error', Lang::get($response));
+		// process the login
+        if ($validator->fails()) {
 
-			case Password::PASSWORD_RESET:
-				return Redirect::to('/');
-		}
+        	return Redirect::back()
+                ->withErrors($validator)
+                ->withInput(Input::except('senhaUsuario'),Input::except('confirmaSenhaUsuario'));
+
+        }else{
+
+        	$credentials = Input::only(
+			'email_usuario', 'password', 'password_confirmation', 'token');
+
+			$response = Password::reset($credentials, function($user, $password)
+			{
+				$user->password = Hash::make($password);
+
+				$user->save();
+			});
+
+			switch ($response)
+			{
+				case Password::INVALID_PASSWORD:
+				case Password::INVALID_TOKEN:
+				case Password::INVALID_USER:
+
+					Session::flash('errorResposta', Lang::get($response));
+
+					return Redirect::back()
+									->withInput(Input::except('senhaUsuario'),Input::except('confirmaSenhaUsuario'));
+				break;
+
+				case Password::PASSWORD_RESET:
+					return Redirect::to('/');
+			}
+
+        }
+
 	}
-
 
 
 

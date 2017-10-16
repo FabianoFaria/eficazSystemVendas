@@ -17,7 +17,7 @@ return array(
 
 	"user" => "Não foi possivel encontrar um usuário com esse endereço de email.",
 
-	"token" => "Token para renovar a senha está inválido.",
+	"token" => "Token para renovar a senha está inválido, tente solicitar a senha novamente.",
 
 	"sent" => "Lembrete de senha foi enviado para o email cadastrado!",
 

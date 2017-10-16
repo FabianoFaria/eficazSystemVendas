@@ -59,6 +59,11 @@ Route::get('redefinirSenha/{token}', array('as' => 'RemindersController.getReset
 
 Route::post('definirSenhas', array('as' => 'RemindersController.postReset', 'uses' => 'RemindersController@postReset'));
 
+Route::get('definirSenhas', function()
+{
+	return View::make('sitePrincipal.index');
+}
+
 // Route::get('admin', function(){
 
 // 	return 'Admin page...';

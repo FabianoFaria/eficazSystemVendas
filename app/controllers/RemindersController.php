@@ -86,51 +86,59 @@ class RemindersController extends Controller {
 	public function postReset()
 	{
 
-		$rules = array(
-            'email_usuario'      		=> 'required|email',
-            'password' 					=> 'alpha_num|between:6,32|same:password_confirmation',
-            'password_confirmation' 	=> 'alpha_num|between:6,32|same:password'
-        );
+		if(empty(Input::all())){
 
-		$validator = Validator::make(Input::all(), $rules);
+			return Redirect::to('/');
 
-		// process the login
-        if ($validator->fails()) {
+		}else{
 
-        	return Redirect::back()
-                ->withErrors($validator)
-                ->withInput(Input::except('senhaUsuario'),Input::except('confirmaSenhaUsuario'));
+			$rules = array(
+	            'email_usuario'      		=> 'required|email',
+	            'password' 					=> 'alpha_num|between:6,32|same:password_confirmation',
+	            'password_confirmation' 	=> 'alpha_num|between:6,32|same:password'
+	        );
 
-        }else{
+	        $validator = Validator::make(Input::all(), $rules);
 
-        	$credentials = Input::only(
-			'email_usuario', 'password', 'password_confirmation', 'token');
+	        // process the login
+	        if ($validator->fails()) {
 
-			$response = Password::reset($credentials, function($user, $password)
-			{
-				$user->senha_usuario = Hash::make($password);
+	        	return Redirect::back()
+	                ->withErrors($validator)
+	                ->withInput(Input::except('senhaUsuario'),Input::except('confirmaSenhaUsuario'));
 
-				$user->save();
-			});
+	        }else{
 
-			switch ($response)
-			{
-				case Password::INVALID_PASSWORD:
-				case Password::INVALID_TOKEN:
-				case Password::INVALID_USER:
+	        	$credentials = Input::only(
+				'email_usuario', 'password', 'password_confirmation', 'token');
 
-					Session::flash('errorResposta', Lang::get($response));
+				$response = Password::reset($credentials, function($user, $password)
+				{
+					$user->senha_usuario = Hash::make($password);
 
-					return Redirect::back()
-									->withInput(Input::except('senhaUsuario'),Input::except('confirmaSenhaUsuario'));
-				break;
+					$user->save();
+				});
 
-				case Password::PASSWORD_RESET:
-					//return Redirect::to('/');
-					return View::make( 'sitePrincipal.password_reset_confirmado');
-			}
+				switch ($response)
+				{
+					case Password::INVALID_PASSWORD:
+					case Password::INVALID_TOKEN:
+					case Password::INVALID_USER:
 
-        }
+						Session::flash('errorResposta', Lang::get($response));
+
+						return Redirect::back()
+										->withInput(Input::except('senhaUsuario'),Input::except('confirmaSenhaUsuario'));
+					break;
+
+					case Password::PASSWORD_RESET:
+						//return Redirect::to('/');
+						return View::make( 'sitePrincipal.password_reset_confirmado');
+				}
+
+       	 	}
+
+		}
 
 	}
 

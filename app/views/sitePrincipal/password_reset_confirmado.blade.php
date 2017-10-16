@@ -8,7 +8,7 @@
     		<div class="row">
 				<div class="col-md-6 col-md-offset-3">
 
-					<h3 class="page-header">Nova senha foi cadastrada com susseco.</h3>
+					<h3 class="page-header text-center">Nova senha foi cadastrada com sucesso.</h3>
 
 					<hr>
 
@@ -22,6 +22,14 @@
 
 		    		<hr>
 
+		    		<br>
+		    		<br>
+		    		<br>
+		    		<br>
+		    		<br>
+		    		<br>
+
+		    		<hr>
 		    		<br>
 		    		<br>
 

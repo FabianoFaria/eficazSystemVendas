@@ -81,4 +81,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
         return $this->senha_usuario;
     }
 
+    public function getReminderEmail() {
+
+        //Indica qual a coluna de senha que a Classe Eloquent irá utilizar para a validação de login
+        return $this->email_usuario;
+    }
+
 }

@@ -55,6 +55,8 @@ Route::get('relembrarSenha', 'RemindersController@getRemind');
 
 Route::post('verificaEndereco', array('as' => 'RemindersController.postRemind', 'uses' => 'RemindersController@postRemind'));
 
+Route::get('redefinirSenha/{token}', array('as' => 'RemindersController.getReset', 'uses' => 'RemindersController@getReset')); 
+
 
 // Route::get('admin', function(){
 

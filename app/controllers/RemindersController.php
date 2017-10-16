@@ -19,7 +19,16 @@ class RemindersController extends Controller {
 	 */
 	public function postRemind()
 	{
-		switch ($response = Password::remind(Input::only('email_usuario')))
+
+		$email = array('email_usuario' => Input::get('email_usuario'));
+		//dd(Input::get('email_usuario'));
+		
+		$response =	Password::remind($email, function($message)
+		{
+			$message->subject('Password Reminder');
+		});
+		
+		switch ($response)
 		{
 			case Password::INVALID_USER:
 
@@ -33,7 +42,7 @@ class RemindersController extends Controller {
 			    );
 
 
-				return Redirect::back()->withInput(Input::only('email_usuario'));
+				return Redirect::back()->withInput($email);
 
 			case Password::REMINDER_SENT:
 
@@ -44,6 +53,13 @@ class RemindersController extends Controller {
 				Session::flash(
 			    	'status', Lang::get($response)
 			    );
+
+			 //    Password::remind(Input::only('email_usuario'), function($message)
+				// {
+				//     $message->subject('Renovar senha - Eficaz System Parcerias');
+				//     $message->address(Input::only('email_usuario'));
+				// });
+
 
 				return Redirect::back();
 		}
@@ -91,5 +107,8 @@ class RemindersController extends Controller {
 				return Redirect::to('/');
 		}
 	}
+
+
+
 
 }

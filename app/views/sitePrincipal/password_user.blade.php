@@ -9,9 +9,9 @@
 
     			<div class="col-md-6 col-md-offset-3">
 
-    				{{ Form::open(array('route'=> 'RemindersController.postRemind', 'class'=>'form', 'method'=>'post')) }}
+    				{{ Form::open(array('route'=> 'RemindersController.postRemind', 'class'=>'form', 'method'=>'POST')) }}
 
-
+    					<!-- <input name="_method" type="hidden" value="PUT"> -->
     					<h3 class="page-header">Por favor informe o seu email para recuperar sua senha.</h3>
 
     					<hr>

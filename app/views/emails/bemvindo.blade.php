@@ -15,7 +15,7 @@
                     Acesse sua conta, complete seu cadastro e comece a indicar.
 
                 <br><br>
-                    <!-- Button : Begin -->
+                <!-- Button : Begin -->
                 <table cellspacing="0" cellpadding="0" border="0" align="center" style="margin: auto">
                     <tr>
                         <td style="border-radius: 3px; background: #222222; text-align: center;" class="button-td">

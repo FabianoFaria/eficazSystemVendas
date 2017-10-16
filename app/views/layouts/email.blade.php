@@ -2,7 +2,12 @@
 <html lang="pt-BR">
     <head>
 
-    	@include('includes.head_email')
+    	
+    	@if(empty($nomeUsuario))
+    		@include('includes.head_email_reminder')
+    	@else
+    		@include('includes.head_email')
+    	@endif
 
     </head>
 

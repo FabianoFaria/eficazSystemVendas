@@ -25,7 +25,7 @@ class RemindersController extends Controller {
 		
 		$response =	Password::remind($email, function($message)
 		{
-			$message->subject('Password Reminder');
+			$message->subject('Email para alteração de senha.');
 		});
 		
 		switch ($response)

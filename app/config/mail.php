@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'noreply@sistema.eficazsystem.com.br', 'name' => 'Eficaz System - parcerias'),
+	'from' => array('address' => 'noreply@sistema.eficazsystem.com.br', 'name' => 'Eficaz System - Parcerias'),
 
 	/*
 	|--------------------------------------------------------------------------

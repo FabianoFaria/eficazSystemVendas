@@ -108,7 +108,7 @@ class RemindersController extends Controller {
 
 			$response = Password::reset($credentials, function($user, $password)
 			{
-				$user->password = Hash::make($password);
+				$user->senha_usuario = Hash::make($password);
 
 				$user->save();
 			});
@@ -126,7 +126,8 @@ class RemindersController extends Controller {
 				break;
 
 				case Password::PASSWORD_RESET:
-					return Redirect::to('/');
+					//return Redirect::to('/');
+					return View::make( 'sitePrincipal.password_reset_confirmado');
 			}
 
         }

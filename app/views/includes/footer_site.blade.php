@@ -10,7 +10,7 @@
             <a href="#">Termos de Uso</a>
           </li>
           <li class="list-inline-item">
-            <a href="#">FAQ</a>
+            <a href="{{ URL::to('/ajuda') }}">FAQ</a>
           </li>
         </ul>
       </div>

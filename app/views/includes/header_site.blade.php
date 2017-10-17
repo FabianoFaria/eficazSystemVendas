@@ -91,8 +91,8 @@
                  <ul class="nav navbar-nav navbar-right" style="margin: 10px;">
                   <li><a href="{{ URL::to('/login') }}">Entrar</a></li>
                   <li><a href="{{ URL::to('/registrar') }}" style="color:#ffffff;" class="btn btn-success">Cadastrar-se</a></li>
-                  <li><a href="#">Sobre</a></li>
-                  <li><a href="#">Ajuda</a></li>
+                  <li><a href="{{ URL::to('/sobre') }}">Sobre</a></li> 
+                  <li><a href="{{ URL::to('/ajuda') }}">Ajuda</a></li>
                 </ul>
               @endif
 

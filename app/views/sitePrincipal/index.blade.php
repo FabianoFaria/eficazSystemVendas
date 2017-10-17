@@ -10,7 +10,8 @@
         <div class="row">
           <div class="col-lg-7 my-auto">
             <div class="header-content mx-auto">
-              <h1 class="" style="color:#ffffff;">Procurando uma fonte de renda extra? Seja nosso parceiro e fature suas comissões por indicações!</h1>
+              <h1 class="" style="color:#ffffff;">Procurando uma fonte de renda extra? <!-- Seja nosso parceiro e fature suas comissões por indicações! -->
+              Seja nosso parceiro, faça indicações e ganhe comissões.</h1>
               <a href="#saibaMais" class="btn btn-outline btn-xl js-scroll-trigger">Comece agora!</a>
             </div>
           </div>

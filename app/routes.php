@@ -29,6 +29,23 @@ Route::get('/', function()
 	
 });
 
+//Rotas para paginas estaticas do site
+
+Route::get('sobre', function()
+{
+	return View::make('sitePrincipal.sobre');
+});
+
+Route::get('ajuda', function()
+{
+	return View::make('sitePrincipal.ajuda');
+});
+
+Route::get('faq', function()
+{
+	return View::make('sitePrincipal.ajuda');
+});
+
 //Route::get('users', 'UsersEficazController@index');
 
 Route::get('login', 'SessionsController@create');
@@ -62,7 +79,9 @@ Route::post('definirSenhas', array('as' => 'RemindersController.postReset', 'use
 Route::get('definirSenhas', function()
 {
 	return View::make('sitePrincipal.index');
-}
+});
+
+
 
 // Route::get('admin', function(){
 

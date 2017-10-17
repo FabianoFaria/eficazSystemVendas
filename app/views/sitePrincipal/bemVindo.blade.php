@@ -28,8 +28,12 @@
 
 	                        	<h2 class="titulo-boas-vindas">Bem vindo ao time de parceiros da Eficaz System.</h2>
 
-	                        	<p>A partir de agora você poderá começar a efetuar suas indicações de nossos serviços e começar a ganhar suas comissões.</p>
-	                        	<p>Acesse sua conta e complete seu cadastro para que possa plenamente desfrutar de nosso sistema.</p>
+	                        	<p>
+	                        		A partir de agora você poderá começar a efetuar suas indicações de nossos serviços e começar a ganhar suas comissões.
+	                        	</p>
+	                        	<p>
+	                        		Acesse sua conta e complete seu cadastro para que possa plenamente desfrutar de nosso sistema.
+	                        	</p>
 
 	                        	<a href="{{ URL::to('/login') }}" style="color:#ffffff;" class="btn btn-success btn-acessar-conta btn-block">Acessar sua conta.</a>
 

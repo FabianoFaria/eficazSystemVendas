@@ -1,5 +1,7 @@
 <?php
 
+use \GuzzleHttp\Exception\RequestException;
+
 class IndicacaoController extends \BaseController {
 
 	public function __construct(ClientesIndicacoes $ClientesIndicacoes) {
@@ -142,10 +144,12 @@ class IndicacaoController extends \BaseController {
 			//$client = new Client;
 
 			//Inicia pacote para enviar dados para API
-			$client = new \GuzzleHttp\Client(); 
+			$client 			= new \GuzzleHttp\Client();
 
-			// $r = $client->post('https://api.eficazsystem.com.br/api/criarContato', 
-			$r = $client->post('https://api.eficazsystem.com.br/api/criarContato', 
+
+			try {
+
+			   $r = $client->post('https://api.eficazsystem.com.br/api/criarContato', 
                 ['json' => [
                     "Nome" 				=>	Input::get('nome_completo'),
                     "Nome_Fantasia" 	=> 	Input::get('nome_fantasia'),
@@ -153,6 +157,36 @@ class IndicacaoController extends \BaseController {
                     "Cpf_Cnpj"			=>	Input::get('cpf_cnpj'),
                     "Data_Nascimento"	=>	$data_nascimento_criacao
                 ]]);
+
+			    // Here the code for successful request
+
+			} catch (RequestException $e) {
+
+			    // Catch all 4XX errors 
+
+			    // To catch exactly error 400 use 
+			    if ($e->getResponse()->getStatusCode() == '400') {
+			        //echo "Got response 400";
+			        Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
+
+					return Redirect::back()->withInput();
+			    }
+
+			    // You can check for whatever error status code you need 
+
+			}
+
+
+
+			// $r = $client->post('https://api.eficazsystem.com.br/api/criarContato', 
+			// $r = $client->post('https://api.eficazsystem.com.br/api/criarContato', 
+   //              ['json' => [
+   //                  "Nome" 				=>	Input::get('nome_completo'),
+   //                  "Nome_Fantasia" 	=> 	Input::get('nome_fantasia'),
+   //                  "Email"				=>	Input::get('email_cliente'),
+   //                  "Cpf_Cnpj"			=>	Input::get('cpf_cnpj'),
+   //                  "Data_Nascimento"	=>	$data_nascimento_criacao
+   //              ]]);
 
 			$statusRequisicao 	= $r->getStatusCode();
 			$resultado			= $r->json();

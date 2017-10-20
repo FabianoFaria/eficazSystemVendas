@@ -1,5 +1,7 @@
 <?php
  
+use \GuzzleHttp\Exception\RequestException;
+
 class UsersEficazController extends BaseController {
 
 
@@ -217,9 +219,6 @@ class UsersEficazController extends BaseController {
 		//Dentro da model User, fazer a validação do seguinte modo:
 		//$validacao = Validator::Make($this->attributes, static::$rules);
 
-
-
-
 		if( ! $this->user->isValid($input = Input::all())){
 
 			//return 'Falha de validação!';
@@ -401,27 +400,83 @@ class UsersEficazController extends BaseController {
 				//$this->user->status = 8;
 			}
 
-			$this->user->save();
 
-			$data = array(
-				'nomeUsuario'=> Input::get('nomeCliente')
-			);
+			//Efetua o registro no sistema e envia o registro do novo usuario para o sistema da Eficaz
 
-			//Teste de envio de email para parceiro recem cadastrado
-			Mail::send('emails.bemvindo', $data, function($message)
-			{
-			  	//
-				$message->to(Input::get('email'), Input::get('nomeCliente'))
-						->from('noreply@sistema.eficazsystem.com.br')
-          				->subject('Bem Vindo a Efficaz,'.Input::get('nomeCliente').' !');
-          				
+			//Inicia pacote para enviar dados para API
+			$client 			= new \GuzzleHttp\Client();
 
-			});
+			try{
+
+				$r = $client->post('https://api.eficazsystem.com.br/api/criarParceiro', 
+                ['json' => [
+                    "Nome_Parceiro" 		=>	Input::get('nomeCliente')
+                ]]);
 
 
-			// return Redirect::route('users.index');
-			//Redireciona para a página de boas vindas com a mensagem de sucesso do cadastro.
-			return Redirect::to('bemVindo')->with('cadastro', 'Cadastro concluído!');
+			}catch (RequestException $e){
+
+				// To catch exactly error 400 use 
+			    if ($e->getResponse()->getStatusCode() == '400') {
+			        //echo "Got response 400";
+			        Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
+
+					return Redirect::back()->withInput();
+			    }
+
+			    // You can check for whatever error status code you need 
+			}
+
+			$statusRequisicao 	= $r->getStatusCode();
+			$resultado			= $r->json();
+
+			switch ($statusRequisicao) {
+
+				case '201':
+
+					# Cadastro foi efetuado com sucesso
+					# Cliente será salvo no cadastro do parceiro
+					$this->user->id_parceiro_sistema = $resultado['Parceiro_ID'];
+
+					$this->user->save();
+
+					$data = array(
+						'nomeUsuario'=> Input::get('nomeCliente')
+					);
+
+					//Teste de envio de email para parceiro recem cadastrado
+					Mail::send('emails.bemvindo', $data, function($message)
+					{
+					  	//
+						$message->to(Input::get('email'), Input::get('nomeCliente'))
+								->from('noreply@sistema.eficazsystem.com.br')
+		          				->subject('Bem Vindo a Efficaz,'.Input::get('nomeCliente').' !');
+		          				
+
+					});
+
+					// return Redirect::route('users.index');
+					//Redireciona para a página de boas vindas com a mensagem de sucesso do cadastro.
+					return Redirect::to('bemVindo')->with('cadastro', 'Cadastro concluído!');
+
+				break;
+
+				case '400':
+			
+					Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informado e tente novamente.');
+
+					return Redirect::back()->withInput();
+
+				break;
+				default:
+					# Caso tenha ocorrido um erro de servidor
+					Session::flash('error_cad', 'Não foi possivel cadastrar no momento, tente novamente em alguns instante.');
+
+					return Redirect::back()->withInput();
+
+				break;
+
+			}
 
 		}
 	}

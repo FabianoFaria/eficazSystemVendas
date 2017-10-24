@@ -20,7 +20,8 @@
 
 
 	          				<div class="form-group">
-			            		{{ Form::hidden('id_usuario', $dadosVendedor->id_user, array('id' => 'id_usuario')) }}	
+			            		{{ Form::hidden('id_usuario', $dadosVendedor->id_user, array('id' => 'id_usuario')) }}
+			            		{{ Form::hidden('id_parceiro', $dadosVendedor->id_parceiro_sistema, array('id' => 'id_parceiro')) }}	
 
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
 			                    {{ Form::Label('nome_completo', 'Nome completo') }} *Obrigatório

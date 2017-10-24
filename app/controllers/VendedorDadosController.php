@@ -1,5 +1,7 @@
 <?php
 
+use \GuzzleHttp\Exception\RequestException;
+
 class VendedorDadosController extends \BaseController {
 
 	public function __construct(VendedoresDados $vendedor) {
@@ -55,9 +57,68 @@ class VendedorDadosController extends \BaseController {
 			$this->vendedor->genero = Input::get('generoVendedor');
 			$this->vendedor->foto = 'default.png';
 
-			$this->vendedor->save();
 
-			return Redirect::route('admin.index');
+			//Inicia pacote para enviar dados para API
+			$client 			= new \GuzzleHttp\Client();
+
+			$statusRequisicao 	= '';
+			$resultado			= '';
+
+			try{
+
+				$r = $client->post('https://api.eficazsystem.com.br/api/criarParceiro', 
+                ['json' => [
+                    "Nome_Parceiro" =>	Input::get('nomeCompleto')
+                ]]);
+
+                $statusRequisicao 	= $r->getStatusCode();
+				$resultado			= $r->json();
+
+			}catch(RequestException $e){
+
+				// To catch exactly error 400 use 
+			    if ($e->getResponse()->getStatusCode() == '400') {
+			        //echo "Got response 400";
+			        Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
+
+					return Redirect::back()->withInput();
+			    }
+
+			}
+
+			$statusRequisicao 	= $r->getStatusCode();
+			$resultado			= $r->json();
+
+			switch ($statusRequisicao) {
+
+				case '201':
+
+					$this->vendedor->id_parceiro_sistema = $resultado['Parceiro_ID'];
+
+					$this->vendedor->save();
+
+					return Redirect::route('admin.index');
+
+				break;
+
+				case '400':
+			
+					Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informado e tente novamente.');
+
+					return Redirect::back()->withInput();
+
+				break;
+
+				default:
+					# Caso tenha ocorrido um erro de servidor
+					Session::flash('error_cad', 'Não foi possivel cadastrar no momento, tente novamente em alguns instante.');
+
+					return Redirect::back()->withInput();
+
+				break;
+
+			}
+
 		}
 	}
 

@@ -155,7 +155,8 @@ class IndicacaoController extends \BaseController {
                     "Nome_Fantasia" 	=> 	Input::get('nome_fantasia'),
                     "Email"				=>	Input::get('email_cliente'),
                     "Cpf_Cnpj"			=>	Input::get('cpf_cnpj'),
-                    "Data_Nascimento"	=>	$data_nascimento_criacao
+                    "Data_Nascimento"	=>	$data_nascimento_criacao,
+                    "parceiro_sistema"	=>  Input::get('id_parceiro'),
                 ]]);
 
 			    // Here the code for successful request

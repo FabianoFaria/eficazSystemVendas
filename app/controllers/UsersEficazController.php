@@ -378,9 +378,9 @@ class UsersEficazController extends BaseController {
 		}else{
 
 
-			$this->user->nome_usuario = Input::get('nomeCliente');
-			$this->user->senha_usuario = Hash::Make(Input::get('senhaNovoUsuario'));
-			$this->user->email_usuario = Input::get('email');
+			$this->user->nome_usuario 	= Input::get('nomeCliente');
+			$this->user->senha_usuario 	= Hash::Make(Input::get('senhaNovoUsuario'));
+			$this->user->email_usuario 	= Input::get('email');
 			
 			if(Input::get('status_usuario') != ''){
 				$this->user->status = Input::get('status_usuario');
@@ -404,39 +404,45 @@ class UsersEficazController extends BaseController {
 			//Efetua o registro no sistema e envia o registro do novo usuario para o sistema da Eficaz
 
 			//Inicia pacote para enviar dados para API
-			$client 			= new \GuzzleHttp\Client();
+			// $client 			= new \GuzzleHttp\Client();
 
-			try{
+			// $statusRequisicao 	= '';
+			// $resultado			= '';
 
-				$r = $client->post('https://api.eficazsystem.com.br/api/criarParceiro', 
-                ['json' => [
-                    "Nome_Parceiro" 		=>	Input::get('nomeCliente')
-                ]]);
+			// try{
+
+			// 	$r = $client->post('https://api.eficazsystem.com.br/api/criarParceiro', 
+   //              ['json' => [
+   //                  "Nome_Parceiro" =>	Input::get('nomeCliente')
+   //              ]]);
 
 
-			}catch (RequestException $e){
+			// 	$statusRequisicao 	= $r->getStatusCode();
+			// 	$resultado			= $r->json();
 
-				// To catch exactly error 400 use 
-			    if ($e->getResponse()->getStatusCode() == '400') {
-			        //echo "Got response 400";
-			        Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
+			// }catch (RequestException $e){
 
-					return Redirect::back()->withInput();
-			    }
+			// 	// To catch exactly error 400 use 
+			//     if ($e->getResponse()->getStatusCode() == '400') {
+			//         //echo "Got response 400";
+			//         Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
 
-			    // You can check for whatever error status code you need 
-			}
+			// 		return Redirect::back()->withInput();
+			//     }
 
-			$statusRequisicao 	= $r->getStatusCode();
-			$resultado			= $r->json();
+			//     // You can check for whatever error status code you need 
+			// }
 
-			switch ($statusRequisicao) {
+			// $statusRequisicao 	= $r->getStatusCode();
+			// $resultado			= $r->json();
 
-				case '201':
+			// switch ($statusRequisicao) {
+
+			// 	case '201':
 
 					# Cadastro foi efetuado com sucesso
 					# Cliente será salvo no cadastro do parceiro
-					$this->user->id_parceiro_sistema = $resultado['Parceiro_ID'];
+					//$this->user->id_parceiro_sistema = $resultado['Parceiro_ID'];
 
 					$this->user->save();
 
@@ -459,24 +465,24 @@ class UsersEficazController extends BaseController {
 					//Redireciona para a página de boas vindas com a mensagem de sucesso do cadastro.
 					return Redirect::to('bemVindo')->with('cadastro', 'Cadastro concluído!');
 
-				break;
+				// break;
 
-				case '400':
+				// case '400':
 			
-					Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informado e tente novamente.');
+				// 	Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informado e tente novamente.');
 
-					return Redirect::back()->withInput();
+				// 	return Redirect::back()->withInput();
 
-				break;
-				default:
-					# Caso tenha ocorrido um erro de servidor
-					Session::flash('error_cad', 'Não foi possivel cadastrar no momento, tente novamente em alguns instante.');
+				// break;
+				// default:
+				// 	# Caso tenha ocorrido um erro de servidor
+				// 	Session::flash('error_cad', 'Não foi possivel cadastrar no momento, tente novamente em alguns instante.');
 
-					return Redirect::back()->withInput();
+				// 	return Redirect::back()->withInput();
 
-				break;
+				// break;
 
-			}
+			//}
 
 		}
 	}

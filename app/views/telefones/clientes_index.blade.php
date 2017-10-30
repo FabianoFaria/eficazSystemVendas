@@ -7,13 +7,13 @@
 
     		<div class="section-heading text-center">
 
-    			@if( $dadosCliente->nome_fantasia_cliente != '')
+    			@if( $dadosCliente['Nome_Fantasia'] != '')
 
-    				<h3 class="page-header">Telefones cadastrados para {{ $dadosCliente->nome_fantasia_cliente }}</h3>
+    				<h3 class="page-header">Telefones cadastrados para {{ $dadosCliente['Nome_Fantasia'] }}</h3>
 
     			@else
 
-    				<h3 class="page-header">Telefones cadastrados para {{ $dadosCliente->nome_completo }}</h3>
+    				<h3 class="page-header">Telefones cadastrados para {{ $dadosCliente['Nome'] }}</h3>
 
     			@endif
 
@@ -67,16 +67,16 @@
 
 			                     			<tr>
 			                                    <td>
-			                                        {{ $telefone->telefone_cliente }}
+			                                        {{ $telefone['Telefone'] }}
 			                                    </td>
 			                                    <td>
-			                                        {{ $telefone->observacao_telefone }}
+			                                        {{ $telefone['Observacao'] }}
 			                                    </td>
 			                                    <td>
-			                                        <a href="{{ URL::to('/telefones_indicacoes/' . $telefone->id_cliente_telefone .'/edit') }}" class="btn btn-info"><i class="fa fa-pencil"></i></a>
+			                                        <a href="{{ URL::to('/telefones_indicacoes/' . $telefone['Cadastro_Telefone_ID'] .'/edit') }}" class="btn btn-info"><i class="fa fa-pencil"></i></a>
 			                                    </td>
 			                                    <td>
-			                                        {{ Form::open(array('route' => array('telefones_indicacoes.destroy', $telefone->id_cliente_telefone), 'method' => 'delete')) }}
+			                                        {{ Form::open(array('route' => array('telefones_indicacoes.destroy', $telefone['Cadastro_Telefone_ID'] ), 'method' => 'delete')) }}
 			                                            <button type="submit" class="btn btn-danger"><i class="fa fa-times"></i></button>
 			                                        {{ Form::close() }}
 			                                    </td>

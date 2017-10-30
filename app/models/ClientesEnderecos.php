@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
+use \GuzzleHttp\Exception\RequestException;
 
 
 class ClientesEnderecos extends Eloquent {
@@ -48,6 +49,104 @@ class ClientesEnderecos extends Eloquent {
     		return false;
 
     	}
+
+    }
+
+    public static function pesquisarEnderecosIndicacao($id_cliente_indicado){
+
+    	//Chama a API para trazer os dados dos clientes indicados
+
+        //Inicia pacote para enviar dados para API
+        $client             = new \GuzzleHttp\Client();
+
+    	try {
+
+            $r = $client->get('https://api.eficazsystem.com.br/api/listarEnderecos/'.$id_cliente_indicado);
+
+            $statusRequisicao   = $r->getStatusCode();
+            $resultado          = $r->json();
+
+            //dd($resultado);
+
+        }catch (RequestException $e) {
+
+            // Catch all 4XX errors 
+
+            // To catch exactly error 400 use 
+            if ($e->getResponse()->getStatusCode() == '400') {
+                //echo "Got response 400";
+                Session::flash('error_cad', 'Não foi possivel recuperar a lista os orçamentos do parceiro.');
+
+                return Redirect::back()->withInput();
+            }
+
+        }
+
+        switch ($statusRequisicao) {
+
+            case '200':
+                
+                return $resultado;
+
+            break;
+
+            case '404':
+                return $resultado;
+            break;
+
+            default:
+               return $resultado;
+            break;
+        }
+
+    }
+
+    public static function carregarEnderecosIndicacao($id_endereco_indicado){
+
+    	//Chama a API para trazer os dados dos clientes indicados
+
+        //Inicia pacote para enviar dados para API
+        $client             = new \GuzzleHttp\Client();
+
+        try {
+
+            $r = $client->get('https://api.eficazsystem.com.br/api/carregarEndereco/'.$id_endereco_indicado);
+
+            $statusRequisicao   = $r->getStatusCode();
+            $resultado          = $r->json();
+
+            //dd($resultado);
+
+        }catch (RequestException $e) {
+
+            // Catch all 4XX errors 
+
+            // To catch exactly error 400 use 
+            if ($e->getResponse()->getStatusCode() == '400') {
+                //echo "Got response 400";
+                Session::flash('error_cad', 'Não foi possivel recuperar a lista os orçamentos do parceiro.');
+
+                return Redirect::back()->withInput();
+            }
+
+        }
+
+    	switch ($statusRequisicao) {
+
+            case '200':
+                
+                return $resultado;
+
+            break;
+
+            case '404':
+                return $resultado;
+            break;
+
+            default:
+               return $resultado;
+            break;
+        }
 
     }
 

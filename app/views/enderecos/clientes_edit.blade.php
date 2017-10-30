@@ -12,13 +12,13 @@
 
 					{{ Form::open(array('route'=> 'enderecos_indicacoes.update', 'class'=>'form', 'method'=>'PUT')) }}
 
-	            		@if( $dadosCliente->nome_fantasia_cliente != '')
+	            		@if( $dadosCliente['Nome_Fantasia'] != '')
 
-		    				<h3 class="page-header">Editando endereço para {{ $dadosCliente->nome_fantasia_cliente }}</h3>
+		    				<h3 class="page-header">Editando endereço para {{ $dadosCliente['Nome_Fantasia'] }}</h3>
 
 		    			@else
 
-		    				<h3 class="page-header">Editando endereço para {{ $dadosCliente->nome_completo }}</h3>
+		    				<h3 class="page-header">Editando endereço para {{ $dadosCliente['Nome'] }}</h3>
 
 		    			@endif
 
@@ -27,42 +27,42 @@
 	            		<div class="row well">
 
 	            			<div class="form-group">
-			            		{{ Form::hidden('id_endereco', $enderecos->id_cliente_endereco, array('id' => 'id_endereco')) }}
+			            		{{ Form::hidden('id_cliente', $enderecos['Cadastro_ID'], array('id' => 'id_cliente')) }}
 
-			            		{{ Form::hidden('id_endereco_sistema', $enderecos->id_endereco_sistema_eficaz, array('id' => 'id_endereco_sistema')) }}		
+			            		{{ Form::hidden('id_endereco_sistema', $enderecos['Cadastro_Endereco_ID'], array('id' => 'id_endereco_sistema')) }}		
 
 
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
 			                    {{ Form::Label('logradouro', 'Logradouro') }}
-			                    {{ Form::text('logradouro', $enderecos->logradouro, array( 'id'=>'logradouro', 'class'=>'form-control', 'placeholder'=>'Rua, Av ou estrada')) }}
+			                    {{ Form::text('logradouro', $enderecos['Logradouro'], array( 'id'=>'logradouro', 'class'=>'form-control', 'placeholder'=>'Rua, Av ou estrada')) }}
 			                    {{ $errors->first('logradouro', '<span class=inputError>:message</span>') }}
 			                </div>
 
 			                <div class="form-group">
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
 			                    {{ Form::Label('numero', 'Número') }}
-			                    {{ Form::text('numero', $enderecos->numero, array( 'id'=>'numero', 'class'=>'form-control', 'placeholder'=>'Número')) }}
+			                    {{ Form::text('numero', $enderecos['Numero'], array( 'id'=>'numero', 'class'=>'form-control', 'placeholder'=>'Número')) }}
 			                    {{ $errors->first('numero', '<span class=inputError>:message</span>') }}
 			                </div>
 
 			                <div class="form-group">
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
 			                    {{ Form::Label('complemento', 'Complemento') }}
-			                    {{ Form::text('complemento', $enderecos->complemento, array( 'id'=>'complemento', 'class'=>'form-control', 'placeholder'=>'Complemento')) }}
+			                    {{ Form::text('complemento', $enderecos['Complemento'], array( 'id'=>'complemento', 'class'=>'form-control', 'placeholder'=>'Complemento')) }}
 			                    {{ $errors->first('complemento', '<span class=inputError>:message</span>') }}
 			                </div>
 
 			                <div class="form-group">
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
 			                    {{ Form::Label('bairro', 'Bairro') }}
-			                    {{ Form::text('bairro', $enderecos->bairro, array( 'id'=>'bairro', 'class'=>'form-control', 'placeholder'=>'Bairro')) }}
+			                    {{ Form::text('bairro', $enderecos['Bairro'], array( 'id'=>'bairro', 'class'=>'form-control', 'placeholder'=>'Bairro')) }}
 			                    {{ $errors->first('bairro', '<span class=inputError>:message</span>') }}
 			                </div>
 
 			                <div class="form-group">
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
 			                    {{ Form::Label('cidade', 'Cidade') }}
-			                    {{ Form::text('cidade', $enderecos->cidade, array( 'id'=>'cidade', 'class'=>'form-control', 'placeholder'=>'Cidade')) }}
+			                    {{ Form::text('cidade', $enderecos['Cidade'], array( 'id'=>'cidade', 'class'=>'form-control', 'placeholder'=>'Cidade')) }}
 			                    {{ $errors->first('cidade', '<span class=inputError>:message</span>') }}
 			                </div>
 
@@ -73,7 +73,7 @@
 
 			                        @foreach($estados->all() as $estado)
 
-			                        	@if($enderecos->uf == $estado->id_estado)
+			                        	@if($enderecos['UF'] == $estado->sigla_estado)
 
 			                        		<option value="{{$estado->id_estado}}" selected>{{$estado->nome_estado}}</option>
 
@@ -91,7 +91,7 @@
 			                <div class="form-group">
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
 			                    {{ Form::Label('cep', 'CEP') }}
-			                    {{ Form::text('cep', $enderecos->cep_endereco, array( 'id'=>'cep', 'class'=>'form-control', 'placeholder'=>'CEP')) }}
+			                    {{ Form::text('cep', $enderecos['CEP'], array( 'id'=>'cep', 'class'=>'form-control', 'placeholder'=>'CEP')) }}
 			                    {{ $errors->first('cep', '<span class=inputError>:message</span>') }}
 			                </div>
 
@@ -99,7 +99,7 @@
 			                    {{ Form::submit('Concluir edição', array('class'=>'btn btn-large btn-primary btn-block'))}}
 			                </div>
 			                 <div>
-			                	<a href="{{ URL::to('/enderecos') }}" class="btn btn-large btn-danger btn-block"> Cancelar</a>
+			                	<a href="{{ URL::to('/enderecos_indicacoes/'.$enderecos['Cadastro_ID'] ) }}" class="btn btn-large btn-danger btn-block"> Cancelar</a>
 			                </div>
 
 	            		</div>

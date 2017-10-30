@@ -17,13 +17,13 @@
 	          			<div class="row well">
 
 	          				<div class="form-group">
-			            		{{ Form::hidden('id_indicacao', $cliente->id_cliente_indicado, array('id' => 'id_indicacao')) }}
+			            		{{ Form::hidden('id_indicacao', $cliente['Cadastro_ID'], array('id' => 'id_indicacao')) }}
 
-			            		{{ Form::hidden('id_cliente_sistema_eficaz', $cliente->id_cliente_sistema_eficaz, array('id' => 'id_cliente_sistema_eficaz')) }}	
+			            		{{ Form::hidden('id_cliente_sistema_eficaz', $cliente['Cadastro_ID'], array('id' => 'id_cliente_sistema_eficaz')) }}	
 
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
 			                    {{ Form::Label('nome_completo', 'Nome completo') }} *Obrigatório
-			                    {{ Form::text('nome_completo', $cliente->nome_completo, array( 'id'=>'nome_completo', 'class'=>'form-control', 'placeholder'=>'Nome completo')) }}
+			                    {{ Form::text('nome_completo', $cliente['Nome'], array( 'id'=>'nome_completo', 'class'=>'form-control', 'placeholder'=>'Nome completo')) }}
 			                    {{ $errors->first('nome_completo', '<span class=inputError>:message</span>') }}
 			                </div>
 
@@ -31,7 +31,7 @@
 
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
 			                    {{ Form::Label('nome_fantasia', 'Nome fantasia') }}
-			                    {{ Form::text('nome_fantasia', $cliente->nome_fantasia_cliente, array( 'id'=>'nome_fantasia', 'class'=>'form-control', 'placeholder'=>'Nome completo')) }}
+			                    {{ Form::text('nome_fantasia', $cliente['Nome_Fantasia'], array( 'id'=>'nome_fantasia', 'class'=>'form-control', 'placeholder'=>'Nome completo')) }}
 			                    {{ $errors->first('nome_fantasia', '<span class=inputError>:message</span>') }}
 			                </div>
 
@@ -40,7 +40,7 @@
 
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
 			                    {{ Form::Label('email_cliente', 'Email cliente') }} *Obrigatório
-			                    {{ Form::text('email_cliente', $cliente->email_cliente, array( 'id'=>'email_cliente', 'class'=>'form-control', 'placeholder'=>'Email cliente')) }}
+			                    {{ Form::text('email_cliente', $cliente['Email'], array( 'id'=>'email_cliente', 'class'=>'form-control', 'placeholder'=>'Email cliente')) }}
 			                    {{ $errors->first('email_cliente', '<span class=inputError>:message</span>') }}
 			                </div>
 
@@ -57,19 +57,19 @@
 
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
 			                    {{ Form::Label('cpf_cnpj', 'Cpf ou Cnpj') }}
-			                    {{ Form::text('cpf_cnpj', $cliente->cpf_cnpj, array( 'id'=>'cpf_cnpj', 'class'=>'form-control', 'placeholder'=>'Cpf ou Cnpj')) }}
+			                    {{ Form::text('cpf_cnpj', $cliente['Cpf_Cnpj'], array( 'id'=>'cpf_cnpj', 'class'=>'form-control', 'placeholder'=>'Cpf ou Cnpj')) }}
 			                    {{ $errors->first('cpf_cnpj', '<span class=inputError>:message</span>') }}
 			                </div>
 
 			                <div class="form-group">
 
-			                	@if($cliente->cliente_imagem_documento != '')
+			                	@if($cliente['Foto'] != '')
 
 			                		<img src="{{ URL::asset('img/uploads/imagens_documentos').'/'.$cliente->cliente_imagem_documento }}">
 
 			                	@endif
 
-			                	{{ Form::hidden('imagem_antiga', $cliente->cliente_imagem_documento, array('id' => 'imagem_antiga')) }}
+			                	{{ Form::hidden('imagem_antiga', $cliente['Foto'], array('id' => 'imagem_antiga')) }}
 
 			                </div>
 

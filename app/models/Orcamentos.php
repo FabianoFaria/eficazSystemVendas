@@ -2,6 +2,7 @@
 
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
+use \GuzzleHttp\Exception\RequestException;
 
 class Orcamentos extends Eloquent {
 
@@ -46,10 +47,114 @@ class Orcamentos extends Eloquent {
 
     }
 
+    /*
+		Carrega os orçamentos abertos para determinado parceiro.
+    */
+
+    public static function orcamentosSistema($id_parceiro_sistema){
+
+    	//Chama a API para trazer os dados dos orçamentos e chamadas
+
+		//Inicia pacote para enviar dados para API
+		$client 			= new \GuzzleHttp\Client();
+
+		try {
+
+			$r = $client->get('https://api.eficazsystem.com.br/api/listarOrcamento/'.$id_parceiro_sistema, 
+				['json' => [
+					"parceiro_sistema"	=>  Input::get('id_parceiro'),
+				]]);
+
+			$statusRequisicao   = $r->getStatusCode();
+            $resultado          = $r->json();
+
+            //dd($resultado);
+
+            switch ($statusRequisicao) {
+
+	            case '200':
+	                
+	                return $resultado;
+
+	            break;
+
+	            case '404':
+	                return $resultado;
+	            break;
+
+	            default:
+	               return $resultado;
+	            break;
+	        }
+
+		}catch (RequestException $e) {
+
+			// Catch all 4XX errors 
+
+			// To catch exactly error 400 use 
+			if ($e->getResponse()->getStatusCode() == '400') {
+			    //echo "Got response 400";
+			    Session::flash('error_cad', 'Não foi possivel recuperar a lista os orçamentos do parceiro.');
+
+				return Redirect::back()->withInput();
+			}
+
+		}
+
+    }
+
+    public static function orcamentosClienteSistema($id_cliente){
+
+    	//Chama a API para trazer os dados dos orçamentos e chamadas
+
+		//Inicia pacote para enviar dados para API
+		$client 			= new \GuzzleHttp\Client();
+
+		try {
+
+            $r = $client->get('https://api.eficazsystem.com.br/api/listarOrcamentoCliente/'.$id_cliente);
+
+            $statusRequisicao   = $r->getStatusCode();
+            $resultado          = $r->json();
+
+            //dd($resultado);
+            switch ($statusRequisicao) {
+
+	            case '200':
+	                
+	                return $resultado;
+
+	            break;
+
+	            case '404':
+	                return $resultado;
+	            break;
+
+	            default:
+	               return $resultado;
+	            break;
+	        }
+
+        }catch (RequestException $e) {
+
+            // Catch all 4XX errors 
+
+            // To catch exactly error 400 use 
+            if ($e->getResponse()->getStatusCode() == '400') {
+                //echo "Got response 400";
+                Session::flash('error_cad', 'Não foi possivel recuperar a lista os orçamentos do parceiro.');
+
+                return Redirect::back()->withInput();
+            }
+
+        }
+
+
+    }
+
 
     // Efetua a buscas de todos os orçamentos do parceiro
     public function orcamentoUsuario($id_user){
-
 
     	$orcamentoParceiro  = DB::table('orcamentos_indicados')
     						->where('id_user', '=', $id_user)
@@ -138,24 +243,163 @@ class Orcamentos extends Eloquent {
     							->get();
 
     	return $totalOrcamentos;
+
+    	//Chama a API para trazer os dados dos orçamentos e chamadas
+
+		//Inicia pacote para enviar dados para API
+		//$client 			= new \GuzzleHttp\Client();
+
+		// try {
+
+  //           $r = $client->get('https://api.eficazsystem.com.br/api/listarOrcamento/'.$id_user);
+
+  //           $statusRequisicao   = $r->getStatusCode();
+  //           $resultado          = $r->json();
+
+  //           //dd($resultado);
+  //           switch ($statusRequisicao) {
+
+	 //            case '200':
+	                
+	 //                return $resultado;
+
+	 //            break;
+
+	 //            case '404':
+	 //                return $resultado;
+	 //            break;
+
+	 //            default:
+	 //               return $resultado;
+	 //            break;
+	 //        }
+
+  //       }catch (RequestException $e) {
+
+  //           // Catch all 4XX errors 
+
+  //           // To catch exactly error 400 use 
+  //           if ($e->getResponse()->getStatusCode() == '400') {
+  //               //echo "Got response 400";
+  //               Session::flash('error_cad', 'Não foi possivel recuperar o total de orçamentos do parceiro.');
+
+  //               return Redirect::back()->withInput();
+  //           }
+
+  //       }
+
     }
 
-    // Retorna o total em comissões a ser paga ao parceiro
+    public static function todosOrcamentosParceiro($id_user){
+
+    	//Chama a API para trazer os dados dos orçamentos e chamadas
+
+		//Inicia pacote para enviar dados para API
+		$client 			= new \GuzzleHttp\Client();
+
+		try {
+
+            $r = $client->get('https://api.eficazsystem.com.br/api/listarOrcamento/'.$id_user);
+
+            $statusRequisicao   = $r->getStatusCode();
+            $resultado          = $r->json();
+
+            //dd($resultado);
+            switch ($statusRequisicao) {
+
+	            case '200':
+	                
+	                return $resultado;
+
+	            break;
+
+	            case '404':
+	                return $resultado;
+	            break;
+
+	            default:
+	               return $resultado;
+	            break;
+	        }
+
+        }catch (RequestException $e) {
+
+            // Catch all 4XX errors 
+
+            // To catch exactly error 400 use 
+            if ($e->getResponse()->getStatusCode() == '400') {
+                //echo "Got response 400";
+                Session::flash('error_cad', 'Não foi possivel recuperar o total de orçamentos do parceiro.');
+
+                return Redirect::back()->withInput();
+            }
+
+        }
+
+    }
+
+    // Retorna o total de indicações efetuados pelo parceiro
 
     public static function orcamentosIndicados($id_user){
 
-    	$orcamentosFechados = DB::table('orcamentos_indicados')
-    							->select('id_orcamento',
-    									'id_orcamento_sistema',
-    									'id_cliente'
-    									)
-    							->where('id_user', '=', $id_user)
-    							->where('pagamentoComicao', '=', 0)
-    							->get();
+    	// $orcamentosFechados = DB::table('orcamentos_indicados')
+    	// 						->select('id_orcamento',
+    	// 								'id_orcamento_sistema',
+    	// 								'id_cliente'
+    	// 								)
+    	// 						->where('id_user', '=', $id_user)
+    	// 						->where('pagamentoComicao', '=', 0)
+    	// 						->get();
 
     	//dd($orcamentosFechados);
 
-    	return $orcamentosFechados;
+    	//return $orcamentosFechados;
+
+    	//Chama a API para trazer os dados dos orçamentos e chamadas
+
+		//Inicia pacote para enviar dados para API
+		$client 			= new \GuzzleHttp\Client();
+
+		try {
+
+            $r = $client->get('https://api.eficazsystem.com.br/api/totalOrcamentosParceiro/'.$id_user);
+
+            $statusRequisicao   = $r->getStatusCode();
+            $resultado          = $r->json();
+
+            //dd($resultado);
+            switch ($statusRequisicao) {
+
+	            case '200':
+	                	
+	            	$total = $resultado[0]['totalOrcamentos'];
+
+	                return $total;
+
+	            break;
+
+	            case '404':
+	                return $resultado;
+	            break;
+
+	            default:
+	               return $resultado;
+	            break;
+	        }
+
+        }catch (RequestException $e) {
+
+            // Catch all 4XX errors 
+
+            // To catch exactly error 400 use 
+            if ($e->getResponse()->getStatusCode() == '400') {
+                //echo "Got response 400";
+                Session::flash('error_cad', 'Não foi possivel recuperar o total de orçamentos do parceiro.');
+
+                return Redirect::back()->withInput();
+            }
+
+        }
 
     }
 

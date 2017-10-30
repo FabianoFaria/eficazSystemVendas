@@ -45,7 +45,7 @@
 		                                <th>Nome completo</th>
 		                                <th>Nome fantasia</th>
 		                                <th>Email cliente</th>
-		                                <th>Orçamentos</th>
+		                                <th>Solicitar Orçamento</th>
 		                                <th>Telefones</th>
 		                                <th>Endereços</th>
 		                                <th>Editar</th>
@@ -55,30 +55,30 @@
 
 		                        	@if(!empty($clientes))
 			                     		
-			                     		@foreach($clientes->all() as $cliente)
+			                     		@foreach($clientes as $cliente)
 
 			                     			<tr>
 
 			                     				<td>
-			                                        {{ $cliente->nome_completo }}
+			                                        {{ $cliente['Nome'] }}
 			                                    </td>
 			                                    <td>
-			                                        {{ $cliente->nome_fantasia_cliente }}
+			                                        {{ $cliente['Nome_Fantasia'] }}
 			                                    </td>
 			                                    <td>
-			                                        {{ $cliente->email_cliente }}
+			                                        {{ $cliente['Email'] }}
 			                                    </td>
 			                                    <td>
-			                                        <a href="{{ URL::to('/orcamentos/' . $cliente->id_cliente_indicado ) }}" class="btn btn-info"><i class="fa fa-money"></i></a>
+			                                        <a href="{{ URL::to('/orcamentos/' . $cliente['Cadastro_ID'] ) }}" class="btn btn-info"><i class="fa fa-money"></i></a>
 			                                    </td>
 			                                    <td>
-			                                        <a href="{{ URL::to('/telefones_indicacoes/' . $cliente->id_cliente_indicado ) }}" class="btn btn-primary"><i class="fa fa-phone"></i></a>
+			                                        <a href="{{ URL::to('/telefones_indicacoes/' . $cliente['Cadastro_ID'] ) }}" class="btn btn-primary"><i class="fa fa-phone"></i></a>
 			                                    </td>
 			                                    <td>
-			                                        <a href="{{ URL::to('/enderecos_indicacoes/' . $cliente->id_cliente_indicado ) }}" class="btn btn-success"><i class="fa fa-list-alt"></i></a>
+			                                        <a href="{{ URL::to('/enderecos_indicacoes/' . $cliente['Cadastro_ID'] ) }}" class="btn btn-success"><i class="fa fa-list-alt"></i></a>
 			                                    </td>
 			                                    <td>
-			                                        <a href="{{ URL::to('/indicacoes/' . $cliente->id_cliente_indicado .'/edit') }}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+			                                        <a href="{{ URL::to('/indicacoes/' . $cliente['Cadastro_ID'] .'/edit') }}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
 			                                    </td>
 
 			                     			</tr>

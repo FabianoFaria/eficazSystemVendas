@@ -29,12 +29,14 @@ class IndicacoesEnderecosController extends \BaseController {
 		$id_user 			= Session::get('id_atual');
 		$status_usuario 	= Session::get('status');
 		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
-		$dadosCliente 		= ClientesIndicacoes::find(Session::get('cliente_atual'));
+		$id_parceiro_system = $dadosVendedor->id_parceiro_sistema;
+		//$dadosCliente 		= ClientesIndicacoes::find(Session::get('cliente_atual'));
+		$dadosCliente 		= ClientesIndicacoes::pesquisarIndicacao(Session::get('cliente_atual'), $id_parceiro_system);
 		$estados 			= EstadosPais::all();
 
 		$dados 			= [
 			'dadosVendedor' => $dadosVendedor, 
-			'dadosCliente' 	=> $dadosCliente,
+			'dadosCliente' 	=> $dadosCliente[0],
 			'estados'		=> $estados
 		];
 
@@ -74,7 +76,13 @@ class IndicacoesEnderecosController extends \BaseController {
 
 		}else{
 
-			$this->clientesEnderecos->id_cliente_indicado 	= Input::get('id_cliente_indicado');
+			//Dados do cliente
+			$dadosClienteLocal  = ClientesIndicacoes::where('id_cliente_sistema_eficaz', Input::get('id_cliente_indicado'))->first();
+
+			//dd($dadosClienteLocal);
+
+			//$this->clientesEnderecos->id_cliente_indicado 	= Input::get('id_cliente_indicado');
+			$this->clientesEnderecos->id_cliente_indicado 	= $dadosClienteLocal->id_cliente_indicado;
 			$this->clientesEnderecos->logradouro 			= Input::get('logradouro');
 			$this->clientesEnderecos->numero 				= Input::get('numero');
 			$this->clientesEnderecos->complemento 			= Input::get('complemento');
@@ -163,8 +171,16 @@ class IndicacoesEnderecosController extends \BaseController {
 		$id_user 			= Session::get('id_atual');
 		$status_usuario 	= Session::get('status');
 		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
-		$dadosCliente 		= ClientesIndicacoes::find($id);
-		$enderecosClientes 	= ClientesEnderecos::where('id_cliente_indicado', $id)->get();
+		$id_parceiro_system = $dadosVendedor->id_parceiro_sistema;
+		//$dadosCliente 		= ClientesIndicacoes::find($id);
+		$dadosCliente 		= ClientesIndicacoes::pesquisarIndicacao($id, $id_parceiro_system);
+		//$enderecosClientes 	= ClientesEnderecos::where('id_cliente_indicado', $id)->get();
+		$enderecosClientes 	= ClientesEnderecos::pesquisarEnderecosIndicacao($id);
+
+		// dd($dadosCliente);
+		// dd($enderecosClientes);
+
+
 		$estados 			= EstadosPais::all();
 
 		//Armazena o id do cliente para uso futuro
@@ -172,7 +188,7 @@ class IndicacoesEnderecosController extends \BaseController {
 
 		$dados 			= [
 			'dadosVendedor' => $dadosVendedor, 
-			'dadosCliente' 	=> $dadosCliente,
+			'dadosCliente' 	=> $dadosCliente[0],
 			'enderecos' 	=> $enderecosClientes,
 			'estados' 		=> $estados
 		];
@@ -210,15 +226,19 @@ class IndicacoesEnderecosController extends \BaseController {
 		$clie_id 			= Session::get('cliente_atual');
 		$status_usuario 	= Session::get('status');
 		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
-
-		$dadosCliente 		= ClientesIndicacoes::find(Session::get('cliente_atual'));
-		$enderecoClientes 	= ClientesEnderecos::find($id);
+		$id_parceiro_system = $dadosVendedor->id_parceiro_sistema;
+		//$dadosCliente 		= ClientesIndicacoes::find(Session::get('cliente_atual'));
+		$dadosCliente 		= ClientesIndicacoes::pesquisarIndicacao($clie_id, $id_parceiro_system); 
+		//$enderecoClientes 	= ClientesEnderecos::find($id);
+		$enderecoClientes 	= ClientesEnderecos::carregarEnderecosIndicacao($id);
 		$estados 			= EstadosPais::all();
+
+		//dd($enderecoClientes);
 
 		$dados  		= [
 			'dadosVendedor' => $dadosVendedor,
-			'dadosCliente'	=> $dadosCliente,
-			'enderecos' 	=> $enderecoClientes,
+			'dadosCliente'	=> $dadosCliente[0],
+			'enderecos' 	=> $enderecoClientes[0],
 			'estados' 		=> $estados
 		];
 
@@ -251,11 +271,29 @@ class IndicacoesEnderecosController extends \BaseController {
 	public function update($id)
 	{
 		//
-		$id_endereco = Input::get('id_endereco');
+		$id_endereco = Input::get('id_endereco_sistema');
 
-		$this->clientesEnderecos = ClientesEnderecos::find($id_endereco);
+		//$this->clientesEnderecos = ClientesEnderecos::find($id_endereco);
 
-		//dd(Input::all());
+		$this->clientesEnderecos = ClientesEnderecos::where('id_endereco_sistema_eficaz', $id_endereco)->first();
+
+		//dd($this->clientesEnderecos);
+		if(empty($this->clientesEnderecos)){
+
+			
+			$clie_id 			= Input::get('id_cliente');
+
+			$dadosClienteLocal  = ClientesIndicacoes::where('id_cliente_sistema_eficaz', $clie_id)->first();
+
+			//dd($dadosClienteLocal);
+
+			$this->clientesEnderecos = new ClientesEnderecos();
+			$this->clientesEnderecos->id_endereco_sistema_eficaz 	= Input::get('id_endereco_sistema');
+			$this->clientesEnderecos->id_cliente_indicado 			= $dadosClienteLocal->id_cliente_indicado;		
+		}
+
+
+		//dd($this->clientesEnderecos->isValid($input = Input::all()));
 
 		if( ! $this->clientesEnderecos->isValid($input = Input::all())){
 
@@ -343,7 +381,10 @@ class IndicacoesEnderecosController extends \BaseController {
 	public function destroy($id)
 	{
 		//
-		$endereco = ClientesEnderecos::find($id);
+		//$endereco = ClientesEnderecos::find($id);
+		$endereco = ClientesEnderecos::where('id_endereco_sistema_eficaz', $id)->first();
+
+		//dd($endereco);
 
 		//Inicia pacote para enviar dados para API 
 		$client = new \GuzzleHttp\Client();

@@ -32,9 +32,13 @@
 				            			<i class="fa fa-plus-square "></i> Cadastrar novo orçamento
 				            		</a> -->
 
-				                   <a href="{{ URL::to('/solicitarPagamentoComissao') }}" class="btn btn-warning">
+				                  <!--  <a href="{{ URL::to('/solicitarPagamentoComissao') }}" class="btn btn-warning">
 				                   		<i class="fa fa-pencil"></i> Solicitar pagamento
-				                   </a>
+				                   </a> -->
+
+				                   <!-- <a href="{{ URL::to('/solicitarPagamentoComissao') }}" class="btn btn-warning">
+				                   		<i class="fa fa-pencil"></i> Historico pagamento
+				                   </a> -->
 				                        		
 				            		<a class="btn btn-success" href="{{ url('/') }}"> 
 				            			<i class="fa fa-undo"></i> Voltar

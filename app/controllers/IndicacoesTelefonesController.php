@@ -40,11 +40,13 @@ class IndicacoesTelefonesController extends \BaseController {
 		$id_user 			= Session::get('id_atual');
 		$status_usuario 	= Session::get('status');
 		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
-		$dadosCliente 		= ClientesIndicacoes::find(Session::get('cliente_atual'));
+		$id_parceiro_system = $dadosVendedor->id_parceiro_sistema;
+		//$dadosCliente 		= ClientesIndicacoes::find(Session::get('cliente_atual'));
+		$dadosCliente 		= ClientesIndicacoes::pesquisarIndicacao(Session::get('cliente_atual'), $id_parceiro_system);
 
 		$dados 			= [
 			'dadosVendedor' => $dadosVendedor, 
-			'dadosCliente' 	=> $dadosCliente
+			'dadosCliente' 	=> $dadosCliente[0]
 		];
 
 		switch ($status_usuario) {
@@ -84,7 +86,13 @@ class IndicacoesTelefonesController extends \BaseController {
 
 		}else{
 
-			$this->clientesTelefones->id_cliente_indicado 	= Input::get('id_cliente_indicado');
+			//Dados do cliente
+			$dadosClienteLocal  = ClientesIndicacoes::where('id_cliente_sistema_eficaz', Input::get('id_cliente_indicado'))->first();
+
+			//dd($dadosClienteLocal);
+
+			// $this->clientesTelefones->id_cliente_indicado 	= Input::get('id_cliente_indicado');
+			$this->clientesTelefones->id_cliente_indicado 	= $dadosClienteLocal->id_cliente_indicado;
 			$this->clientesTelefones->telefone_cliente 		= Input::get('telefone');
 			$this->clientesTelefones->observacao_telefone 	= Input::get('observacao');
 
@@ -149,10 +157,16 @@ class IndicacoesTelefonesController extends \BaseController {
 		$id_user 			= Session::get('id_atual');
 		$status_usuario 	= Session::get('status');
 		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
-		$dadosCliente 		= ClientesIndicacoes::find($id);
+		$id_parceiro_system = $dadosVendedor->id_parceiro_sistema;
+		//$dadosCliente 		= ClientesIndicacoes::find($id);
+		$dadosCliente 		= ClientesIndicacoes::pesquisarIndicacao($id, $id_parceiro_system);
+
 		$telefonesClientes 	= ClientesTelefones::where('id_cliente_indicado', $id)->get();
 		//$telefonesClientes 	= DB::table('clientes_telefones')->where('id_cliente_indicado', $id)->get();
 
+		$telefonesClientes	= ClientesTelefones::pesquisarTelefonesIndicacao($id);
+
+		//dd($dadosCliente);
 		//dd($telefonesClientes);
 
 
@@ -161,7 +175,7 @@ class IndicacoesTelefonesController extends \BaseController {
 
 		$dados 			= [
 			'dadosVendedor' => $dadosVendedor, 
-			'dadosCliente' 	=> $dadosCliente,
+			'dadosCliente' 	=> $dadosCliente[0],
 			'telefones' 	=> $telefonesClientes
 		];
 
@@ -196,22 +210,26 @@ class IndicacoesTelefonesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
+
 		//
-		$id_user 		= Session::get('id_atual');
-		$clie_id 		= Session::get('cliente_atual');
-		$status_usuario = Session::get('status');
-		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
+		$id_user 			= Session::get('id_atual');
+		//$clie_id 		= Session::get('cliente_atual');
+		$status_usuario 	= Session::get('status');
+		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
 		//$dadosTelefones = VendedoresTelefones::where('id_user', $id_user)->first();
+		$id_parceiro_system = $dadosVendedor->id_parceiro_sistema;
+		// $dadosCliente 	= ClientesIndicacoes::find(Session::get('cliente_atual'));
+		//$dadosTelefones = ClientesTelefones::find($id);
+		$dadosTelefones 	= ClientesTelefones::carregartelefoneIndicacao($id); 
 
-		$dadosCliente 	= ClientesIndicacoes::find(Session::get('cliente_atual'));
-		$dadosTelefones = ClientesTelefones::find($id);
+		$dadosCliente 		= ClientesIndicacoes::pesquisarIndicacao($dadosTelefones[0]['Cadastro_ID'], $id_parceiro_system);
 
-		//dd($dadosVendedor);
+		// dd($dadosCliente);
 
 		$dados  		= [
 			'dadosVendedor' => $dadosVendedor,
-			'dadosCliente'	=> $dadosCliente,
-			'telefones' 	=> $dadosTelefones,
+			'dadosCliente'	=> $dadosCliente[0],
+			'telefones' 	=> $dadosTelefones[0],
 		];
 
 		switch ($status_usuario) {
@@ -243,9 +261,23 @@ class IndicacoesTelefonesController extends \BaseController {
 	public function update($id)
 	{
 		//
-		$id_telefone = Input::get('id_telefone');
+		$id_telefone = Input::get('id_sistema_eficaz');
 
-		$this->clientesTelefones = ClientesTelefones::find($id_telefone);
+		//$this->clientesTelefones = ClientesTelefones::find($id_telefone);
+
+		$this->clientesTelefones = ClientesTelefones::where('id_telefone_sistema_eficaz', $id_telefone)->first();
+
+		if(empty($this->clientesTelefones)){
+
+			$clie_id 			= Input::get('id_cliente');
+
+			$dadosClienteLocal  = ClientesIndicacoes::where('id_cliente_sistema_eficaz', $clie_id)->first();
+
+			$this->clientesTelefones = new ClientesTelefones();
+			$this->clientesTelefones->id_telefone_sistema_eficaz 	= Input::get('id_sistema_eficaz');
+			$this->clientesTelefones->id_cliente_indicado 			= $dadosClienteLocal->id_cliente_indicado;
+
+		}
 
 		if( ! $this->clientesTelefones->isValid($input = Input::all())){
 
@@ -255,6 +287,8 @@ class IndicacoesTelefonesController extends \BaseController {
 
 			$this->clientesTelefones->telefone_cliente 		= Input::get('telefone');
 			$this->clientesTelefones->observacao_telefone	= Input::get('observacao');
+
+			//dd(Input::all());
 
 			//Inicia pacote para enviar dados para API 
 			$client = new \GuzzleHttp\Client();
@@ -315,7 +349,8 @@ class IndicacoesTelefonesController extends \BaseController {
 	public function destroy($id)
 	{
 		//
-		$telefone = ClientesTelefones::find($id);
+		//$telefone = ClientesTelefones::find($id);
+		$telefone = ClientesTelefones::where('id_telefone_sistema_eficaz', $id)->first();
 
 		//Inicia pacote para enviar dados para API
 		$client = new \GuzzleHttp\Client(); 

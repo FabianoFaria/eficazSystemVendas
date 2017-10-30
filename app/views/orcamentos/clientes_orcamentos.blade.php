@@ -7,13 +7,13 @@
 
     		<div class="section-heading text-center">
 
-    			@if( $dadosCliente->nome_fantasia_cliente != '')
+    			@if( $dadosCliente['Nome_Fantasia'] != '')
 
-    				<h3 class="page-header">Orçamentos cadastrados para {{ $dadosCliente->nome_fantasia_cliente }}</h3>
+    				<h3 class="page-header">Orçamentos cadastrados para {{ $dadosCliente['Nome_Fantasia'] }}</h3>
 
     			@else
 
-    				<h3 class="page-header">Orçamentos cadastrados para {{ $dadosCliente->nome_completo }}</h3>
+    				<h3 class="page-header">Orçamentos cadastrados para {{ $dadosCliente['Nome'] }}</h3>
 
     			@endif
 
@@ -67,10 +67,14 @@
 				                        			{{ $orcamento['Titulo'] }}
 				                        		</td>
 				                        		<td>
-				                        			{{ $orcamento['Data_Abertura'] }}
+				                        			{{--*/ 
+				                        				$data  = $orcamento['Data_Abertura'];
+				                        				$teste = explode(' ',$data); 
+				                        				echo implode('/',array_reverse(explode('-', $teste[0])));
+				                        			/*--}}
 				                        		</td>
 				                        		<td>
-				                        			{{ $orcamento['Situacao'] }}
+				                        			{{ $orcamento['Status'] }}
 				                        		</td>
 				                        	<tr>
 
@@ -93,5 +97,6 @@
     	</div>
 
     </section>
+    <hr>
 
 @endsection()

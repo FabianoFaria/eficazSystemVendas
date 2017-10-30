@@ -15,11 +15,6 @@ class AdminController extends \BaseController {
 
 			$id_user 		= Session::get('id_atual');
 			$status_usuario = Session::get('status');
-			$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
-			$dadosEndereco  = VendedoresEnderecos::where('id_user', $id_user)->first();
-			$dadosContatos  = VendedoresTelefones::where('id_user', $id_user)->first();
-			$dadosFinaceiro = VendedoresFinancas::where('id_user', $id_user)->first();
-
 			$user 			= User::find($id_user);
 
 			//$json 			= json_decode(file_get_contents('https://api.eficazsystem.com.br/api/contatos'), true);
@@ -43,17 +38,44 @@ class AdminController extends \BaseController {
 
 				case 'Admin':
 					
-					$faturarIndicacoes = 0.00;
-					$totalOrcamentos = Orcamentos::quantidadeOrcamentoUsuario($id_user);
-					$totalIndicacoes = ClientesIndicacoes::quantidadeIndicadosUsuario($id_user);
+					// $faturarIndicacoes = 0.00;
+					// $totalOrcamentos = Orcamentos::quantidadeOrcamentoUsuario($id_user);
+					// $totalIndicacoes = ClientesIndicacoes::quantidadeIndicadosUsuario($id_user);
 
 				break;
 				
 				case 'Parceiros':
+
+					$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
+					$dadosEndereco  = VendedoresEnderecos::where('id_user', $id_user)->first();
+					$dadosContatos  = VendedoresTelefones::where('id_user', $id_user)->first();
+					$dadosFinaceiro = VendedoresFinancas::where('id_user', $id_user)->first();
+
+					if(!empty($dadosVendedor)){
+
+						$idUserSistema 				= $dadosVendedor->id_parceiro_sistema;
+
+						$indicacoesOrcamentos		= Orcamentos::todosOrcamentosParceiro($idUserSistema);
+						$totalComissoesOrcamentos	= Orcamentos::quantidadeOrcamentoUsuario($idUserSistema);
+						$totalIndicados				= ClientesIndicacoes::quantidadeIndicadosUsuario($idUserSistema);
+
+						$totalOrcamentosAbertos 	= count($totalComissoesOrcamentos);
+
+					}else{
+
+						$idSistema 					= '';
+
+						$indicacoesOrcamentos		= null;
+						$totalComissoesOrcamentos	= 0;
+						$totalIndicados				= 0;
+						$totalOrcamentosAbertos 	= 0;
+					}	
+
+					//dd($indicacoesOrcamentos);
 					
-					$indicacoesOrcamentos 	= Orcamentos::orcamentosIndicados($id_user);
-					$totalOrcamentos 		= Orcamentos::quantidadeOrcamentoUsuario($id_user);
-					$totalIndicacoes 		= ClientesIndicacoes::quantidadeIndicadosUsuario($id_user);
+					//$indicacoesOrcamentos 	= Orcamentos::orcamentosIndicados($id_user);
+					//$totalOrcamentos 		= Orcamentos::quantidadeOrcamentoUsuario($id_user);
+					//$totalIndicacoes 		= ClientesIndicacoes::quantidadeIndicadosUsuario($id_user);
 
 					$faturarIndicacoes 		= '';
 
@@ -70,7 +92,7 @@ class AdminController extends \BaseController {
 
 						foreach ($indicacoesOrcamentos as $orcamento) { 
 
-							$r = $client->get('https://api.eficazsystem.com.br/api/orcamentoClienteDetalhado/'.$orcamento->id_orcamento_sistema);
+							$r = $client->get('https://api.eficazsystem.com.br/api/orcamentoClienteDetalhado/'.$orcamento['Workflow_ID']);
 
 							$statusRequisicao 	= $r->getStatusCode();
 							$resultado			= $r->json();
@@ -179,16 +201,17 @@ class AdminController extends \BaseController {
 
 			}
 
+			//dd($totalOrcamentosAbertos);
 
 			$dados = [
-				'dadosVendedor' => $dadosVendedor, 
-				'statusUsuario' => $status_usuario,
-				'enderecos' => $dadosEndereco,
-				'telefones' => $dadosContatos,
-				'financeiro' => $dadosFinaceiro,
-				'indicacoes' => $totalIndicacoes[0]->indicados,
-				'totalOrcamentos' => $totalOrcamentos[0]->orcamentos,
-				'faturar'	=> $faturarIndicacoes
+				'dadosVendedor' 	=> $dadosVendedor, 
+				'statusUsuario' 	=> $status_usuario,
+				'enderecos' 		=> $dadosEndereco,
+				'telefones' 		=> $dadosContatos,
+				'financeiro' 		=> $dadosFinaceiro,
+				'indicacoes' 		=> $totalIndicados,
+				'totalOrcamentos' 	=> $totalOrcamentosAbertos,
+				'faturar'			=> $faturarIndicacoes
 			];
 
 			//Verifica para qual tela de administração será redirecionada o admin

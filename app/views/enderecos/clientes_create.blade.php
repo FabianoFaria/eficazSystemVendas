@@ -11,13 +11,13 @@
 					{{ Form::open(array('route'=> 'enderecos_indicacoes.store', 'class'=>'form')) }}
 
 
-						@if( $dadosCliente->nome_fantasia_cliente != '')
+						@if( $dadosCliente['Nome_Fantasia'] != '')
 
-		    				<h3 class="page-header">Cadastrando novo endereço para {{ $dadosCliente->nome_fantasia_cliente }}</h3>
+		    				<h3 class="page-header">Cadastrando novo endereço para {{ $dadosCliente['Nome_Fantasia'] }}</h3>
 
 		    			@else
 
-		    				<h3 class="page-header">Cadastrando novo endereço para {{ $dadosCliente->nome_completo }}</h3>
+		    				<h3 class="page-header">Cadastrando novo endereço para {{ $dadosCliente['Nome'] }}</h3>
 
 		    			@endif
 
@@ -28,9 +28,9 @@
 		    				<div class="form-group">
 			            		{{ Form::hidden('id_usuario', $dadosVendedor->id_user, array('id' => 'id_usuario')) }}	
 
-			            		{{ Form::hidden('id_cliente_indicado', $dadosCliente->id_cliente_indicado, array('id' => 'id_cliente_indicado')) }}
+			            		{{ Form::hidden('id_cliente_indicado', $dadosCliente['Cadastro_ID'], array('id' => 'id_cliente_indicado')) }}
 
-			            		{{ Form::hidden('id_cliente_sistema', $dadosCliente->id_cliente_sistema_eficaz, array('id' => 'id_cliente_sistema')) }}
+			            		{{ Form::hidden('id_cliente_sistema', $dadosCliente['Cadastro_ID'], array('id' => 'id_cliente_sistema')) }}
 
 			                    <!-- <label for="nomeCliente">Nome do usuário</label> -->
 			                    {{ Form::Label('logradouro', 'Logradouro') }}
@@ -94,7 +94,7 @@
 			                </div>
 			           
 			                <div>
-			                	<a href="{{ URL::to('/enderecos_indicacoes/'.$dadosCliente->id_cliente_indicado) }}" class="btn btn-large btn-danger btn-block"> Cancelar</a>
+			                	<a href="{{ URL::to('/enderecos_indicacoes/'.$dadosCliente['Cadastro_ID']) }}" class="btn btn-large btn-danger btn-block"> Cancelar</a>
 			                </div>
 
 		    			</div>

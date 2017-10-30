@@ -21,8 +21,11 @@ class IndicacaoController extends \BaseController {
 		$id_user 		= Session::get('id_atual');
 		$status_usuario = Session::get('status');
 		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
-		$dadosClientes	= ClientesIndicacoes::where('id_user', $id_user)->get();
+		//$dadosClientes	= ClientesIndicacoes::where('id_user', $id_user)->get();
 
+		$dadosClientes 	= ClientesIndicacoes::clientesIndicadosSistemas($dadosVendedor->id_parceiro_sistema);
+
+		//dd($dadosClientes);
 
 		$dados 			= [
 			'dadosVendedor' => $dadosVendedor, 
@@ -252,17 +255,20 @@ class IndicacaoController extends \BaseController {
 	public function edit($id)
 	{
 		//
-		$id_user 		= Session::get('id_atual');
-		$status_usuario = Session::get('status');
-		$dadosVendedor 	= VendedoresDados::where('id_user', $id_user)->first();
-		$dadosCliente 	= ClientesIndicacoes::find($id);
-		$data_nascimento_criacao = implode('/', array_reverse(explode('-', $dadosCliente->data_nascimento)));
+		$id_user 			= Session::get('id_atual');
+		$status_usuario 	= Session::get('status');
+		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
 
-		//dd($dadosCliente->data_nascimento);
+		$id_parceiro_system = $dadosVendedor->id_parceiro_sistema;
+		//$dadosCliente 	= ClientesIndicacoes::find($id);
+		$dadosCliente 		= ClientesIndicacoes::pesquisarIndicacao($id, $id_parceiro_system);
+		$data_nascimento_criacao = implode('/', array_reverse(explode('-', $dadosCliente[0]['Data_Nascimento'])));
+
+		//dd($dadosCliente);
 
 		$dados 			= [
 			'dadosVendedor' => $dadosVendedor, 
-			'cliente' 		=> $dadosCliente,
+			'cliente' 		=> $dadosCliente[0],
 			'data_nascimento_criacao' => $data_nascimento_criacao,
 		];
 
@@ -298,10 +304,11 @@ class IndicacaoController extends \BaseController {
 		//
 		 $rules = array(
             'nome_completo'       		=> 'required',
-            'email_cliente'      		=> 'required|email',
-           	'data_nascimento_criacao' 	=> 'required|date_format:d/m/Y',
-    		'cpf_cnpj' 					=> 'required|cpfCnpj',
+            'email_cliente'      		=> 'required|email'
         );
+
+		//'data_nascimento_criacao' 	=> 'required|date_format:d/m/Y',
+    	//	'cpf_cnpj' 					=> 'required|cpfCnpj',
 
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -311,7 +318,17 @@ class IndicacaoController extends \BaseController {
 
 		}else{
 
-			$this->clienteIndicacao = ClientesIndicacoes::find(Input::get('id_indicacao'));
+			//$this->clienteIndicacao = ClientesIndicacoes::find(Input::get('id_indicacao'));
+			$this->clienteIndicacao = ClientesIndicacoes::where('id_cliente_sistema_eficaz', Input::get('id_cliente_sistema_eficaz'))->first();
+
+			//Valida se o cliente existe ou não
+
+			if(empty($this->clienteIndicacao)){
+				$this->clienteIndicacao = new ClientesIndicacoes();
+				$this->clienteIndicacao->id_cliente_sistema_eficaz 	= Input::get('id_cliente_sistema_eficaz');
+				$this->clienteIndicacao->id_user 					= Session::get('id_atual');		
+			}
+
 			//$this->clienteIndicacao->id_user = Input::get('id_usuario');
 			$this->clienteIndicacao->nome_completo = Input::get('nome_completo');
 			$this->clienteIndicacao->nome_fantasia_cliente = Input::get('nome_fantasia');

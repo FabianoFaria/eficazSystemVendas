@@ -19,9 +19,14 @@ class OrcamentoController extends \BaseController {
 		//
 		$id_user 			= Session::get('id_atual');
 		$status_usuario 	= Session::get('status');
-		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
+		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first(); 
 
-		$orcamentoParceiro  = $this->Orcamentos->orcamentoUsuario($id_user);
+		$id_sistema 		= $dadosVendedor->id_parceiro_sistema;
+		//dd($id_sistema);
+
+		//$orcamentoParceiro  = $this->Orcamentos->orcamentoUsuario($id_user);
+
+		$orcamentoParceiro  = Orcamentos::orcamentosSistema($id_sistema);
 
 		//dd($orcamentoParceiro);
 
@@ -170,85 +175,28 @@ class OrcamentoController extends \BaseController {
 		$id_user 			= Session::get('id_atual');
 		$status_usuario 	= Session::get('status');
 		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
-		$dadosCliente 		= ClientesIndicacoes::find($id);
+		//$dadosCliente 		= ClientesIndicacoes::find($id);
+
+		//dd($dadosVendedor->id_parceiro_sistema);
+		$id_parceiro_system = $dadosVendedor->id_parceiro_sistema;
+
+		$dadosCliente 		= ClientesIndicacoes::pesquisarIndicacao($id, $id_parceiro_system);
 
 		//$orcamentosCliente 	= Orcamentos::where('id_cliente', $dadosCliente->id_cliente_sistema_eficaz)->get();
-		$orcamentosCliente 	= DB::table('orcamentos_indicados')
-								->where('id_cliente', '=', $dadosCliente->id_cliente_sistema_eficaz)
-								->get();
+		//$orcamentosCliente 	= DB::table('orcamentos_indicados')
+		//						->where('id_cliente', '=', $dadosCliente->id_cliente_sistema_eficaz)
+		//						->get();
 
-		$arrayOrcamentos	= array();
+		$orcamentosCliente 	= Orcamentos::orcamentosClienteSistema($dadosCliente[0]['Cadastro_ID']);
 
-		//Inicia pacote para enviar dados para API
-		$client = new \GuzzleHttp\Client();
-
-		if(!empty($orcamentosCliente)){
-
-			foreach ($orcamentosCliente as $orcamento) { 
-				
-				// Envia requisição para a API e recuperar o status dos orçamentos
-				//$r = $client->get('https://api.eficazsystem.com.br/api/statusOrcamentoCliente/'.$orcamento->id_orcamento_sistema, 
-				$r = $client->get('https://api.eficazsystem.com.br/api/statusOrcamentoCliente/'.$orcamento->id_orcamento_sistema, 
-	                ['json' => [
-	                    "Cadastro_ID" 	=>	Input::get('id_cliente_indicado'),
-	                    "Titulo" 		=> 	Input::get('titulo_orcamento'),
-	                    "Descricao"		=>	Input::get('descricao_orcamento')
-	                ]]);
-
-				$statusRequisicao 	= $r->getStatusCode();
-				$resultado			= $r->json();
-
-				switch ($statusRequisicao) {
-
-					case '200':
-
-						//dd($resultado);
-
-						if( !empty($resultado)){
-
-							$dateTemp = $resultado['Data_Abertura'];
-
-							$data  	  = explode(' ',$dateTemp);
-
-							$resultado['Data_Abertura'] = implode('/', array_reverse(explode('-', $data[0])));
-
-							array_push($arrayOrcamentos ,$resultado);
-						}
-
-					break;
-
-					// case '201':
-
-					// 	if(!empty($resultado) && $resultado != '404'){
-							
-					// 		$dateTemp = $resultado[0]['Data_Abertura'];
-
-					// 		$data  	  = explode(' ',$dateTemp);
-
-					// 		$resultado[0]['Data_Abertura'] = implode('/', array_reverse(explode('-', $data[0])));
-
-					// 		array_push($arrayOrcamentos ,$resultado[0]);
-					// 	}
-					// break;
-
-					case '404':
-						echo 'Falha ao encontrar.';
-					break;
-
-					default:
-						echo 'Falha ao encontrar.';
-					break;
-				}
-
-			}	
-		}
+		//dd($dadosCliente);
 
 		Session::put('cliente_atual', $id);
 
 		$dados 			= [
 			'dadosVendedor' => $dadosVendedor, 
-			'dadosCliente' 	=> $dadosCliente,
-			'orcamentos' 	=> $arrayOrcamentos
+			'dadosCliente' 	=> $dadosCliente[0],
+			'orcamentos' 	=> $orcamentosCliente
 		];
 
 		//dd($arrayOrcamentos);
@@ -318,14 +266,22 @@ class OrcamentoController extends \BaseController {
 	{
 
 		//
-		$id_user 			= Session::get('id_atual');
-		$status_usuario 	= Session::get('status');
-		$dadosVendedor 		= VendedoresDados::where('id_user', $id_user)->first();
-		$dadosCliente 		= ClientesIndicacoes::where('id_user', $id_user)->get();
-		$orcamentosCliente 	= DB::table('orcamentos_indicados')
-							->where('id_user', '=', $id_user)
-							->where('pagamentoComicao', '=', 0)
-							->get();
+		$id_user 					= Session::get('id_atual');
+		$status_usuario 			= Session::get('status');
+		$dadosVendedor 				= VendedoresDados::where('id_user', $id_user)->first();
+		//$dadosCliente 			= ClientesIndicacoes::where('id_user', $id_user)->get();
+		// $orcamentosCliente 	= DB::table('orcamentos_indicados')
+		// 					->where('id_user', '=', $id_user)
+		// 					->where('pagamentoComicao', '=', 0)
+		// 					->get();
+
+		$idUserSistema 				= $dadosVendedor->id_parceiro_sistema;
+
+		$orcamentosCliente 		= Orcamentos::todosOrcamentosParceiro($idUserSistema);
+
+		//dd($orcamentosCliente);
+
+		$dadosCliente 		= '';
 
 		$arrayOrcamentos	= array();
 
@@ -336,7 +292,7 @@ class OrcamentoController extends \BaseController {
 
 			foreach ($orcamentosCliente as $orcamento) { 
 
-				$r = $client->get('https://api.eficazsystem.com.br/api/orcamentoClienteDetalhado/'.$orcamento->id_orcamento_sistema
+				$r = $client->get('https://api.eficazsystem.com.br/api/orcamentoClienteDetalhado/'.$orcamento['Workflow_ID']
 					);
 
 				$statusRequisicao 	= $r->getStatusCode();

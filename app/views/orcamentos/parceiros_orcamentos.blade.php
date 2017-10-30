@@ -61,10 +61,14 @@
 				                        			{{ $orcamento['Titulo'] }}
 				                        		</td>
 				                        		<td>
-				                        			{{ $orcamento['Data_Abertura'] }}
+				                        			{{--*/ 
+				                        				$data  = $orcamento['Data_Abertura'];
+				                        				$teste = explode(' ',$data); 
+				                        				echo implode('/',array_reverse(explode('-', $teste[0])));
+				                        			/*--}}
 				                        		</td>
 				                        		<td>
-				                        			{{ $orcamento['Situacao'] }}
+				                        			{{ $orcamento['Status'] }}
 				                        		</td>
 				                        	<tr>
 
@@ -85,5 +89,5 @@
 
     	</div>
     </section>
-
+    <hr>
 @endsection()

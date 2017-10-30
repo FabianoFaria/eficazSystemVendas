@@ -375,13 +375,13 @@ class OrcamentoController extends \BaseController {
 
 							// Verifica se já chegou a data de pagar o orçamento ao parceiro
 
-							// $hoje = date('Y-m-d H:i:s');
+							$hoje = date('Y-m-d H:i:s');
 						   	
-						 //   	if($hoje > $dateTempPagamento){
+						    //if($hoje > $dateTempPagamento){
 
-						    		array_push($arrayOrcamentos ,$resultado);
+						    	array_push($arrayOrcamentos ,$resultado);
 
-						 //   	}
+							//}
 
 						}
 
@@ -534,17 +534,17 @@ class OrcamentoController extends \BaseController {
 
 							// calculo da comissão
 							$resultado['Valor_Vencimento'] 	= Orcamentos::comissaoOrcamentoAulso($resultado['Valor_Vencimento']);
-							$resultado['totalServico'] 	= Orcamentos::comissaoOrcamentoAulso($resultado['totalServico']);
+							$resultado['totalServico'] 		= Orcamentos::comissaoOrcamentoAulso($resultado['totalServico']);
 
 							// Verifica se já chegou a data de pagar o orçamento ao parceiro
 
 							$hoje = date('Y-m-d H:i:s');
 						   	
-						   	// if($hoje > $dateTempPagamento){
+						   	if($hoje > $dateTempPagamento){
 
 						     	array_push($arrayOrcamentos ,$resultado);
 
-						   	// }
+						   	}
 
 						}
 

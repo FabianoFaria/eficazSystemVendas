@@ -79,11 +79,14 @@ class AdminController extends \BaseController {
 
 					$faturarIndicacoes 		= '';
 
+					/*
+					// Com a lista de orçamentos e busca as propostas e os valores a serem cobrados do cliente
 					// Contabiliza o total para pagar em comissões
+					*/
 
 					if(!empty($indicacoesOrcamentos)){
 
-						$faturarIndicacoes 	= '1.00';
+						$faturarIndicacoes 	= 0;
 
 						$arrayOrcamentos	= array();
 
@@ -154,7 +157,7 @@ class AdminController extends \BaseController {
 									   	}
 
 										//dd($resultado);
-										
+										//var_dump($resultado);
 									}
 
 								break;
@@ -179,6 +182,7 @@ class AdminController extends \BaseController {
 							foreach ($arrayOrcamentos as $orcamentosFechados) {
 								
 								//dd($orcamentosFechados);
+
 								$valorOrcamento    = $orcamentosFechados['totalServico'];
 
 								$faturarIndicacoes = $faturarIndicacoes + Orcamentos::comissaoOrcamentoAulso($valorOrcamento);
@@ -232,9 +236,6 @@ class AdminController extends \BaseController {
 					# code...
 				break;
 			}
-
-
-
 			
 
 		}else{

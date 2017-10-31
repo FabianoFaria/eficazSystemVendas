@@ -107,11 +107,36 @@ class AdminController extends \BaseController {
 									if( !empty($resultado)){
 
 
+										$diasParaFaturarTemp 	= $resultado[0]['Dias_Vencimento'];
+										$dataFinalizado 		= '';
+										$totalOrcamento 		= 0;
+
+										//Foreach para somar o resultado de cadas proposta
+										foreach ($resultado as $proposta) {
+											
+											//Condição para alterar o número de dias para faturar
+
+											if($proposta['Dias_Vencimento'] > $diasParaFaturarTemp){
+
+												$diasParaFaturarTemp = $proposta['Dias_Vencimento'];
+											}
+
+											$dataFinalizado 		= $proposta['Data_Finalizado'];
+
+											$totalOrcamento			= $totalOrcamento + $proposta['Valor_Vencimento'];
+
+											$resultado['Titulo'] 	= $proposta['Orc_titulo'];
+
+											$resultado['Status'] 	= $proposta['Status'];
+
+										}
+
+
 										//Dias para vencer prazo de faturamento do orçamento para o cliente
 
-										$diasParaFaturar = $resultado['Dias_Vencimento'] + 5;
+										$diasParaFaturar = $diasParaFaturarTemp + 5;
 
-										$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+										$dateTemp = strtotime($dataFinalizado." +".$diasParaFaturar."days");
 
 									    //$date = strtotime($dateTemp);
 			    						$date = date("l", $dateTemp);
@@ -120,7 +145,7 @@ class AdminController extends \BaseController {
 			    							case 'Saturday':
 			    								$diasParaFaturar = $diasParaFaturar + 2;
 
-									        	$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+									        	$dateTemp = strtotime($dataFinalizado." +".$diasParaFaturar."days");
 
 
 									        	$resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
@@ -131,7 +156,7 @@ class AdminController extends \BaseController {
 			    								
 			    								$diasParaFaturar = $diasParaFaturar + 1;
 
-									        	$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+									        	$dateTemp = strtotime($dataFinalizado." +".$diasParaFaturar."days");
 
 									        	$resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
 
@@ -183,9 +208,9 @@ class AdminController extends \BaseController {
 								
 								//dd($orcamentosFechados);
 
-								$valorOrcamento    = $orcamentosFechados['totalServico'];
+								$valorOrcamento    = $totalOrcamento;
 
-								$faturarIndicacoes = $faturarIndicacoes + Orcamentos::comissaoOrcamentoAulso($valorOrcamento);
+								$faturarIndicacoes = $faturarIndicacoes + Orcamentos::comissaoOrcamentoAulso($totalOrcamento);
 							}
 
 						}else{

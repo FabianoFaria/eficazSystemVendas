@@ -302,9 +302,10 @@ class OrcamentoController extends \BaseController {
 
 					case '200':
 
-						//dd($resultado);
-
 						if( !empty($resultado)){
+
+
+							//dd($resultado);
 
 							// $dateTemp = $resultado['Data_Finalizado'];
 
@@ -321,11 +322,37 @@ class OrcamentoController extends \BaseController {
 
 							//$dateTemp = strtotime(date("Y-m-d H:i:s", strtotime()) . " +".$resultado['Dias_Vencimento']."days");
 
+
+							$diasParaFaturarTemp 	= $resultado[0]['Dias_Vencimento'];
+							$dataFinalizado 		= '';
+							$totalOrcamento 		= 0;
+
+
+							//Foreach para somar o resultado de cadas proposta
+							foreach ($resultado as $proposta) { 
+								
+								//Condição para alterar o número de dias para faturar
+
+								if($proposta['Dias_Vencimento'] > $diasParaFaturarTemp){
+
+									$diasParaFaturarTemp = $proposta['Dias_Vencimento'];
+								}
+
+								$dataFinalizado 		= $proposta['Data_Finalizado'];
+
+								$totalOrcamento			= $totalOrcamento + $proposta['Valor_Vencimento'];
+
+								$resultado['Titulo'] 	= $proposta['Orc_titulo'];
+
+								$resultado['Status'] 	= $proposta['Status'];
+
+							}
+
 							//Data de faturamento mais cinco dias para pagar o parceiro após o recebimento do faturamento do cliente.
 
-							$diasParaFaturar = $resultado['Dias_Vencimento'] + 5;
+							$diasParaFaturar = $diasParaFaturarTemp + 5;
 
-							$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+							$dateTemp = strtotime($dataFinalizado." +".$diasParaFaturar."days");
 
 						    //$date = strtotime($dateTemp);
     						$date = date("l", $dateTemp);
@@ -334,7 +361,7 @@ class OrcamentoController extends \BaseController {
     							case 'Saturday':
     								$diasParaFaturar = $diasParaFaturar + 2;
 
-						        	$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+						        	$dateTemp = strtotime($dataFinalizado." +".$diasParaFaturar."days");
 
 
 						        	$resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
@@ -345,7 +372,7 @@ class OrcamentoController extends \BaseController {
     								
     								$diasParaFaturar = $diasParaFaturar + 1;
 
-						        	$dateTemp = strtotime($resultado['Data_Finalizado']." +".$diasParaFaturar."days");
+						        	$dateTemp = strtotime($dataFinalizado." +".$diasParaFaturar."days");
 
 						        	$resultado['Data_Faturamento'] = date("Y-m-d H:i:s", $dateTemp);
 
@@ -359,7 +386,7 @@ class OrcamentoController extends \BaseController {
     						}
 
 						    
-    						$dateTempFatramento 	= $resultado['Data_Finalizado'];
+    						$dateTempFatramento 	= $dataFinalizado;
     						$dateTempPagamento 		= $resultado['Data_Faturamento'];
 
 
@@ -370,18 +397,20 @@ class OrcamentoController extends \BaseController {
 							$resultado['Data_Faturamento'] 	= implode('/', array_reverse(explode('-', $dataPag[0])));
 
 							// calculo da comissão
-							$resultado['Valor_Vencimento'] 	= Orcamentos::comissaoOrcamentoAulso($resultado['Valor_Vencimento']);
-							$resultado['totalServico'] 	= Orcamentos::comissaoOrcamentoAulso($resultado['totalServico']);
+							$resultado['Valor_Vencimento'] 	= Orcamentos::comissaoOrcamentoAulso($totalOrcamento);
+							$resultado['totalServico'] 		= Orcamentos::comissaoOrcamentoAulso($totalOrcamento);
 
 							// Verifica se já chegou a data de pagar o orçamento ao parceiro
 
+							//dd($resultado);
+
 							$hoje = date('Y-m-d H:i:s');
 						   	
-						    //if($hoje > $dateTempPagamento){
+						    if($hoje > $dateTempPagamento){
 
 						    	array_push($arrayOrcamentos ,$resultado);
 
-							//}
+							}
 
 						}
 
@@ -710,18 +739,18 @@ class OrcamentoController extends \BaseController {
 	    					break;
 	    				}
 
-	    				$dateTempFatramento 	= $resultado['Data_Finalizado'];
-	    				$dateTempPagamento 		= $resultado['Data_Faturamento'];
+	    				$dateTempFatramento 			= $resultado['Data_Finalizado'];
+	    				$dateTempPagamento 				= $resultado['Data_Faturamento'];
 
-						$data 		= explode(' ',$dateTempFatramento);
-						$dataPag 	= explode(' ',$dateTempPagamento);
+						$data 							= explode(' ',$dateTempFatramento);
+						$dataPag 						= explode(' ',$dateTempPagamento);
 
 						$resultado['Data_Finalizado'] 	= implode('/', array_reverse(explode('-', $data[0])));
 						$resultado['Data_Faturamento'] 	= implode('/', array_reverse(explode('-', $dataPag[0])));
 
 						// calculo da comissão
 						$resultado['Valor_Vencimento'] 	= Orcamentos::comissaoOrcamentoAulso($resultado['Valor_Vencimento']);
-						$resultado['totalServico'] 	= Orcamentos::comissaoOrcamentoAulso($resultado['totalServico']);
+						$resultado['totalServico'] 		= Orcamentos::comissaoOrcamentoAulso($resultado['totalServico']);
 
 						array_push($arrayOrcamentos ,$resultado);
 

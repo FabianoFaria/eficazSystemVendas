@@ -82,6 +82,11 @@ Route::get('definirSenhas', function()
 });
 
 
+//Rotas para serem acessadas via CRON 
+//Route::get('orcamentosFechadosDia', 'OrcamentoController@contabilizarOrcamentosFechadosDia');
+
+//Rota para recuperar dados do parceiro, requisitado pela API
+Route::get('dadosParceiro/{id}', 'UsersEficazController@dadosParceiroApi');
 
 // Route::get('admin', function(){
 

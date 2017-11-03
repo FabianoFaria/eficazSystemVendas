@@ -9,6 +9,8 @@ class UsersEficazController extends BaseController {
 
 	protected $user;
 
+	protected $respose;
+
 	public function __construct(User $user) {
 	    //$this->beforeFilter('csrf', array('on'=>'post'));
 
@@ -205,6 +207,35 @@ class UsersEficazController extends BaseController {
 			break;
 		}
 
+
+	}
+
+
+	//Função para criação de usuários através da página principal
+	public function dadosParceiroApi($id){
+
+
+		$dadosParceiros  = DB::table('vendedores_dados')
+            				->leftjoin('vendedores_finaceiros', 'vendedores_dados.id_user', '=', 'vendedores_finaceiros.id_user')
+            				->leftjoin('vendedores_telefones', 'vendedores_dados.id_user', '=', 'vendedores_telefones.id_user')
+            				->leftjoin('instituicao_bancaria', 'instituicao_bancaria.id_instituicao_bancaria', '=', 'vendedores_finaceiros.instituicao')
+            				->select(
+            					'vendedores_dados.id_user', 
+            					'vendedores_dados.id_parceiro_sistema', 
+            					'vendedores_dados.nome_vendedor', 
+            					'vendedores_finaceiros.nome_conta',
+            					'vendedores_finaceiros.agencia',
+            					'vendedores_finaceiros.numero_conta',
+            					'instituicao_bancaria.nome_instituicao_bancaria'
+            				)
+            				->where('vendedores_dados.id_parceiro_sistema','=', $id)
+            				->groupby(
+            					'vendedores_finaceiros.nome_conta'
+            				)
+            				->get();
+
+
+		return Response::json(['parceiro' => $dadosParceiros], 201); // Status code here
 
 	}
 

@@ -225,4 +225,20 @@ class VendedorDadosController extends \BaseController {
 	}
 
 
+
+	/**
+	 * Carrega os dados do parceiros que estão alocados aos clientes
+	 * que tiveram o orçamento fechados no dia.
+	 *
+	 * 
+	 * @return Response
+	 */
+	public function dadosParceiroOrcamentoFechado($id){
+
+
+		$vendedor = VendedoresDados::where('id_user', $id)->first();
+
+
+	}
+
 }

@@ -277,7 +277,7 @@ class OrcamentoController extends \BaseController {
 
 		$idUserSistema 				= $dadosVendedor->id_parceiro_sistema;
 
-		$orcamentosCliente 		= Orcamentos::todosOrcamentosParceiro($idUserSistema);
+		$orcamentosCliente 			= Orcamentos::todosOrcamentosParceiro($idUserSistema);
 
 		//dd($orcamentosCliente);
 

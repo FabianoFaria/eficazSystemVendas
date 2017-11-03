@@ -216,6 +216,7 @@ class UsersEficazController extends BaseController {
 
 
 		$dadosParceiros  = DB::table('vendedores_dados')
+            				->leftjoin('usersEficazTable', 'usersEficazTable.id', '=', 'vendedores_dados.id_user')
             				->leftjoin('vendedores_finaceiros', 'vendedores_dados.id_user', '=', 'vendedores_finaceiros.id_user')
             				->leftjoin('vendedores_telefones', 'vendedores_dados.id_user', '=', 'vendedores_telefones.id_user')
             				->leftjoin('instituicao_bancaria', 'instituicao_bancaria.id_instituicao_bancaria', '=', 'vendedores_finaceiros.instituicao')
@@ -223,6 +224,7 @@ class UsersEficazController extends BaseController {
             					'vendedores_dados.id_user', 
             					'vendedores_dados.id_parceiro_sistema', 
             					'vendedores_dados.nome_vendedor', 
+            					'usersEficazTable.email_usuario',
             					'vendedores_finaceiros.nome_conta',
             					'vendedores_finaceiros.agencia',
             					'vendedores_finaceiros.numero_conta',
@@ -232,7 +234,7 @@ class UsersEficazController extends BaseController {
             				->groupby(
             					'vendedores_finaceiros.nome_conta'
             				)
-            				->get();
+            				->first();
 
 
 		return Response::json(['parceiro' => $dadosParceiros], 201); // Status code here

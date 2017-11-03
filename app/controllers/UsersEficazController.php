@@ -234,7 +234,7 @@ class UsersEficazController extends BaseController {
             				->groupby(
             					'vendedores_finaceiros.nome_conta'
             				)
-            				->first();
+            				->get();
 
 
 		return Response::json(['parceiro' => $dadosParceiros], 201); // Status code here

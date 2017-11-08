@@ -800,7 +800,6 @@ class OrcamentoController extends \BaseController {
 
 			$propostaOrcamento = Orcamentos::orcamentoProposta($id);
 
-			dd($id);
 
 			if( !empty($propostaOrcamento)){
 

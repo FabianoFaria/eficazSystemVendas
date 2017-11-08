@@ -461,7 +461,33 @@ class Orcamentos extends Eloquent {
 				return null;
 			}
 
+			if ($e->getResponse()->getStatusCode() == '404') {
+			        //echo "Got response 400";
+			   //Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
+
+				return null;
+			}
+
 		}
+
+		switch ($statusRequisicao) {
+
+            case '200':
+                
+                return $resultado;
+
+            break;
+
+            case '400':
+                return null;
+            break;
+
+            case '404':
+                return null;
+            break;
+
+
+        }
 
     }
 

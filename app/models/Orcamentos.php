@@ -418,6 +418,8 @@ class Orcamentos extends Eloquent {
 			$statusRequisicao 	= $r->getStatusCode();
 			$resultado			= $r->json();
 
+			dd($statusRequisicao);
+
 			switch ($statusRequisicao) {
 
 				case '201':

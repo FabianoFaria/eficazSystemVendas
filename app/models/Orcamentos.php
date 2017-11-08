@@ -449,7 +449,9 @@ class Orcamentos extends Eloquent {
 			        //echo "Got response 400";
 			   //Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
 
-				return null;
+				$statusRequisicao 	= $e->getResponse()->getStatusCode();
+
+				return $statusRequisicao;
 			}
 
 		}

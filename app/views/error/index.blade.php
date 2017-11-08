@@ -41,7 +41,7 @@
 			                  <div class="feature-item">
 			                    <i class="icon-phone text-primary"></i>
 			                    
-				    			<p><a href="{{ URL::to('/' }}" class="btn btn-primary"> Voltar a página inicial. </a></p>
+				    			<p><a href="{{ URL::to('/') }}" class="btn btn-primary"> Voltar a página inicial. </a></p>
 
 			                  </div>
 			                </div>

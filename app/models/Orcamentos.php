@@ -413,7 +413,7 @@ class Orcamentos extends Eloquent {
 
 		try {
 
-			$r 					= $client->post('https://api.eficazsystem.com.br/api/carregarDadosProposta/'.$id);
+			$r 					= $client->post('https://api.eficazsystem.com.br/api/carregarDadosProposta/'.$idProposta);
 
 			$statusRequisicao 	= $r->getStatusCode();
 			$resultado			= $r->json();

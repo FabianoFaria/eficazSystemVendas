@@ -1,5 +1,7 @@
 <?php
 
+use \GuzzleHttp\Exception\RequestException;
+
 class OrcamentoController extends \BaseController {
 
 
@@ -667,7 +669,7 @@ class OrcamentoController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function marcarComoPago($id){
+	public function marcarComoPago_desativado($id){
 
 		$arrayOrcamentos	= array();
 		$parceiroPago 		= '';
@@ -780,6 +782,42 @@ class OrcamentoController extends \BaseController {
 		// Carrega a tela para pagar o parceiro
 
 		return View::make( 'orcamentos.parceiro_registrar_pagamento_comicoes', $dados);
+
+	}
+
+	/**
+	 * Carrega a tela de registro de pagamento da comissão.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function marcarComoPago($id){
+
+		if(is_numeric($id)){
+
+
+			//Carrega os dados da proposta que será marcada como paga.
+
+			$propostaOrcamento = Orcamentos::orcamentoProposta($id);
+
+			if( !empty($propostaOrcamento)){
+
+				dd($propostaOrcamento);
+
+				//return View::make('orcamentos.orcamentos_proposta');
+
+			}else{
+
+				return View::make( 'error.index');
+
+			}
+
+
+		}else{
+
+			return View::make( 'error.index');
+
+		}
 
 	}
 

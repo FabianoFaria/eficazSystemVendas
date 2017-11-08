@@ -82,6 +82,8 @@ Route::get('definirSenhas', function()
 });
 
 
+Route::get('marcarComoPago/{id}', 'OrcamentoController@marcarComoPago');
+
 //Rotas para serem acessadas via CRON 
 //Route::get('orcamentosFechadosDia', 'OrcamentoController@contabilizarOrcamentosFechadosDia');
 

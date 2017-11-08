@@ -403,6 +403,58 @@ class Orcamentos extends Eloquent {
 
     }
 
+
+    // Recupera os dados da proposta que irá ser registrada como paga
+
+    public static function orcamentoProposta($idProposta){
+
+    	//Inicia pacote para enviar dados para API
+		$client 	= new \GuzzleHttp\Client();
+
+		try {
+
+			$r 					= $client->post('https://api.eficazsystem.com.br/api/carregarDadosProposta/'.$id);
+
+			$statusRequisicao 	= $r->getStatusCode();
+			$resultado			= $r->json();
+
+			switch ($statusRequisicao) {
+
+				case '201':
+
+					# Cadastro foi efetuado com sucesso
+					# Cliente será salvo no cadastro do parceiro
+
+					return $resultado;
+
+				break;
+
+				default:
+					# Caso tenha ocorrido um erro de servidor
+					//Session::flash('error_cad', 'Não foi possivel cadastrar no momento, tente novamente em alguns instante.');
+
+					return null;
+
+				break;
+			}
+
+
+		}catch (RequestException $e){
+
+
+			// To catch exactly error 400 use 
+			if ($e->getResponse()->getStatusCode() == '400') {
+			        //echo "Got response 400";
+			   //Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
+
+				return null;
+			}
+
+		}
+
+    }
+
+
     // Retorna o valor da comisão, já com os valores de imposto e porcentagem descontado
 
     public static function comissaoOrcamentoAulso($valorTotalOrcamento){

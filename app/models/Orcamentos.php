@@ -418,40 +418,47 @@ class Orcamentos extends Eloquent {
 			$statusRequisicao 	= $r->getStatusCode();
 			$resultado			= $r->json();
 
-			dd($statusRequisicao);
+			// dd($statusRequisicao);
 
-			switch ($statusRequisicao) {
+			// switch ($statusRequisicao) {
 
-				case '201':
+			// 	case '201':
 
-					# Cadastro foi efetuado com sucesso
-					# Cliente será salvo no cadastro do parceiro
+			// 		# Cadastro foi efetuado com sucesso
+			// 		# Cliente será salvo no cadastro do parceiro
 
-					return $resultado;
+			// 		return $resultado;
 
-				break;
+			// 	break;
 
-				case '200':
+			// 	case '200':
 
-					# Cadastro foi efetuado com sucesso
-					# Cliente será salvo no cadastro do parceiro
+			// 		# Cadastro foi efetuado com sucesso
+			// 		# Cliente será salvo no cadastro do parceiro
 
-					return $resultado;
+			// 		return $resultado;
 
-				break;
+			// 	break;
 
-				default:
-					# Caso tenha ocorrido um erro de servidor
-					//Session::flash('error_cad', 'Não foi possivel cadastrar no momento, tente novamente em alguns instante.');
+			// 	default:
+			// 		# Caso tenha ocorrido um erro de servidor
+			// 		//Session::flash('error_cad', 'Não foi possivel cadastrar no momento, tente novamente em alguns instante.');
 
-					return null;
+			// 		return null;
 
-				break;
-			}
+			// 	break;
+			// }
 
 
 		}catch (RequestException $e){
 
+			// To catch exactly error 400 use 
+			if ($e->getResponse()->getStatusCode() == '200') {
+			        //echo "Got response 400";
+			   //Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
+
+				return $resultado;
+			}
 
 			// To catch exactly error 400 use 
 			if ($e->getResponse()->getStatusCode() == '400') {
@@ -469,25 +476,6 @@ class Orcamentos extends Eloquent {
 			}
 
 		}
-
-		switch ($statusRequisicao) {
-
-            case '200':
-                
-                return $resultado;
-
-            break;
-
-            case '400':
-                return null;
-            break;
-
-            case '404':
-                return null;
-            break;
-
-
-        }
 
     }
 

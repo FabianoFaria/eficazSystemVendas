@@ -431,6 +431,15 @@ class Orcamentos extends Eloquent {
 
 				break;
 
+				case '200':
+
+					# Cadastro foi efetuado com sucesso
+					# Cliente será salvo no cadastro do parceiro
+
+					return $resultado;
+
+				break;
+
 				default:
 					# Caso tenha ocorrido um erro de servidor
 					//Session::flash('error_cad', 'Não foi possivel cadastrar no momento, tente novamente em alguns instante.');
@@ -449,9 +458,7 @@ class Orcamentos extends Eloquent {
 			        //echo "Got response 400";
 			   //Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
 
-				$statusRequisicao 	= $e->getResponse()->getStatusCode();
-
-				return $statusRequisicao;
+				return null;
 			}
 
 		}

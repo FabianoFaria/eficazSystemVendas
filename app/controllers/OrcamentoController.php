@@ -800,9 +800,11 @@ class OrcamentoController extends \BaseController {
 
 			$propostaOrcamento = Orcamentos::orcamentoProposta($id);
 
+			dd($propostaOrcamento);
+
 			if( !empty($propostaOrcamento)){
 
-				dd($propostaOrcamento);
+
 
 				//return View::make('orcamentos.orcamentos_proposta');
 

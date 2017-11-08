@@ -8,7 +8,7 @@
     		<div class="row">
 				<div class="col-md-12">
 
-					<h3 class="page-header">Informção não encontrada</h3>
+					<h3 class="page-header">Erro 404</h3>
 
 					<p> Parece que a informação que está procurando não foi encontrada ou foi procurada de maneira incorreta. </p>
 	          			

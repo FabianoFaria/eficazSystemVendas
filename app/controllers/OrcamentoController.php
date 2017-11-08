@@ -805,7 +805,7 @@ class OrcamentoController extends \BaseController {
 
 
 
-				//return View::make('orcamentos.orcamentos_proposta');
+				return View::make('orcamentos.orcamentos_proposta');
 
 			}else{
 

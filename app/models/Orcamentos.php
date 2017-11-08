@@ -420,40 +420,40 @@ class Orcamentos extends Eloquent {
 
 			dd($statusRequisicao);
 
-			// switch ($statusRequisicao) {
+			switch ($statusRequisicao) {
 
-			// 	case '201':
+				case '201':
 
-			// 		# Cadastro foi efetuado com sucesso
-			// 		# Cliente será salvo no cadastro do parceiro
+					# Cadastro foi efetuado com sucesso
+					# Cliente será salvo no cadastro do parceiro
 
-			// 		return $resultado;
+					return $resultado;
 
-			// 	break;
+				break;
 
-			// 	case '200':
+				case '200':
 
-			// 		# Cadastro foi efetuado com sucesso
-			// 		# Cliente será salvo no cadastro do parceiro
+					# Cadastro foi efetuado com sucesso
+					# Cliente será salvo no cadastro do parceiro
 
-			// 		return $resultado;
+					return $resultado;
 
-			// 	break;
+				break;
 
-			// 	default:
-			// 		# Caso tenha ocorrido um erro de servidor
-			// 		//Session::flash('error_cad', 'Não foi possivel cadastrar no momento, tente novamente em alguns instante.');
+				default:
+					# Caso tenha ocorrido um erro de servidor
+					//Session::flash('error_cad', 'Não foi possivel cadastrar no momento, tente novamente em alguns instante.');
 
-			// 		return null;
+					return null;
 
-			// 	break;
-			// }
+				break;
+			}
 
 
-		}catch (RequestException $e){
+		}catch (RequestException $r){
 
 			// To catch exactly error 400 use 
-			if ($e->getResponse()->getStatusCode() == '200') {
+			if ($r->getResponse()->getStatusCode() == '200') {
 			        //echo "Got response 400";
 			   //Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
 
@@ -461,14 +461,14 @@ class Orcamentos extends Eloquent {
 			}
 
 			// To catch exactly error 400 use 
-			if ($e->getResponse()->getStatusCode() == '400') {
+			if ($r->getResponse()->getStatusCode() == '400') {
 			        //echo "Got response 400";
 			   //Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
 
 				return null;
 			}
 
-			if ($e->getResponse()->getStatusCode() == '404') {
+			if ($r->getResponse()->getStatusCode() == '404') {
 			        //echo "Got response 400";
 			   //Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
 

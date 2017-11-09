@@ -800,12 +800,52 @@ class OrcamentoController extends \BaseController {
 
 			$propostaOrcamento = Orcamentos::orcamentoProposta($id);
 
-
 			if( !empty($propostaOrcamento)){
 
+				$id_parceiro 	=	 $propostaOrcamento[0]['Parceiro_Origem_ID'];
 
+				//Procura por dado do parceiro
+				$parceiro 	= 	VendedoresDados::where('id_parceiro_sistema', '=', $id_parceiro )->first();
 
-				return View::make('orcamentos.orcamentos_proposta');
+				//Busca os dados financeiros do parceiro
+				if(!empty($parceiro)){
+
+					$financeiro = DB::table('vendedores_finaceiros')
+									->join('instituicao_bancaria','instituicao_bancaria.id_instituicao_bancaria','=','vendedores_finaceiros.instituicao')
+									->join('tipo_conta_banco','tipo_conta_banco.id_tipo_conta','=','vendedores_finaceiros.tipo_conta')
+									->select(
+										'vendedores_finaceiros.nome_conta',
+										'vendedores_finaceiros.agencia',
+										'vendedores_finaceiros.numero_conta',
+										'instituicao_bancaria.nome_instituicao_bancaria',
+										'tipo_conta_banco.tipo_conta'
+									)
+									->where('vendedores_finaceiros.id_user', '=', $parceiro->id_user)
+    								->where('vendedores_finaceiros.deleted_at', '=', null)
+    								->first();
+				}else{
+
+					$financeiro = '';
+
+				}
+
+				//Nome do parceiro
+				if(!empty($parceiro->nome_fantasia)){
+					$nomeParceiro = $parceiro->nome_fantasia;
+				}else{
+					$nomeParceiro = $parceiro->nome_vendedor;
+				}
+
+				$comissaoPagar 	  = Orcamentos::comissaoOrcamentoAulso($propostaOrcamento[0]['Valor_Total_Proposta']);
+
+				$dados 			= [
+					'nomeUsuario'		=> $nomeParceiro,
+					'financeiroParc'	=> $financeiro,
+					'comissaoProposta'	=> $comissaoPagar,
+					'proposta' 			=> $propostaOrcamento[0]
+				];
+
+				return View::make('orcamentos.orcamentos_proposta', $dados);
 
 			}else{
 
@@ -819,6 +859,88 @@ class OrcamentoController extends \BaseController {
 			return View::make( 'error.index');
 
 		}
+
+	}
+
+	/**
+	 * Registra o pagamento da comissão do parceiro.
+	 *
+	 * @return Response
+	 */
+	public function registrarComissaoPaga(){
+
+		// $idOrcamento 	= Input::get('id_orcamento');
+		// $idProposta 	= Input::get('id_proposta');
+		// $idParceiro 	= Input::get('id_parceiro');
+		// $observacao 	= Input::get('observacao');
+		// $totalComicao 	= Input::get('total_comicao');
+
+
+		$comissoesPagas = new ComissoesPagasParceiros();
+
+		if( ! $comissoesPagas->isValid($input = Input::all())){
+
+			return Redirect::back()->withInput()->withErrors($comissoesPagas->errors);
+
+		}else{
+
+			$comissoesPagas->id_parceiro_sistema 	= Input::get('id_parceiro');
+			$comissoesPagas->id_workflow 			= Input::get('id_orcamento');
+			$comissoesPagas->id_proposta 			= Input::get('id_proposta');
+			$comissoesPagas->observacoes_pagamento 	= Input::get('observacao');
+			$comissoesPagas->total_comicao 			= Input::get('total_comicao');
+
+			//Verifica se o pagamanto da proposta já está ou não paga
+
+			$dataComissao = DB::table('comicoes_parceiros_pagas')
+								->select(
+										'comicoes_parceiros_pagas.id_parceiro_sistema',
+										'comicoes_parceiros_pagas.id_workflow',
+										'comicoes_parceiros_pagas.id_proposta',
+										'comicoes_parceiros_pagas.observacoes_pagamento',
+										'comicoes_parceiros_pagas.total_comicao'
+									)
+								->where('comicoes_parceiros_pagas.id_parceiro_sistema', '=', Input::get('id_parceiro'))
+    							->where('comicoes_parceiros_pagas.id_workflow', '=', Input::get('id_orcamento'))
+    							->where('comicoes_parceiros_pagas.id_proposta', '=', Input::get('id_proposta'))
+    							->first();
+
+    		if(!empty($dataComissao)){
+
+    			//Retorna aviso de proposta já paga pelo usuário
+    			$resultado = false;
+
+
+    		}else{
+
+    			// Efetua o registro do pagamento da proposta
+    			$comissoesPagas->save();
+
+    			$resultado = true;
+    		}
+
+    		//dd($dataComissao);
+    		$data = [
+    			'resultado' => $resultado
+    		];
+
+    		return View::make( 'orcamentos.orcamentos_pagamento_proposta_resultado', $data);
+		}
+
+		/*
+			$table->increments('id_comicoes_paga');
+			$table->string('id_parceiro_sistema', 11);
+			$table->string('id_workflow', 11);
+			$table->string('id_proposta', 11);
+			$table->string('observacoes_pagamento', 255);
+			$table->string('total_comicao', 255);
+			$table->timestamp('created_at');
+			$table->softDeletes();
+
+		*/
+
+
+		//dd($idOrcamento);
 
 	}
 

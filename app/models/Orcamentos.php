@@ -413,12 +413,10 @@ class Orcamentos extends Eloquent {
 
 		try {
 
-			$r 					= $client->post('https://api.eficazsystem.com.br/api/carregarDadosProposta/'.$idProposta);
+			$r 					= $client->get('https://api.eficazsystem.com.br/api/carregarDadosProposta/'.$idProposta);
 
 			$statusRequisicao 	= $r->getStatusCode();
 			$resultado			= $r->json();
-
-			dd($statusRequisicao);
 
 			switch ($statusRequisicao) {
 
@@ -450,25 +448,10 @@ class Orcamentos extends Eloquent {
 			}
 
 
-		}catch (RequestException $r){
+		}catch (RequestException $e){
 
 			// To catch exactly error 400 use 
-			if ($r->getResponse()->getStatusCode() == '200') {
-			        //echo "Got response 400";
-			   //Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
-
-				return $resultado;
-			}
-
-			// To catch exactly error 400 use 
-			if ($r->getResponse()->getStatusCode() == '400') {
-			        //echo "Got response 400";
-			   //Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
-
-				return null;
-			}
-
-			if ($r->getResponse()->getStatusCode() == '404') {
+			if ($e->getResponse()->getStatusCode() == '400') {
 			        //echo "Got response 400";
 			   //Session::flash('error_cad', 'Não foi possivel cadastrar, verifique os dados informados e tente novamente.');
 
@@ -476,6 +459,7 @@ class Orcamentos extends Eloquent {
 			}
 
 		}
+
 
     }
 

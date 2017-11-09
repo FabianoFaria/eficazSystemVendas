@@ -43,7 +43,7 @@
 	        margin: 0 auto !important;
 	    }
 	    table table table {
-	            table-layout: auto; 
+	        table-layout: auto; 
 	    }
 	        
 	    /* What it does: Uses a better rendering method when resizing images in IE. */
@@ -56,11 +56,70 @@
 	    a[x-apple-data-detectors] {
 	        color:inherit !important;
 	        text-decoration: underline !important;
+	        font-family: sans-serif;
 	    }
+
+	    .page-header{
+	    	font-family: sans-serif;
+	    }
+
 	</style>
 
 	<!-- Progressive Enhancements -->
     <style>
+
+    	.btn {
+		  display: inline-block;
+		  padding: 6px 12px;
+		  margin-bottom: 0;
+		  font-size: 14px;
+		  font-weight: normal;
+		  line-height: 1.42857143;
+		  text-align: center;
+		  white-space: nowrap;
+		  vertical-align: middle;
+		  -ms-touch-action: manipulation;
+		      touch-action: manipulation;
+		  cursor: pointer;
+		  -webkit-user-select: none;
+		     -moz-user-select: none;
+		      -ms-user-select: none;
+		          user-select: none;
+		  background-image: none;
+		  border: 1px solid transparent;
+		  border-radius: 4px;
+		}
+		.btn:focus,
+		.btn:active:focus,
+		.btn.active:focus,
+		.btn.focus,
+		.btn:active.focus,
+		.btn.active.focus {
+		  outline: 5px auto -webkit-focus-ring-color;
+		  outline-offset: -2px;
+		}
+		.btn:hover,
+		.btn:focus,
+		.btn.focus {
+		  color: #333;
+		  text-decoration: none;
+		}
+		.btn:active,
+		.btn.active {
+		  background-image: none;
+		  outline: 0;
+		  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+		          box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+		}
+		.btn.disabled,
+		.btn[disabled],
+		fieldset[disabled] .btn {
+		  cursor: not-allowed;
+		  filter: alpha(opacity=65);
+		  -webkit-box-shadow: none;
+		          box-shadow: none;
+		  opacity: .65;
+		}
 
     	/* What it does: Hover styles for buttons */
 	    .button-td,
@@ -73,8 +132,82 @@
 	        border-color: #555555 !important;
 	    }
 
+	    .btn-primary {
+		  background-image: -webkit-linear-gradient(top, #337ab7 0%, #265a88 100%);
+		  background-image:      -o-linear-gradient(top, #337ab7 0%, #265a88 100%);
+		  background-image: -webkit-gradient(linear, left top, left bottom, from(#337ab7), to(#265a88));
+		  background-image:         linear-gradient(to bottom, #337ab7 0%, #265a88 100%);
+		  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0);
+		  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+		  background-repeat: repeat-x;
+		  border-color: #245580;
+		}
+
+		.btn-danger {
+		  background-image: -webkit-linear-gradient(top, #d9534f 0%, #c12e2a 100%);
+		  background-image:      -o-linear-gradient(top, #d9534f 0%, #c12e2a 100%);
+		  background-image: -webkit-gradient(linear, left top, left bottom, from(#d9534f), to(#c12e2a));
+		  background-image:         linear-gradient(to bottom, #d9534f 0%, #c12e2a 100%);
+		  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ffc12e2a', GradientType=0);
+		  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+		  background-repeat: repeat-x;
+		  border-color: #b92c28;
+		}
+
+		.form-control {
+		  display: block;
+		  width: 100%;
+		  height: 34px;
+		  padding: 6px 12px;
+		  font-size: 14px;
+		  line-height: 1.42857143;
+		  color: #555;
+		  background-color: #fff;
+		  background-image: none;
+		  border: 1px solid #ccc;
+		  border-radius: 4px;
+		  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+		          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+		  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+		       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+		          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+		}
+		.form-control:focus {
+		  border-color: #66afe9;
+		  outline: 0;
+		  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+		          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+		}
+		.form-control::-moz-placeholder {
+		  color: #999;
+		  opacity: 1;
+		}
+		.form-control:-ms-input-placeholder {
+		  color: #999;
+		}
+		.form-control::-webkit-input-placeholder {
+		  color: #999;
+		}
+		.form-control::-ms-expand {
+		  background-color: transparent;
+		  border: 0;
+		}
+		.form-control[disabled],
+		.form-control[readonly],
+		fieldset[disabled] .form-control {
+		  background-color: #eee;
+		  opacity: 1;
+		}
+		.form-control[disabled],
+		fieldset[disabled] .form-control {
+		  cursor: not-allowed;
+		}
+		textarea.form-control {
+		  height: auto;
+		}
+
 	    /* Media Queries */
-	    @media screen and (max-width: 600px) {
+	    @media screen and (max-width: 700px) {
 
 	        .email-container {
 	            width: 100% !important;

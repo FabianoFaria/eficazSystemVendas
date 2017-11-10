@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="" href="{{ URL::to('/') }}"><img src="{{ URL::asset('img/logo-eficaz-system.png') }}" style="height: 80px; width: 200px;">
+              <a class="" target="_blank" href="https://eficazsystem.com.br"><img src="{{ URL::asset('img/logo-eficaz-system.png') }}" style="height: 80px; width: 200px;">
                 </a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
@@ -44,7 +44,7 @@
                 @elseif(Session::get('status') == 'Parceiros')
 
                   <ul class="nav navbar-nav navbar-right" style="margin: 10px;">
-                   
+                    <li><a href="{{ url('/'); }}">Inicio</a></li>
                     <li><a href="{{ url('/indicacoes'); }}">Indicações</a></li>
                     <li><a href="{{ url('/orcamentos'); }}">Orçamentos</a></li>
                     <!-- /.dropdown -->
@@ -88,7 +88,8 @@
                 @endif
 
               @else
-                 <ul class="nav navbar-nav navbar-right" style="margin: 10px;">
+                <ul class="nav navbar-nav navbar-right" style="margin: 10px;">
+                  <li><a href="{{ url('/'); }}">Inicio</a></li>
                   <li><a href="{{ URL::to('/login') }}">Entrar</a></li>
                   <li><a href="{{ URL::to('/registrar') }}" style="color:#ffffff;" class="btn btn-success">Cadastrar-se</a></li>
                   <li><a href="{{ URL::to('/sobre') }}">Sobre</a></li> 

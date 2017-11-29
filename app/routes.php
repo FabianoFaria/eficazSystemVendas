@@ -46,6 +46,16 @@ Route::get('faq', function()
 	return View::make('sitePrincipal.ajuda');
 });
 
+Route::get('privacidade', function()
+{
+	return View::make('sitePrincipal.privacidade');
+});
+
+Route::get('termos', function()
+{
+	return View::make('sitePrincipal.termos');
+});
+
 //Route::get('users', 'UsersEficazController@index');
 
 Route::get('login', 'SessionsController@create');

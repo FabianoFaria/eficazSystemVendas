@@ -10,8 +10,11 @@
         <div class="row">
           <div class="col-lg-7 my-auto">
             <div class="header-content mx-auto">
-              <h1 class="" style="color:#ffffff;">Procurando uma fonte de renda extra? <!-- Seja nosso parceiro e fature suas comissões por indicações! -->
-              Seja nosso parceiro, faça indicações e ganhe comissões.</h1>
+              <h1 class="" style="color:#ffffff; line-height:50px;">Procurando uma fonte de renda extra? <!-- Seja nosso parceiro e fature suas comissões por indicações! 
+              Seja nosso parceiro, faça indicações e ganhe comissões. 
+              Divulgue os serviços da Eficaz System e fature comissões.-->
+              Seja parceiro de vendas da Eficaz System e fature comissôes.
+              </h1>
               <a href="#saibaMais" class="btn btn-outline btn-xl js-scroll-trigger">Comece agora!</a>
             </div>
           </div>
@@ -28,7 +31,7 @@
   </section>
 
 
-<section class="download bg-primary text-center" id="saibaMais">
+<section class="features bg-primary text-center" id="saibaMais">
     <div class="container">
         <div class="row">
           <div class="col-md-6 mx-auto">
@@ -38,10 +41,16 @@
               <a class="badge-link" href="#"><img src="{{ URL::asset('img/google-play-badge.svg') }}" alt=""></a>
               <a class="badge-link" href="#"><img src="{{ URL::asset('img/app-store-badge.svg') }} " alt=""></a>
             </div> -->
+            <div class="feature-item">
+              <i class="icon-direction text-primary"></i>
+              <!-- <h3>Veja como funciona o programa de parcerias!</h3> -->
+            </div>
+
+
           </div>             
 
-          <div class="col-md-6 mx-auto">
-            <ul class="lista-descricao">
+          <div class="col-md-6">
+            <!-- <ul class="lista-descricao">
 
               <li>Indique os serviços da Eficaz System.</li>
               <li>Cadastre sua indicação.</li>
@@ -51,7 +60,36 @@
               <li>Após o pagamento do serviço, é contabilizado um valor de comissão.</li>
               <li>A comissão é paga a você.</li>
 
-            </ul>
+            </ul> -->
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="feature-item">
+                  <i class="icon-login text-primary"></i>
+                  <h3>Cadastre seus dados no site!</h3>
+                </div>
+              </div>
+              <div class="col-lg-6 my-auto">
+                <div class="feature-item">
+                  <i class="icon-bubble text-primary"></i>
+                  <h3>Divulgue os serviços da Eficaz</h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="feature-item">
+                  <i class="icon-wrench text-primary"></i>
+                  <h3>Cliente indicado recebe os serviços da Eficaz System</h3>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                 <div class="feature-item">
+                    <i class="icon-trophy text-primary"></i>
+                    <h3>Parceiro recebe a comissão após cliente pagar a fatura do serviço!</h3>
+                  </div>
+              </div>
+            </div>
 
           </div>
         </div>
